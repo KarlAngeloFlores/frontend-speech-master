@@ -1,0 +1,248 @@
+import React, { useRef, useState } from "react";
+import { Search, Volume2, BookOpen, Loader, Settings } from "lucide-react";
+
+
+const DictionaryTab = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [wordData, setWordData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  const [showSpeedControl, setShowSpeedControl] = useState(true);
+
+  const wordRef = useRef(null);
+
+const handleWordScroll = () => {
+  if (wordRef.current) {
+    wordRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+  // Speed levels: Very Slow, Slow, Normal, Fast, Very Fast
+  const speedLevels = [
+    { label: "Very Slow", value: 0.5 },
+    { label: "Slow", value: 0.75 },
+    { label: "Normal", value: 1 },
+    { label: "Fast", value: 1.25 },
+    { label: "Very Fast", value: 1.5 }
+  ];
+
+  const searchWord = async (word) => {
+    if (!word.trim()) return;
+    
+    setLoading(true);
+    setError("");
+    setWordData(null);
+
+    try {
+      const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`);
+      
+      if (!response.ok) {
+        throw new Error("Word not found");
+      }
+      
+      const data = await response.json();
+      setWordData(data[0]);
+
+      setTimeout(() => {
+  handleWordScroll();
+}, 100); // small delay so React renders first
+    } catch (err) {
+      setError(err.message === "Word not found" ? "Word not found in dictionary" : "Error fetching word definition");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    searchWord(searchTerm);
+  };
+  
+  const handleSpeak = (word) => {
+    if(!word.trim()) return;
+
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.rate = playbackSpeed;
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  }
+
+
+  return (
+    <div className="container mx-auto mb-2 scroll-smooth">
+
+      <div className="bg-white shadow-sm rounded-md p-6 mb-2">
+        <div className="flex gap-4 mb-4">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSubmit(e)}
+              placeholder="Search for a word..."
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            />
+          </div>
+          <button
+            onClick={handleSubmit}
+            disabled={loading || !searchTerm.trim()}
+            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+          >
+            {loading ? <Loader className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
+            Search
+          </button>
+        </div>
+
+        {/* Speed Control */}
+        <div className="flex sm:flex-row flex-col gap-3" >
+          <button
+            onClick={() => setShowSpeedControl(!showSpeedControl)}
+            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition-colors"
+          >
+            <Settings className="h-4 w-4" />
+            Pronunciation Speed
+          </button>
+          
+          {showSpeedControl && (
+            <div className="flex items-center gap-2">
+              {speedLevels.map((speed, index) => (
+                <button
+                  key={index}
+                  onClick={() => setPlaybackSpeed(speed.value)}
+                  className={`px-3 py-1 text-xs rounded-full transition-colors ${
+                    playbackSpeed === speed.value
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  {speed.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+          <p className="text-red-700">{error}</p>
+        </div>
+      )}
+
+      {/* Word Definition */}
+      {wordData && (
+        <div className="dictionary-container bg-white shadow-sm rounded-md p-6" ref={wordRef}>
+          {/* Word Header */}
+          <div className="mb-2 pb-4 border-b border-gray-200">
+            <div className="flex items-center gap-4 mb-2">
+              <h2 className="text-3xl font-bold text-gray-900 capitalize">
+                {wordData.word}
+              </h2>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleSpeak(searchTerm)}
+                    className="p-2 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors"
+                    title={`Play pronunciation at ${speedLevels.find(s => s.value === playbackSpeed)?.label} speed`}
+                  >
+                    <Volume2 className="h-5 w-5 text-blue-600" />
+                  </button>
+                  <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                    {speedLevels.find(s => s.value === playbackSpeed)?.label}
+                  </span>
+                </div>
+            </div>
+          </div>
+
+          {/* Meanings */}
+          <div className="space-y-2">
+            {wordData.meanings?.map((meaning, index) => (
+              <div key={index} className="border-l-4 border-l-blue-500 pl-4">
+                <h3 className="text-xl font-semibold text-blue-600 mb-3 flex items-center gap-2">
+                  <BookOpen className="h-5 w-5" />
+                  {meaning.partOfSpeech}
+                </h3>
+                
+                <div className="space-y-4">
+                  {meaning.definitions?.slice(0, 3).map((def, defIndex) => (
+                    <div key={defIndex} className="bg-gray-50 rounded-md p-4">
+                      <p className="text-gray-800 mb-2">{def.definition}</p>
+                      {def.example && (
+                        <p className="text-gray-600 italic">
+                          <strong>Example:</strong> "{def.example}"
+                        </p>
+                      )}
+                      {def.synonyms && def.synonyms.length > 0 && (
+                        <div className="mt-2">
+                          <span className="text-sm font-medium text-green-700">Synonyms: </span>
+                          <span className="text-sm text-green-600">
+                            {def.synonyms.slice(0, 3).join(", ")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Part of speech synonyms and antonyms */}
+                {(meaning.synonyms?.length > 0 || meaning.antonyms?.length > 0) && (
+                  <div className="mt-4 pt-3 border-t border-gray-200">
+                    {meaning.synonyms?.length > 0 && (
+                      <div className="mb-2">
+                        <span className="font-medium text-green-700">Synonyms: </span>
+                        <span className="text-green-600">
+                          {meaning.synonyms.slice(0, 5).join(", ")}
+                        </span>
+                      </div>
+                    )}
+                    {meaning.antonyms?.length > 0 && (
+                      <div>
+                        <span className="font-medium text-red-700">Antonyms: </span>
+                        <span className="text-red-600">
+                          {meaning.antonyms.slice(0, 5).join(", ")}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Source */}
+          {/* {wordData.sourceUrls && wordData.sourceUrls.length > 0 && (
+            <div className="mt-6 pt-4 border-t border-gray-200">
+              <p className="text-sm text-gray-500">
+                Source: {" "}
+                <a 
+                  href={wordData.sourceUrls[0]} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {wordData.sourceUrls[0]}
+                </a>
+              </p>
+            </div>
+          )} */}
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!wordData && !loading && !error && (
+        <div className="bg-white shadow-sm rounded-md p-12 text-center">
+          <BookOpen className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-xl font-medium text-gray-500 mb-2">Search for a word</h3>
+          <p className="text-gray-400">
+            Enter a word in the search box above to get its definition and pronunciation.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default DictionaryTab;

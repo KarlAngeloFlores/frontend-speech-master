@@ -1,0 +1,296 @@
+import React, { useState, useRef, useEffect } from "react";
+import { Mic, MicOff, FileText, Sparkles, Volume2, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import traineeService from "../../services/trainee.service";
+
+
+const Script = ({}) => {
+  const [recording, setRecording] = useState(false);
+  const [topic, setTopic] = useState("");
+  
+  const mediaRecorderRef = useRef(null);
+  const chunksRef = useRef([]);
+
+  const [scriptState, setScriptState] = useState({
+    isLoading: false, 
+    error: null, 
+    value: null
+  });
+  
+  const [feedbackState, setFeedbackState] = useState({
+    isLoading: false, 
+    error: null, 
+    value: null
+  });
+
+  // Mock functions - replace with your actual service calls
+  const handleGenerateScript = async () => {
+    setScriptState((prev) => ({ ...prev, isLoading: true, error: null }));
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      const data = await traineeService.generateScript(topic);
+    //   const mockScript = {
+    //     script: `Welcome to today's presentation on ${topic || "artificial intelligence"}. In this discussion, we'll explore the fundamental concepts, current applications, and future implications of this transformative technology. Let's begin by understanding what makes AI so revolutionary in our modern world.`
+    //   };
+      setScriptState((prev) => ({ ...prev, isLoading: false, value: data }));
+    } catch (error) {
+      setScriptState((prev) => ({ ...prev, isLoading: false, error }));
+    }
+  };
+
+  const handleGenerateRandomScript = async () => {
+    const topics = ["Climate Change", "Space Exploration", "Digital Privacy", "Renewable Energy", "Ocean Conservation"];
+    const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+    setTopic(randomTopic);
+    
+    setScriptState((prev) => ({ ...prev, isLoading: true, error: null }));
+    
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const mockScript = {
+        script: `Today we're diving into the fascinating world of ${randomTopic}. This topic has gained significant attention in recent years due to its impact on our daily lives and future generations. Let's explore the key aspects and understand why this matters more than ever before.`
+      };
+      setScriptState((prev) => ({ ...prev, isLoading: false, value: mockScript }));
+    } catch (error) {
+      setScriptState((prev) => ({ ...prev, isLoading: false, error }));
+    }
+  };
+
+  const handleAnalyzeVoice = async (blob, script) => {
+    setFeedbackState((prev) => ({...prev, isLoading: true, error: null}));
+
+    try {
+      // Simulate analysis
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      const mockFeedback = {
+        result: {
+          score: "85/100",
+          feedback: "Great job! Your pronunciation was clear and your pace was well-controlled. Consider adding more emphasis on key points to make your delivery more engaging. Your articulation was excellent throughout the reading."
+        }
+      };
+
+      const data = await traineeService.analyzeVoice(blob, script);
+      setFeedbackState((prev) => ({...prev, isLoading: false, error: null, value: data}));
+    } catch (error) {
+      setFeedbackState((prev) => ({...prev, isLoading: false, error}));
+    }
+  };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorderRef.current = new MediaRecorder(stream);
+      mediaRecorderRef.current.ondataavailable = (e) => {
+        chunksRef.current.push(e.data);
+      };
+
+      mediaRecorderRef.current.onstop = async () => {
+        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
+        chunksRef.current = [];
+        await handleAnalyzeVoice(blob, scriptState.value.script);
+      };
+      
+      mediaRecorderRef.current.start();
+      setRecording(true);
+    } catch (error) {
+      console.error('Microphone access error:', error);
+    // Handle specific error types
+    if (error.name === 'NotAllowedError') {
+      alert('Microphone access denied by user');
+    } else if (error.name === 'NotFoundError') {
+      alert('No microphone found');
+    } else {
+      alert('Error accessing microphone: ' + error.message);
+    }
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      mediaRecorderRef.current.stop();
+      setRecording(false);
+    }
+  };
+
+  return (
+    <div className="container mx-auto">
+        <div className="p-6 bg-white rounded-md shadow-sm">
+        <div className="text-center mb-4">
+        <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border">
+          <FileText className="w-5 h-5 text-blue-600" />
+          <span className="font-semibold text-gray-800">Script Practice</span>
+        </div>
+        <p className="text-gray-600 mx-auto">
+          Generate custom scripts and practice your speech with AI-powered feedback
+        </p>
+      </div>
+
+        {/* Input Section */}
+      <div className="bg-white rounded-md shadow-sm p-6 mb-6 border border-gray-100">
+        <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-yellow-500" />
+          Create Your Script
+        </h2>
+        
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex-1">
+            <input 
+              onChange={(e) => setTopic(e.target.value)} 
+              value={topic} 
+              type="text" 
+              placeholder="Enter a topic (e.g., climate change, technology, history...)" 
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            /> 
+          </div>
+          <div className="flex gap-2 sm:flex-row flex-col">
+            <button 
+              onClick={handleGenerateScript} 
+              disabled={scriptState.isLoading || !topic.trim()} 
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium flex items-center justify-center gap-2 whitespace-nowrap"
+            >
+              {scriptState.isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <FileText className="w-4 h-4" />
+                  Generate Script
+                </>
+              )}
+            </button>
+            <button 
+              onClick={handleGenerateRandomScript}
+              disabled={scriptState.isLoading} 
+              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded- hover:from-purple-700 hover:to-pink-700 active:from-purple-800 active:to-pink-800 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium flex items-center justify-center gap-2 whitespace-nowrap rounded-md"
+            >
+              {scriptState.isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4" />
+                  Random Topic
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+        {/* Script Display */}
+      {scriptState.value && (
+        <div className="bg-white rounded-md shadow-sm p-4 mb-6 border border-gray-100">
+          <div className="flex items-center gap-2 mb-4">
+            <Volume2 className="w-5 h-5 text-green-600" />
+            <h2 className="text-xl font-bold text-gray-800">Practice Script</h2>
+          </div>
+          
+          <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-6 rounded-xl border border-gray-200 mb-6">
+            <p className="text-gray-800 leading-relaxed text-lg font-medium">
+              {scriptState.value.script}
+            </p>
+          </div>
+
+          {/* Recording Controls */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            {!recording ? (
+              <button
+                onClick={startRecording}
+                className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl hover:from-green-600 hover:to-emerald-700 active:from-green-700 active:to-emerald-800 transition-all duration-200 font-semibold text-lg shadow-sm hover:shadow-xl transform hover:scale-105"
+              >
+                <Mic className="w-6 h-6" />
+                Start Recording
+              </button>
+            ) : (
+              <div className="flex flex-col items-center gap-4">
+                <button
+                  onClick={stopRecording}
+                  className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-xl hover:from-red-600 hover:to-rose-700 active:from-red-700 active:to-rose-800 transition-all duration-200 font-semibold text-lg shadow-sm hover:shadow-xl transform hover:scale-105"
+                >
+                  <MicOff className="w-6 h-6" />
+                  Stop Recording
+                </button>
+                <div className="flex items-center gap-2 text-red-600">
+                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  <span className="font-medium">Recording in progress...</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Loading State for Analysis */}
+      {feedbackState.isLoading && (
+        <div className="bg-white rounded-md shadow-sm p-8 mb-6 border border-gray-100">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">Analyzing Your Speech...</h3>
+            <p className="text-gray-600">Our AI is evaluating your pronunciation, pace, and clarity</p>
+          </div>
+        </div>
+      )}
+
+      {/* AI Feedback */}
+      {feedbackState.value && (
+        <div className="bg-white rounded-md shadow-sm p-6 border border-gray-100">
+          <div className="flex items-center gap-2 mb-4">
+            <CheckCircle className="w-5 h-5 text-green-600" />
+            <h3 className="text-xl font-bold text-gray-800">AI Feedback & Analysis</h3>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border border-green-200">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-sm font-medium text-green-700">Overall Score</span>
+              </div>
+              <div className="text-3xl font-bold text-green-700">
+                {feedbackState.value.result.score}
+              </div>
+            </div>
+            
+            <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-sm font-medium text-blue-700">Detailed Feedback</span>
+              </div>
+              <p className="text-gray-800 leading-relaxed">
+                {feedbackState.value.result.feedback}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error States */}
+      {scriptState.error && (
+        <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+          <div className="flex items-center gap-2 text-red-700">
+            <AlertCircle className="w-5 h-5" />
+            <span className="font-medium">Error generating script. Please try again.</span>
+          </div>
+        </div>
+      )}
+
+      {feedbackState.error && (
+        <div className="bg-red-50 border border-red-200 rounded-md p-4">
+          <div className="flex items-center gap-2 text-red-700">
+            <AlertCircle className="w-5 h-5" />
+            <span className="font-medium">Error analyzing speech. Please try recording again.</span>
+          </div>
+        </div>
+      )}
+
+
+        </div>
+
+    </div>
+  );
+};
+
+export default Script;
