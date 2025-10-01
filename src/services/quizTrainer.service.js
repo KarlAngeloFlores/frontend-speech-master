@@ -32,6 +32,18 @@ const quizTrainerService = {
         const msg = error.response?.data?.message || error.message;
         throw new Error(msg); 
     }
+  },
+
+  getQuizResult: async (id) => {
+    try {
+      
+      const { data } = await api.get(`/trainer/quizzes/result/${id}`);
+      return data;
+
+    } catch (error) {
+        const msg = error.response?.data?.message || error.message;
+        throw new Error(msg); 
+    }
   }
 };
 

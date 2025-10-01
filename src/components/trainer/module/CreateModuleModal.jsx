@@ -3,6 +3,7 @@ import { XCircle, Loader2, Plus } from "lucide-react";
 
 const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +18,7 @@ const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
     setLoading(true);
     setError(null);
     try {
-      await onCreate(title);
+      await onCreate(title, description);
       setTitle(""); 
       onClose(); // close modal after success
     } catch (err) {
@@ -66,6 +67,23 @@ const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Description
+            </label>
+            <textarea
+              type="text"
+              placeholder="Enter module description"
+              value={description}
+              maxLength={200}
+              onChange={(e) => setDescription(e.target.value)}
+              className=" resize-none w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              disabled={loading}
+              required
+            />
+            
+          </div>
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
 
         {/* Footer */}

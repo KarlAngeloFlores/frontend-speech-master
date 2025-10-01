@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 // import SweetAlert from '../util/SweetAlert';
 
-const QuizCard = ({quiz, handleShowQuizResult, openDeleteModal}) => {
+const QuizCard = ({quiz, handleOpenResult, openDeleteModal}) => {
 
   const getQuizBadge = (quiz) => {
     if(quiz.type === 'shoot_the_word') {
@@ -56,7 +56,7 @@ const QuizCard = ({quiz, handleShowQuizResult, openDeleteModal}) => {
       </div>
 
       <div className="flex gap-2">
-        <button onClick={() => handleShowQuizResult(quiz.id)} className="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 cursor-pointer">
+        <button onClick={() => handleOpenResult(quiz)} className="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 cursor-pointer">
           View Results
         </button>
       </div>

@@ -23,7 +23,7 @@ const traineeService = {
             formData.append("audio", audioBlob, "speech.webm");
             formData.append("script", script);
 
-            const { data } = await api.post('trainee/openai/analyze-voice', formData, {
+            const { data } = await api.post('/trainee/openai/analyze-voice', formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 },
@@ -34,6 +34,22 @@ const traineeService = {
         } catch (error) {
             const msg = error.response?.data?.message || error.message;
             throw new Error(msg); 
+        }
+    },
+
+    /**
+     * @HOME_PAGE_OR_QUIZ
+     */
+
+    getHome: async () => {
+        try {
+            
+            const { data } = await api.get("/trainee/home");
+            return data;
+
+        } catch (error) {
+            const msg = error.response?.data?.message || error.message;
+            throw new Error(msg);
         }
     }
     

@@ -6,14 +6,18 @@ import ErrorPage from "../ErrorPage";
 import quizTraineeService from "../../services/quizTrainee.service";
 import NotAnsweredQuizCard from "../../components/trainee/NotAnsweredQuizCard";
 import { Logout } from "../../components/auth/Logout";
+import traineeService from "../../services/trainee.service";
 
 const TraineeHomePage = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const [quizzes, setQuizzes] = useState([]);
+    const [stats, setStats] = useState({
+    modulesCreated: 0,
+    availableQuizzes: 0,
+    completedQuizzes: 0,
+  });
 
   //implement logic if data available
   const filteredQuizzes = quizzes;
@@ -24,9 +28,13 @@ const TraineeHomePage = () => {
   const handleFetchQuizzes = async () => {
     setLoading(true);
     try {
-
+      
+      const responseStats = await traineeService.getHome();
       const response = await quizTraineeService.getQuizzes();
+
+      console.log(responseStats);
       console.log(response);
+      setStats(responseStats)
       setQuizzes(response.data);
 
     } catch (error) {
@@ -71,8 +79,8 @@ const TraineeHomePage = () => {
         {/**content */}
         <div className="p-8 flex-1 w-full">
 
-                      {/* Stats Cards */}
-            <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto mb-4">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-4 w-full">
               <div className="bg-white shadow-sm rounded-md p-6 flex justify-between items-center gap-2 relative border-l-4 border-l-blue-600">
                 
                 <div>
@@ -80,7 +88,7 @@ const TraineeHomePage = () => {
                   Available Quizzes
                 </p>
                 <p className="text-2xl text-gray-900 font-bold">
-                  {quizzes.length || 0}
+                  {stats.availableQuizzes}
                 </p>
 
                 </div>
@@ -94,7 +102,7 @@ const TraineeHomePage = () => {
                     Completed Quizzes
                   </p>
                   <p className="text-2xl text-gray-900 font-bold">
-                    {/* {completedQuizCount} */} 0
+                    {stats.completedQuizzes}
                   </p>
                   
                 </div>
@@ -107,7 +115,7 @@ const TraineeHomePage = () => {
                   Total Modules
                 </p>
                 <p className="text-2xl text-gray-900 font-bold">
-                  {/* {totalPointsCount} */} 0
+                  {stats.modulesCreated}
                 </p>
 
               </div>

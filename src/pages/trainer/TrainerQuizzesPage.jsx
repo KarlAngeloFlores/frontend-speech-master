@@ -9,6 +9,7 @@ import { Logout } from "../../components/auth/Logout";
 import QuizCard from "../../components/trainer/quiz/QuizCard";
 import DeleteQuizModal from "../../components/trainer/quiz/DeleteQuizModal";
 import CreateQuizModal from "../../components/trainer/quiz/CreateQuizModal";
+import QuizResultModal from "../../components/trainer/quiz/QuizResultModal";
 
 const TrainerQuizzesPage = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -22,7 +23,7 @@ const TrainerQuizzesPage = () => {
    */
   const [createOpenModal, setCreateOpenModal] = useState(false);
   const [deleteOpenModal, setDeleteOpenModal] = useState(false);
-  
+  const [resultOpenModal, setResultOpenModal] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null);
 
   const [quizzes, setQuizzes] = useState([]);
@@ -67,6 +68,11 @@ const TrainerQuizzesPage = () => {
     setSelectedQuiz(quiz);
     setDeleteOpenModal(true);
   } 
+
+  const handleOpenResult = (quiz) => {
+    setResultOpenModal(true);
+    setSelectedQuiz(quiz); 
+  }
   
 
   const handleDeleteQuiz = async (quiz_id) => {
@@ -155,6 +161,7 @@ const TrainerQuizzesPage = () => {
                   key={`quiz-${idx}`}
                   quiz={quiz}
                   openDeleteModal={handleOpenDelete}
+                  handleOpenResult={handleOpenResult}
                   />
                 ))}
                 </div>
@@ -176,6 +183,12 @@ const TrainerQuizzesPage = () => {
         onClose={() => setDeleteOpenModal(false)}
         onDelete={handleDeleteQuiz}
         quiz={selectedQuiz}
+      />
+
+      <QuizResultModal 
+      isOpen={resultOpenModal}
+      onClose={() => setResultOpenModal(false)}
+      quiz={selectedQuiz}
       />
     </div>
   );

@@ -10,15 +10,29 @@ import {
   Cell,
 } from "recharts";
 import { Logout } from "../../components/auth/Logout";
+import trainerService from "../../services/trainer.service";
+import { useEffect } from "react";
+import LoadingScreen from "../../components/LoadingScreen"
+import ErrorPage from "../ErrorPage";
 
 const TrainerHomePage = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const [stats] = useState({
-    totalStudents: 5,
-    totalQuizzes: 5,
-    totalAttempts: 5,
-    totalModules: 5,
+    const getCompPercentage = (attempts, studentCount) => {
+    if (studentCount === 0) return 0; // avoid division by zero
+    const percentage = (attempts / studentCount) * 100;
+    return percentage.toFixed(2);
+  };
+
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const [perCompletion, setPerCompletion] = useState([]);
+  const [stats, setStats] = useState({
+    totalTrainees: 0,
+    totalQuizzes: 0,
+    totalAttempts: 0,
+    totalModules: 0,
   });
 
   const completionStatusData = [
@@ -26,6 +40,34 @@ const TrainerHomePage = () => {
     { name: "In Progress", value: 300, color: "#fbbf24" },
     { name: "Not Started", value: 300, color: "#f87171" },
   ];
+
+  /**
+   * @FETCH_DATA_HOME_PAGE
+   */
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      
+      const response = await trainerService.getHome();
+      console.log(response);
+      setStats(response.stats);
+      setPerCompletion(response.completion);
+
+    } catch (error) {
+      console.log(error);
+      setError(error.message || "Something went wrong. Try again later");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if(loading) return <LoadingScreen message={"Loading data...."} />
+  if(error) return <ErrorPage />
 
   return (
     <div className="min-h-screen flex bg-gray-100">
@@ -76,8 +118,8 @@ const TrainerHomePage = () => {
             <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-l-green-600">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Students</p>
-                  <p className="text-2xl font-bold text-gray-900">{stats.totalStudents}</p>
+                  <p className="text-sm font-medium text-gray-600">Total Trainees</p>
+                  <p className="text-2xl font-bold text-gray-900">{stats.totalTrainees}</p>
                 </div>
                 <Users className="h-8 w-8 text-green-600" />
               </div>
@@ -141,45 +183,65 @@ const TrainerHomePage = () => {
                   </th>
                 </tr>
               </thead>
-              {/* <tbody> ... </tbody> */}
-            </table>
-          </div>
+              
+            {/* Body */}
+            <tbody className="divide-y divide-gray-200 bg-white">
+              {perCompletion.length > 0 ? (
+                perCompletion.map((comp, index) => {
+                  const percentage = getCompPercentage(
+                    comp.completed_attempts,
+                    stats.totalTrainees
+                  );
 
-                    <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden shadow-sm border border-gray-200">
-              <thead className="bg-white">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Quiz Name
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Total Attempts
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Completion Rate
-                  </th>
-                </tr>
-              </thead>
-              {/* <tbody> ... </tbody> */}
-            </table>
-          </div>
+                  // Color coding for progress bar
+                  const barColor =
+                    percentage < 30
+                      ? "bg-red-500"
+                      : percentage < 70
+                      ? "bg-yellow-500"
+                      : "bg-green-500";
 
-                    <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden shadow-sm border border-gray-200">
-              <thead className="bg-white">
+                  return (
+                    <tr
+                      key={`comp-${index}`}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="font-medium text-gray-900">
+                          {comp.title}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-gray-800">
+                          {comp.completed_attempts}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="w-48 bg-gray-200 rounded-full h-3 overflow-hidden">
+                          <div
+                            className={`${barColor} h-3 rounded-full transition-all duration-500`}
+                            style={{ width: `${percentage}%` }}
+                          ></div>
+                        </div>
+                        <div className="text-xs text-gray-700 mt-1 font-medium">
+                          {percentage}%
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Quiz Name
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Total Attempts
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Completion Rate
-                  </th>
+                  <td
+                    colSpan={3}
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
+                    No Quiz Available
+                  </td>
                 </tr>
-              </thead>
-              {/* <tbody> ... </tbody> */}
+              )}
+            </tbody>
+              
             </table>
           </div>
           </div>

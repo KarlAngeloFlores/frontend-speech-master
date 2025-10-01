@@ -19,6 +19,16 @@ const trainerService = {
             const msg = error.response?.data?.message || error.message;
             throw new Error(msg); 
         }
+    },
+
+    getHome: async () => {
+        try {
+            const { data } = await api.get(`/trainer/home`);
+            return data;
+        } catch (error) {
+            const msg = error.response?.data?.message || error.message;
+            throw new Error(msg); 
+        }
     }
 }
 
