@@ -7,6 +7,7 @@ import {
   UserCheck,
   UserX,
 } from "lucide-react";
+import "../../styles/animations.css";
 
 const TraineeCard = ({
   trainee,
@@ -29,7 +30,7 @@ const TraineeCard = ({
     [firstName, middleName, lastName].filter(Boolean).join(" ");
 
   return (
-    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+    <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden modal-animation">
       {/* Header with Avatar and Status */}
       <div className="p-6 text-white bg-gradient-to-r from-blue-500 to-blue-600">
         <div className="flex items-center justify-between">

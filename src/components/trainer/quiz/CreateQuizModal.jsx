@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { XCircle } from "lucide-react";
-
+import "../../../styles/animations.css";
 const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
   const [quizTitle, setQuizTitle] = useState("");
   const [selectedQuizType, setSelectedQuizType] = useState("");
@@ -34,36 +34,39 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
   };
 
   const resetFields = () => {
-        // Optionally reset fields
-        setQuizTitle("");
-        setSelectedQuizType("");
-        setQuizTimer(0);
-        setQuestions([{ question_word: "", difficulty: "Easy" }]);
-        setNonDifQuestions([{ question_word: "" }]);
-        onClose?.();
-  }
+    // Optionally reset fields
+    setQuizTitle("");
+    setSelectedQuizType("");
+    setQuizTimer(0);
+    setQuestions([{ question_word: "", difficulty: "Easy" }]);
+    setNonDifQuestions([{ question_word: "" }]);
+    onClose?.();
+  };
 
   //handle create
   const handleCreate = async () => {
-
     try {
+      let totalPoints;
+      let payloadQuestions;
 
-    let totalPoints; 
-    let payloadQuestions;
-
-    if(selectedQuizType === "pronounce_it_fast") {
+      if (selectedQuizType === "pronounce_it_fast") {
         totalPoints = questions.length;
         payloadQuestions = questions;
-    } else if (selectedQuizType === "shoot_the_word") {
-        totalPoints = null; //collective 
+      } else if (selectedQuizType === "shoot_the_word") {
+        totalPoints = nonDifQuestions.length * 5; //maximum score = nondifquestions * 5
         payloadQuestions = nonDifQuestions;
-    }
+      }
 
-        await onCreate?.(selectedQuizType, quizTitle, totalPoints, quizTimer, payloadQuestions);
-        resetFields();
-
+      await onCreate?.(
+        selectedQuizType,
+        quizTitle,
+        totalPoints,
+        quizTimer,
+        payloadQuestions
+      );
+      resetFields();
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   };
 
@@ -71,7 +74,7 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 modal-animation">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-blue-700">Create New Quiz</h2>
@@ -151,7 +154,11 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
                       value={q.question_word}
                       maxLength={50}
                       onChange={(e) =>
-                        handleQuestionChange(index, "question_word", e.target.value)
+                        handleQuestionChange(
+                          index,
+                          "question_word",
+                          e.target.value
+                        )
                       }
                       className="w-full px-4 py-2 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                       placeholder="Enter question text"
@@ -159,7 +166,11 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
                     <select
                       value={q.difficulty}
                       onChange={(e) =>
-                        handleQuestionChange(index, "difficulty", e.target.value)
+                        handleQuestionChange(
+                          index,
+                          "difficulty",
+                          e.target.value
+                        )
                       }
                       className="w-full px-4 py-2 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                     >
@@ -193,7 +204,11 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
                       value={q.question_word}
                       maxLength={50}
                       onChange={(e) =>
-                        handleNonDifQuestionChange(index, "question_word", e.target.value)
+                        handleNonDifQuestionChange(
+                          index,
+                          "question_word",
+                          e.target.value
+                        )
                       }
                       className="w-full px-4 py-2 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                       placeholder="Enter question text"

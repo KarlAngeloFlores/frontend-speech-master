@@ -14,6 +14,7 @@ import trainerService from "../../services/trainer.service";
 import { useEffect } from "react";
 import LoadingScreen from "../../components/LoadingScreen"
 import ErrorPage from "../ErrorPage";
+import "../../styles/animations.css"
 
 const TrainerHomePage = () => {
 
@@ -78,7 +79,7 @@ const TrainerHomePage = () => {
 
         {/* Header */}
         <header className="px-8 py-6 bg-white shadow flex items-center justify-between gap-4">
-          <div>
+          <div className="flex gap-2">
           <button
             className="md:hidden bg-white text-blue-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
             onClick={() => setMobileOpen(true)}
@@ -88,13 +89,13 @@ const TrainerHomePage = () => {
           </button>
           <section>
             <h1 className="text-2xl font-bold text-blue-700">Home</h1>
-            <p>Comprehensive insights into quiz performance and student progress</p>
+            <p>Comprehensive insights into quiz performance and trainees progress</p>
           </section>
           </div>
           <Logout />
         </header>
         {/* Content */}
-        <div className="p-8 flex-1 w-full">
+        <div className="p-8 flex-1 w-full modal-animation">
           {/* Summary Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
             <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-l-blue-600">
@@ -109,7 +110,7 @@ const TrainerHomePage = () => {
             <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-l-purple-600">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Attempts</p>
+                  <p className="text-sm font-medium text-gray-600">Total Quiz Participants</p>
                   <p className="text-2xl font-bold text-gray-900">{stats.totalAttempts}</p>
                 </div>
                 <CheckCircle className="h-8 w-8 text-purple-600" />
@@ -169,14 +170,14 @@ const TrainerHomePage = () => {
 
           {/* Table */}
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden shadow-sm border border-gray-200">
+            <table className="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden shadow-md border border-gray-200">
               <thead className="bg-white">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Quiz Name
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Total Attempts
+                    Total Quiz Participants
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Completion Rate

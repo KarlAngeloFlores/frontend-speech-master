@@ -193,14 +193,14 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
             <div className="flex gap-2 flex-shrink-0 ml-4">
               <button
                 onClick={() => onUpdate(moduleData)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 shadow-sm"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 shadow-md cursor-pointer"
               >
                 <Edit className="w-4 h-4" />
 
               </button>
               <button
                 onClick={() => onDelete(moduleData.id)}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition flex items-center gap-2 shadow-sm"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition flex items-center gap-2 shadow-md cursor-pointer"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -211,7 +211,7 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
 
       {/* Upload Section */}
       <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-4 cursor-pointer">
           <Upload className="w-5 h-5 text-blue-600" />
           <h3 className="font-semibold text-gray-800 text-lg">Upload File</h3>
         </div>
@@ -222,7 +222,7 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
               type="file"
               accept=".pdf,.doc,.docx"
               onChange={handleFileChange}
-              className="w-full border-2 border-gray-300 p-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              className="w-full border-2 border-gray-300 p-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all cursor-pointer"
             />
             {file && (
               <p className="mt-2 text-sm text-gray-600">
@@ -234,7 +234,7 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
           <button
             onClick={handleUpload}
             disabled={!file || uploading}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm w-full md:w-auto"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-md w-full md:w-auto"
           >
             {uploading ? (
               <>
@@ -315,7 +315,7 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
                 <div className="flex gap-2 flex-shrink-0 ml-4">
                   <button
                     onClick={() => handleOpen(content.id)}
-                    className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition flex items-center gap-2 shadow-sm hover:shadow-md"
+                    className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition flex items-center gap-2 shadow-md hover:shadow-md cursor-pointer"
                     title="Open file in new tab"
                   >
                     <ExternalLink className="w-4 h-4" />
@@ -323,7 +323,7 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
                   </button>
                   <button
                     onClick={() => handleDeleteFile(content.id)}
-                    className="px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition flex items-center gap-2 shadow-sm hover:shadow-md"
+                    className="px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition flex items-center gap-2 shadow-md hover:shadow-md cursor-pointer"
                     title="Delete file"
                   >
                     <Trash2 className="w-4 h-4" />

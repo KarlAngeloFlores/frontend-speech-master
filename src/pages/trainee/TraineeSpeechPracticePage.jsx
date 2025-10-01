@@ -17,7 +17,7 @@ const TraineeSpeechPracticePage = () => {
 
         {/**header */}
         <header className="px-8 py-6 bg-white shadow flex items-center justify-between gap-4">
-          <div>
+          <div className="flex gap-2">
           <button
             className="md:hidden bg-white text-blue-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
             onClick={() => setMobileOpen(true)}

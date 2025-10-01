@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Search, Volume2, BookOpen, Loader, Settings } from "lucide-react";
-
+import "../../styles/animations.css"
 
 const DictionaryTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -73,8 +73,8 @@ const handleWordScroll = () => {
   return (
     <div className="container mx-auto mb-2 scroll-smooth">
 
-      <div className="bg-white shadow-sm rounded-md p-6 mb-2">
-        <div className="flex gap-4 mb-4">
+      <div className="bg-white p-4 mb-4 shadow-md rounded-lg border border-slate-200 modal-animation">
+        <div className="flex gap-4 mb-4 ">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
             <input
@@ -89,7 +89,7 @@ const handleWordScroll = () => {
           <button
             onClick={handleSubmit}
             disabled={loading || !searchTerm.trim()}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center gap-2 cursor-pointer"
           >
             {loading ? <Loader className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
             Search
@@ -100,7 +100,7 @@ const handleWordScroll = () => {
         <div className="flex sm:flex-row flex-col gap-3" >
           <button
             onClick={() => setShowSpeedControl(!showSpeedControl)}
-            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition-colors"
+            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition-colors cursor-pointer"
           >
             <Settings className="h-4 w-4" />
             Pronunciation Speed
@@ -112,7 +112,7 @@ const handleWordScroll = () => {
                 <button
                   key={index}
                   onClick={() => setPlaybackSpeed(speed.value)}
-                  className={`px-3 py-1 text-xs rounded-full transition-colors ${
+                  className={`px-3 py-1 text-xs rounded-full transition-colors cursor-pointer ${
                     playbackSpeed === speed.value
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -135,7 +135,7 @@ const handleWordScroll = () => {
 
       {/* Word Definition */}
       {wordData && (
-        <div className="dictionary-container bg-white shadow-sm rounded-md p-6" ref={wordRef}>
+        <div className="dictionary-container bg-white p-4 mb-4 shadow-md rounded-lg border border-slate-200" ref={wordRef}>
           {/* Word Header */}
           <div className="mb-2 pb-4 border-b border-gray-200">
             <div className="flex items-center gap-4 mb-2">
@@ -233,7 +233,7 @@ const handleWordScroll = () => {
 
       {/* Empty State */}
       {!wordData && !loading && !error && (
-        <div className="bg-white shadow-sm rounded-md p-12 text-center">
+        <div className="bg-white p-4 mb-4 shadow-md rounded-md border border-slate-200 text-center modal-animation">
           <BookOpen className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-xl font-medium text-gray-500 mb-2">Search for a word</h3>
           <p className="text-gray-400">

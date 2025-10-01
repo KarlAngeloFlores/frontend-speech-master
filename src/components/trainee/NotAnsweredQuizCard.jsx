@@ -1,5 +1,6 @@
 import { BarChart3, Calendar, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import "../../styles/animations.css";
 
 const NotAnsweredQuizCard = ({quiz}) => {
 
@@ -15,7 +16,7 @@ const NotAnsweredQuizCard = ({quiz}) => {
 
   return (
      <div
-        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+        className="bg-white rounded-lg shadow-md p-6 hover:shadow-md transition-shadow modal-animation"
               >
                 <div className="flex justify-between items-start mb-4">
                   <div>

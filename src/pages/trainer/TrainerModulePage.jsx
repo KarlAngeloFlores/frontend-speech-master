@@ -9,6 +9,7 @@ import TrainerModuleList from "../../components/trainer/module/TrainerModuleList
 import moduleService from "../../services/module.service";
 import LoadingScreen from "../../components/LoadingScreen";
 import ErrorPage from "../ErrorPage";
+import "../../styles/animations.css"
 
 const TrainerModulePage = () => {
   const [loading, setLoading] = useState(false);
@@ -170,7 +171,7 @@ const TrainerModulePage = () => {
       <main className="flex-1 min-h-screen flex flex-col overflow-y-auto">
         {/* Header */}
         <header className="px-8 py-6 bg-white shadow flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <button
               className="md:hidden bg-white text-blue-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
               onClick={() => setMobileOpen(true)}
@@ -189,15 +190,15 @@ const TrainerModulePage = () => {
         </header>
 
         {/* Content */}
-        <div className="p-8 flex-1">
+        <div className="p-8 flex-1 modal-animation">
           <div className="bg-white w-full h-full rounded-lg shadow-md overflow-hidden flex flex-col">
             {/* Breadcrumb Header */}
             <div className="px-8 py-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm">
                 <button
-                  className={`font-semibold transition ${
+                  className={`font-semibold transition cursor-pointer ${
                     selectedModule
-                      ? "text-blue-600 hover:text-blue-700 cursor-pointer"
+                      ? "text-blue-600 hover:text-blue-700"
                       : "text-gray-900 cursor-default"
                   }`}
                   onClick={selectedModule ? handleCloseModule : undefined}
@@ -218,7 +219,7 @@ const TrainerModulePage = () => {
               {!openShowModule && (
                 <button
                   onClick={() => setShowCreateModal(true)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition shadow-sm text-sm"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition shadow-md cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
                   Create Module

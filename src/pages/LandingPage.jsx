@@ -52,7 +52,7 @@ const LandingPage = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
               onClick={() => navigate('/auth')}
-              className="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all transform hover:scale-105 flex items-center shadow-lg"
+              className="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all transform hover:scale-105 flex items-center shadow-md"
             >
               Get Started
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -72,7 +72,7 @@ const LandingPage = () => {
               </span>
             </h2>
             <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              From planning to execution, SpeechMaster provides all the tools your workflow needs—beautifully and consistently.
+              Enhance your skills with different features
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -98,7 +98,7 @@ const LandingPage = () => {
     <p className="mb-8 text-lg">Sign up now and join the learners on SpeechMaster!</p>
     <button
       onClick={() => navigate('/auth')}
-      className="bg-white text-blue-700 font-semibold px-8 py-4 rounded-lg shadow-lg hover:bg-blue-100 transition"
+      className="bg-white text-blue-700 font-semibold px-8 py-4 rounded-lg shadow-md hover:bg-blue-100 transition"
     >
       Join Now
     </button>

@@ -76,13 +76,13 @@ const TrainerModuleList = ({
                 <div className="flex gap-2 justify-end">
                   <button
                     onClick={() => onOpenUpdateModule(module)}
-                    className="px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition text-sm font-medium"
+                    className="px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition text-sm font-medium cursor-pointer"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => onDeleteModule(module.id)}
-                    className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition text-sm font-medium"
+                    className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition text-sm font-medium cursor-pointer"
                   >
                     Delete
                   </button>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { XCircle } from "lucide-react";
+import "../../../styles/animations.css";
 
 const DeleteQuizModal = ({ isOpen, onClose, onDelete, quiz }) => {
   const [confirmTitle, setConfirmTitle] = useState("");
@@ -31,7 +32,7 @@ const DeleteQuizModal = ({ isOpen, onClose, onDelete, quiz }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 modal-animation">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-red-600">Delete Quiz</h2>

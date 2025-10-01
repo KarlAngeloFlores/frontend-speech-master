@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { XCircle, Loader2, Edit3 } from "lucide-react";
+import "../../../styles/animations.css"
 
 const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
   const [title, setTitle] = useState("");
@@ -44,13 +45,13 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 module-animation">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-blue-700">Update Module</h2>
           <button
             onClick={handleCancel}
-            className="text-gray-400 hover:text-blue-600 transition"
+            className="text-gray-400 hover:text-blue-600 transition cursor-pointer"
             aria-label="Close modal"
           >
             <XCircle size={28} />

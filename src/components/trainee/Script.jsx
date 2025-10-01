@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Mic, MicOff, FileText, Sparkles, Volume2, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import traineeService from "../../services/trainee.service";
-
+import "../../styles/animations.css";
 
 const Script = ({}) => {
   const [recording, setRecording] = useState(false);
@@ -114,50 +114,51 @@ const Script = ({}) => {
     }
   };
 
-  return (
-    <div className="container mx-auto">
-        <div className="p-6 bg-white rounded-md shadow-sm">
-        <div className="text-center mb-4">
-        <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border">
-          <FileText className="w-5 h-5 text-blue-600" />
-          <span className="font-semibold text-gray-800">Script Practice</span>
+return (
+  <div className="">
+    <div className="">
+      {/* Header */}
+      <div className="text-center mb-4 bg-white p-4 rounded-lg shadow-md border border-slate-200 modal-animation">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+          <FileText className="w-8 h-8 text-blue-600" />
         </div>
-        <p className="text-gray-600 mx-auto">
+        <h1 className="text-3xl font-bold text-slate-800 mb-2">Script Practice</h1>
+        <p className="text-slate-600 max-w-2xl mx-auto">
           Generate custom scripts and practice your speech with AI-powered feedback
         </p>
       </div>
 
-        {/* Input Section */}
-      <div className="bg-white rounded-md shadow-sm p-6 mb-6 border border-gray-100">
-        <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-yellow-500" />
+      {/* Input Section */}
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-slate-200 modal-animation">
+        <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-blue-600" />
           Create Your Script
         </h2>
         
-        <div className="flex flex-col sm:flex-row gap-3">
-          <div className="flex-1">
+        <div className="space-y-3">
+          <div>
             <input 
               onChange={(e) => setTopic(e.target.value)} 
               value={topic} 
               type="text" 
               placeholder="Enter a topic (e.g., climate change, technology, history...)" 
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
             /> 
           </div>
-          <div className="flex gap-2 sm:flex-row flex-col">
+          <div className="flex gap-3 flex-col sm:flex-row">
             <button 
               onClick={handleGenerateScript} 
               disabled={scriptState.isLoading || !topic.trim()} 
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium flex items-center justify-center gap-2 whitespace-nowrap"
+              className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-all font-semibold flex items-center justify-center gap-2 shadow-md cursor-pointer"
             >
               {scriptState.isLoading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-5 h-5 animate-spin" />
                   Generating...
                 </>
               ) : (
                 <>
-                  <FileText className="w-4 h-4" />
+                  <FileText className="w-5 h-5" />
                   Generate Script
                 </>
               )}
@@ -165,16 +166,16 @@ const Script = ({}) => {
             <button 
               onClick={handleGenerateRandomScript}
               disabled={scriptState.isLoading} 
-              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded- hover:from-purple-700 hover:to-pink-700 active:from-purple-800 active:to-pink-800 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-medium flex items-center justify-center gap-2 whitespace-nowrap rounded-md"
+              className="flex-1 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-all font-semibold flex items-center justify-center gap-2 shadow-md cursor-pointer"
             >
               {scriptState.isLoading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-5 h-5 animate-spin" />
                   Generating...
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4" />
+                  <Sparkles className="w-5 h-5" />
                   Random Topic
                 </>
               )}
@@ -183,26 +184,28 @@ const Script = ({}) => {
         </div>
       </div>
 
-        {/* Script Display */}
+      {/* Script Display */}
       {scriptState.value && (
-        <div className="bg-white rounded-md shadow-sm p-4 mb-6 border border-gray-100">
+        <div className="bg-white rounded-xl shadow-md p-6 mb-6 border border-slate-200">
           <div className="flex items-center gap-2 mb-4">
-            <Volume2 className="w-5 h-5 text-green-600" />
-            <h2 className="text-xl font-bold text-gray-800">Practice Script</h2>
+            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <Volume2 className="w-5 h-5 text-green-600" />
+            </div>
+            <h2 className="text-xl font-bold text-slate-800">Practice Script</h2>
           </div>
           
-          <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-6 rounded-xl border border-gray-200 mb-6">
-            <p className="text-gray-800 leading-relaxed text-lg font-medium">
+          <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 mb-6">
+            <p className="text-slate-800 leading-relaxed text-lg">
               {scriptState.value.script}
             </p>
           </div>
 
           {/* Recording Controls */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col items-center justify-center gap-4 pt-4 border-t border-slate-200">
             {!recording ? (
               <button
                 onClick={startRecording}
-                className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl hover:from-green-600 hover:to-emerald-700 active:from-green-700 active:to-emerald-800 transition-all duration-200 font-semibold text-lg shadow-sm hover:shadow-xl transform hover:scale-105"
+                className="flex items-center gap-3 px-8 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all font-semibold text-lg shadow-md hover:shadow-md"
               >
                 <Mic className="w-6 h-6" />
                 Start Recording
@@ -211,14 +214,14 @@ const Script = ({}) => {
               <div className="flex flex-col items-center gap-4">
                 <button
                   onClick={stopRecording}
-                  className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-xl hover:from-red-600 hover:to-rose-700 active:from-red-700 active:to-rose-800 transition-all duration-200 font-semibold text-lg shadow-sm hover:shadow-xl transform hover:scale-105"
+                  className="flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-semibold text-lg shadow-md hover:shadow-md"
                 >
                   <MicOff className="w-6 h-6" />
                   Stop Recording
                 </button>
-                <div className="flex items-center gap-2 text-red-600">
+                <div className="flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-200 rounded-lg">
                   <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                  <span className="font-medium">Recording in progress...</span>
+                  <span className="font-medium text-red-700">Recording in progress...</span>
                 </div>
               </div>
             )}
@@ -228,38 +231,47 @@ const Script = ({}) => {
 
       {/* Loading State for Analysis */}
       {feedbackState.isLoading && (
-        <div className="bg-white rounded-md shadow-sm p-8 mb-6 border border-gray-100">
+        <div className="bg-white rounded-xl shadow-md p-8 mb-6 border border-slate-200">
           <div className="text-center">
-            <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Analyzing Your Speech...</h3>
-            <p className="text-gray-600">Our AI is evaluating your pronunciation, pace, and clarity</p>
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+              <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+            </div>
+            <h3 className="text-xl font-semibold text-slate-800 mb-2">Analyzing Your Speech...</h3>
+            <p className="text-slate-600">Our AI is evaluating your pronunciation, pace, and clarity</p>
+            <div className="flex justify-center gap-2 mt-6">
+              <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+              <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+              <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></span>
+            </div>
           </div>
         </div>
       )}
 
       {/* AI Feedback */}
       {feedbackState.value && (
-        <div className="bg-white rounded-md shadow-sm p-6 border border-gray-100">
-          <div className="flex items-center gap-2 mb-4">
-            <CheckCircle className="w-5 h-5 text-green-600" />
-            <h3 className="text-xl font-bold text-gray-800">AI Feedback & Analysis</h3>
+        <div className="bg-white rounded-xl shadow-md p-6 border border-slate-200">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-800">AI Feedback & Analysis</h3>
           </div>
           
           <div className="space-y-4">
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border border-green-200">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-sm font-medium text-green-700">Overall Score</span>
-              </div>
-              <div className="text-3xl font-bold text-green-700">
+            <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+              <p className="text-sm font-semibold text-green-700 mb-2 uppercase tracking-wide">
+                Overall Score
+              </p>
+              <div className="text-4xl font-bold text-green-700">
                 {feedbackState.value.result.score}
               </div>
             </div>
             
-            <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-sm font-medium text-blue-700">Detailed Feedback</span>
-              </div>
-              <p className="text-gray-800 leading-relaxed">
+            <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+              <p className="text-sm font-semibold text-blue-700 mb-3 uppercase tracking-wide">
+                Detailed Feedback
+              </p>
+              <p className="text-slate-800 leading-relaxed">
                 {feedbackState.value.result.feedback}
               </p>
             </div>
@@ -269,28 +281,31 @@ const Script = ({}) => {
 
       {/* Error States */}
       {scriptState.error && (
-        <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
-          <div className="flex items-center gap-2 text-red-700">
-            <AlertCircle className="w-5 h-5" />
-            <span className="font-medium">Error generating script. Please try again.</span>
+        <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-4 mb-6">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+            <div>
+              <p className="font-semibold text-red-800">Error Generating Script</p>
+              <p className="text-red-700 text-sm">Please try again or choose a different topic.</p>
+            </div>
           </div>
         </div>
       )}
 
       {feedbackState.error && (
-        <div className="bg-red-50 border border-red-200 rounded-md p-4">
-          <div className="flex items-center gap-2 text-red-700">
-            <AlertCircle className="w-5 h-5" />
-            <span className="font-medium">Error analyzing speech. Please try recording again.</span>
+        <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-4">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+            <div>
+              <p className="font-semibold text-red-800">Error Analyzing Speech</p>
+              <p className="text-red-700 text-sm">Please try recording again.</p>
+            </div>
           </div>
         </div>
       )}
-
-
-        </div>
-
     </div>
-  );
+  </div>
+);
 };
 
 export default Script;

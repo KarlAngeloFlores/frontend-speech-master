@@ -1,5 +1,5 @@
-import React from "react";
 import { BarChart3, Calendar, CheckCircle } from "lucide-react";
+import "../../styles/animations.css";
 
 const AnsweredQuizCard = ({ quiz }) => {
 
@@ -39,7 +39,7 @@ const formatDateOnly = (date) => {
   );
 
   return (
-    <div className="bg-green-50 rounded-lg shadow-md p-6 transition-shadow hover:shadow-lg">
+    <div className="bg-green-50 rounded-lg shadow-md p-6 transition-shadow hover:shadow-lg modal-animation">
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div>

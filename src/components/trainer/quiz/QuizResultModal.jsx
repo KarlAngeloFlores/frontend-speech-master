@@ -8,7 +8,7 @@ import {
   Award,
   Loader2,
 } from "lucide-react";
-
+import "../../../styles/animations.css";
 import quizTrainerService from "../../../services/quizTrainer.service";
 
 const QuizResultModal = ({ onClose, isOpen, quiz }) => {
@@ -20,8 +20,6 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
 
   useEffect(() => {
     if(isOpen && quiz) {
-      console.log('OPENED RESULT MODAL');
-      console.log(quiz);
       setQuizId(quiz.id);
     }
   }, [isOpen, quiz]);
@@ -62,11 +60,7 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
   };
 
   const getTotalPoints = (info) => {
-    if(info.type === "shoot_the_word") {
-      return 'N/A Collective Points'
-    } else if (info.type === "pronounce_it_fast") {
-      return info.total_points
-    }
+    return info.total_points;
   }
 
   const getScoreBadgeColor = (score, total) => {
@@ -90,8 +84,6 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
   const getScoreSummary = (info, results) => {
 
     const takenQuizzes = results.filter((result) => result.taken_at !== null);
-
-    if(info.type === 'pronounce_it_fast') {
       if (takenQuizzes.length === 0) return 0;
       const totalScore = takenQuizzes.reduce(
       (sum, result) => sum + result.score,
@@ -99,13 +91,6 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
     );
 
     return (totalScore / takenQuizzes.length).toFixed(1);
-
-    } else if (info.type === 'shoot_the_word') {
-
-      const avarageScore = takenQuizzes.reduce((sum, result) => sum + result.score, 0);
-      return Number((avarageScore / takenQuizzes.length));
-
-    };
   };
 
   const getScore = (result, info) => {
@@ -117,10 +102,8 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
     );
   }
 
-  const displayScore =
-    info?.type === "pronounce_it_fast"
-      ? `${result.score}/${info ? info.total_points : "?"}`
-      : result.score;
+  const displayScore =`${result.score}/${info ? info.total_points : "?"}`
+
 
   return (
     <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-gray-600 bg-gray-100">
@@ -133,9 +116,9 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden slide-in-up">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden modal-animation">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6">
+        <div className="bg-blue-600 text-white p-6">
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-3xl font-bold mb-2">Quiz Results</h2>
@@ -186,7 +169,6 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
 
                 <div className="bg-green-50 p-4 rounded-xl border border-green-200">
                   <div className="flex items-center justify-between">
-                    {info.type === "pronounce_it_fast" ? (
                       <>
                         <div>
                           <p className="text-green-600 text-sm font-medium">
@@ -198,18 +180,6 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
                         </div>
                         <Trophy className="text-green-500" size={24} />
                       </>
-                    ) : (
-                      <>
-                        <div>
-                          <p className="text-green-600 text-sm font-medium">
-                            Average collected score
-                          </p>
-                          <p className="text-2xl font-bold text-green-800">
-                            {getScoreSummary(info, results)}
-                          </p>
-                        </div>
-                      </>
-                    )}
                   </div>
                 </div>
 
@@ -250,15 +220,9 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
                       <th className="text-center p-4 font-medium text-gray-700">
                         Score
                       </th>
-
-                      {info.type === "pronounce_it_fast" ? (
                         <th className="text-center p-4 font-medium text-gray-700">
                           Percentage
                         </th>
-                      ) : (
-                        <></>
-                      )}
-
                       {/* <th className="text-center p-4 font-medium text-gray-700">Status</th> */}
                       <th className="text-left p-4 font-medium text-gray-700">
                         Taken At
@@ -319,7 +283,6 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
                             {getScore(result, info)}
                           </td>
 
-                          {info.type === "pronounce_it_fast" ? (
                             <td className="p-4 text-center">
                               <div className="flex items-center justify-center gap-2">
                                 <div className="w-16 bg-gray-200 rounded-full h-2">
@@ -344,9 +307,7 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
                                 </span>
                               </div>
                             </td>
-                          ) : (
-                            <></>
-                          )}
+                          
 
                           <td className="p-4">
                             <div className="flex items-center gap-1 text-sm text-gray-600">

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { XCircle, Loader2, Plus } from "lucide-react";
+import "../../../styles/animations.css";
+
 
 const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
   const [title, setTitle] = useState("");
@@ -36,7 +38,7 @@ const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 modal-animation">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-blue-700">Create New Module</h2>

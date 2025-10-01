@@ -7,6 +7,7 @@ import {
   Trash
 } from "lucide-react";
 // import SweetAlert from '../util/SweetAlert';
+import "../../../styles/animations.css";
 
 const QuizCard = ({quiz, handleOpenResult, openDeleteModal}) => {
 
@@ -19,15 +20,12 @@ const QuizCard = ({quiz, handleOpenResult, openDeleteModal}) => {
   }
 
   const getQuizType = (quiz) => {
-    if(quiz.type === 'shoot_the_word') {
-      return 'Collective Points'
-    } else if (quiz.type === 'pronounce_it_fast') {
-      return `Total Points: ${quiz.total_points}`
-    };
+    return `Total Points: ${quiz.total_points}`
+
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-md transition-shadow modal-animation">
       <div className="flex justify-between items-start mb-4">
         <div>
           <h3 className="text-xl font-semibold text-gray-800 mb-1">{quiz.title}</h3>
@@ -36,7 +34,7 @@ const QuizCard = ({quiz, handleOpenResult, openDeleteModal}) => {
           </span>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => openDeleteModal(quiz)} className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded">
+          <button onClick={() => openDeleteModal(quiz)} className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded cursor-pointer">
             <Trash size={16} />
           </button>
         </div>

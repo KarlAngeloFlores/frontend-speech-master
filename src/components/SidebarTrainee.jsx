@@ -52,7 +52,7 @@ const SidebarTrainee = ({ mobileOpen, setMobileOpen }) => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed z-50 top-0 left-0 h-screen w-64 bg-gradient-to-b from-blue-600 to-indigo-600 text-white flex flex-col shadow-lg
+          fixed z-50 top-0 left-0 h-screen w-64 bg-blue-600 text-white flex flex-col shadow-lg
           transform transition-transform duration-300
           ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0 md:sticky md:shadow-lg md:flex

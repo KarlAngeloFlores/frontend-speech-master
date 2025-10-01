@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { XCircle, Upload, Loader2, FileText } from "lucide-react";
 import moduleService from "../../../services/module.service";
+import "../../../styles/animations.css";
 
 const ModuleDetailsModal = ({ data, isOpen, onClose }) => {
   const [module, setModule] = useState(null);

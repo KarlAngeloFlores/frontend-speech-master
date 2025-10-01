@@ -15,19 +15,20 @@ import {
   Target,
   Award,
   Play,
+  CheckCircle2,
 } from "lucide-react";
 
 const ShootTheWordPage = () => {
 
-    const { quiz_id } = useParams();
+  const { quiz_id } = useParams();
 const navigate = useNavigate();
 
   //page config
+  const [totalPoints, setTotalPoints] = useState(0);
   const [isLoading, setIsLoading] = useState(false); //for fetching quiz data
   const [quizStatus, setQuizStatus] = useState("notStarted");
 
   const [errorPage, setErrorPage] = useState(null);
-  const [isTaken, setIsTaken] = useState(false);
 
   const [quizInfo, setQuizInfo] = useState(null);
   const [words, setWords] = useState([]);
@@ -129,6 +130,10 @@ const navigate = useNavigate();
 
       if(data?.status === 'pending') {
         setQuizStatus('completed');
+        setScore(data.score || 0);
+        
+
+
       } else if(data?.status === 'completed') {
         setAttemptStatus('completed')
       }
@@ -137,10 +142,10 @@ const navigate = useNavigate();
         setQuizInfo(data.quiz_info);
         const wordsOnly = data.words.map((el) => el.question_word);
         setWords(wordsOnly);
+        
       }
 
       console.log(data);
-      setIsTaken(data.is_taken);
     } catch (error) {
       console.log(error);
       setErrorPage({
@@ -164,6 +169,7 @@ const navigate = useNavigate();
   useEffect(() => {
     if (quizInfo) {
       setTimerSeconds(quizInfo.timer_seconds);
+      setTotalPoints(quizInfo.total_points); //setting total points coming from database;
     }
   }, [quizInfo]);
 
@@ -187,36 +193,39 @@ const navigate = useNavigate();
 
     const hasSubmittedRef = useRef(false);
 
-  const handleAnswerQuiz = async () => {
-    try {
-            setQuizStatus("submitting");
+const handleAnswerQuiz = async (finalScore = score) => {
+  try {
+    if (hasSubmittedRef.current) return; // prevent multiple submits
+    hasSubmittedRef.current = true;
+
+    setQuizStatus("submitting");
+
+    const completedAt = new Date()
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ");
+    const takenAt = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+    console.log("Quiz Completed at:", completedAt);
+
+    const result = await quizTraineeService.answerQuiz(
+      quiz_id,
+      finalScore,   // ✅ use final score passed in OR fallback to current score
+      takenAt,
+      startedAt,
+      completedAt
+    );
+    console.log(result);
 
     setTimeout(() => {
-        setQuizStatus("completed");
-      }, 2000);
+      setQuizStatus("completed");
+    }, 2000);
+  } catch (error) {
+    SweetAlert.showError("Error", error.response?.data?.message || "Something went wrong");
+  }
+};
 
-      const completedAt = new Date()
-        .toISOString()
-        .slice(0, 19)
-        .replace("T", " ");
 
-      const takenAt = new Date().toISOString().slice(0, 19).replace("T", " ");
-
-      console.log("Quiz Completed at:", completedAt);
-
-      const result = await quizTraineeService.answerQuiz(
-        quiz_id,
-        score,
-        takenAt,
-        startedAt,
-        completedAt
-      );
-      console.log(result);
-
-    } catch (error) {
-      SweetAlert.showError("Error", error.response.data.message);
-    }
-  };
 
   const handleSubmitQuiz = async () => {
     try {
@@ -273,22 +282,37 @@ const navigate = useNavigate();
   const proceedToNextWord = () => {
     generateNewWord();
     setSpokenWord(""); //clears the spoken word
-    // setIsShooting(false);
   };
 
-  //handles next word and scoring.
-  useEffect(() => {
-    if (spokenWord === currentWord && currentWord !== "") {
-      console.log("correct");
-      setScore((prev) => prev + 5); //add score if correct
-      setIsShooting(true);
-      setIsListening(false);
-      setTimeout(() => setIsShooting(false), 800); // stop after 0.8s
-      proceedToNextWord();
-    } else {
-      setSpokenWord(""); //reset word for next word to be available
-    }
-  }, [spokenWord, currentWord]);
+useEffect(() => {
+  if (spokenWord === currentWord && currentWord !== "") {
+    console.log("correct");
+
+    setScore((prev) => {
+      const newScore = prev + 5;
+
+      if (newScore >= totalPoints) {
+        setQuizStatus("completed");
+
+        if (!hasSubmittedRef.current) {
+          handleAnswerQuiz(totalPoints); // ✅ pass capped score
+        }
+
+        return totalPoints;
+      }
+
+      return newScore;
+    });
+
+    setIsShooting(true);
+    setIsListening(false);
+    setTimeout(() => setIsShooting(false), 800);
+    proceedToNextWord();
+  } else {
+    setSpokenWord("");
+  }
+}, [spokenWord, currentWord]);
+
 
   //handle word timer
   useEffect(() => {
@@ -314,31 +338,29 @@ const navigate = useNavigate();
     return () => clearInterval(timer); // Clear on unmount or word change
   }, [currentWord, quizStatus]);
 
-  //handles the clock timer of the whole quiz
   useEffect(() => {
-    let interval;
-    if (quizStatus === "inProgress" && timerSeconds > 0) {
-      interval = setInterval(() => {
-        setTimerSeconds((prev) => {
-          if (prev <= 1) {
-            setQuizStatus("completed");
+  let interval;
+  if (quizStatus === "inProgress" && timerSeconds > 0) {
+    interval = setInterval(() => {
+      setTimerSeconds((prev) => {
+        if (prev <= 1) {
+          setQuizStatus("completed");
 
-            if(!hasSubmittedRef.current) {
-                hasSubmittedRef.current = true;
-                handleAnswerQuiz();
-            }
-
-            return 0;
+          if (!hasSubmittedRef.current) {
+            handleAnswerQuiz(score); // ✅ ensure latest score submitted
           }
 
-          return prev - 1; //keeps on deducting if prev value is less than or equal to 1.
-        });
-      }, 1000);
-    }
-    return () => {
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  }
+  return () => {
     if (interval) clearInterval(interval);
   };
-  }, [quizStatus, timerSeconds]);
+}, [quizStatus, timerSeconds, score]);
+
 
   if(isLoading) return <LoadingScreen message={"Loading Quiz...."}/>
   if(errorPage) return <ErrorPage />
@@ -348,101 +370,158 @@ const navigate = useNavigate();
   return (
     <>
 
-      <div className="w-full h-screen bg-gray-50 flex flex-col gap-4 justify-center px-2 ">
+      <div className="w-full min-h-screen bg-slate-50 flex flex-col gap-4 justify-center px-4 py-8">
 
         {quizStatus === "notStarted" && (
           <>
-            <div className="p-8 max-w-2xl w-full mx-auto text-center rounded-lg shadow-md shadow-blue-300 space-y-4 my-4 bg-gradient-to-br from-blue-400 to-blue-600 slide-in-up">
-              <h2 className="text-2xl font-bold mb-6 text-white">
-                How to Play:
-              </h2>
-              <div className="text-left mb-8 space-y-4 max-w-lg mx-auto">
-                <div className="flex items-start text-black bg-white bg-opacity-10 p-3 rounded-md backdrop-blur-sm">
-                  <Target className="mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  <div>
-                    <div className="font-semibold">Read the words aloud</div>
-                    <div className="text-sm opacity-90">
-                      Words appear on screen - speak them clearly before they
-                      disappear
+            <div className="p-8 max-w-3xl w-full mx-auto rounded-xl shadow-lg bg-white border border-slate-200">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+                  <Target className="w-8 h-8 text-blue-600" />
+                </div>
+                <h1 className="text-3xl font-bold text-slate-800 mb-2">
+                  Shoot The Word
+                </h1>
+                <p className="text-slate-600">
+                  Test your pronunciation skills with this voice-activated game
+                </p>
+              </div>
+
+              <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">
+                  How to Play
+                </h2>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold">
+                      1
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-slate-800 mb-1">
+                        Read Words Aloud
+                      </h3>
+                      <p className="text-slate-600 text-sm leading-relaxed">
+                        Words will appear on the screen. Speak them clearly and accurately before they disappear. Each word has a time limit shown by the green progress bar.
+                      </p>
                     </div>
                   </div>
-                </div>
-                <div className="flex items-start text-black bg-white bg-opacity-10 p-3 rounded-md backdrop-blur-sm">
-                  <Mic className="mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  <div>
-                    <div className="font-semibold">Allow microphone access</div>
-                    <div className="text-sm opacity-90">
-                      Your browser will ask for permission - click "Allow" to
-                      start playing
+
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold">
+                      2
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-slate-800 mb-1">
+                        Enable Microphone Access
+                      </h3>
+                      <p className="text-slate-600 text-sm leading-relaxed">
+                        Your browser will request permission to use your microphone. Click "Allow" when prompted. Without microphone access, you won't be able to play the game.
+                      </p>
                     </div>
                   </div>
-                </div>
-                <div className="flex items-start text-black bg-white bg-opacity-10 p-3 rounded-md backdrop-blur-sm">
-                  <Award className="mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  <div>
-                    <div className="font-semibold">
-                      Score points for accuracy
+
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold">
+                      3
                     </div>
-                    <div className="text-sm opacity-90">
-                      Each correctly spoken word earns you 5 points
+                    <div>
+                      <h3 className="font-semibold text-slate-800 mb-1">
+                        Earn Points
+                      </h3>
+                      <p className="text-slate-600 text-sm leading-relaxed">
+                        Each correctly pronounced word earns you 5 points. Your goal is to score as many points as possible before time runs out.
+                      </p>
                     </div>
                   </div>
-                </div>
-                <div className="flex items-start text-black bg-white bg-opacity-10 p-3 rounded-lg backdrop-blur-sm">
-                  <Clock className="mr-3 mt-0.5 flex-shrink-0" size={20} />
-                  <div>
-                    <div className="font-semibold">Beat the timer</div>
-                    <div className="text-sm opacity-90">
-                      Words disappear after a few seconds - speak quickly!
+
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold">
+                      4
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-slate-800 mb-1">
+                        Beat the Clock
+                      </h3>
+                      <p className="text-slate-600 text-sm leading-relaxed">
+                        You have a limited time to complete the quiz. Keep an eye on the timer at the top of the screen and speak quickly but clearly.
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <button
-                onClick={() => handleStartQuiz()}
-                className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full text-xl shadow-lg transition-all duration-200 hover:scale-105"
-              >
-                <Play className="inline mr-2" size={20} />
-                Start Game
-              </button>
+
+              <div className="bg-slate-50 p-6 rounded-lg mb-6">
+                <h3 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                  <Award className="w-5 h-5 text-blue-600" />
+                  Quiz Information
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-slate-600 mb-1">Total Points Available</p>
+                    <p className="text-2xl font-bold text-blue-600">{totalPoints}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-600 mb-1">Points Per Word</p>
+                    <p className="text-2xl font-bold text-blue-600">5</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <button
+                  onClick={() => handleStartQuiz()}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg text-lg shadow-md transition-all duration-200 hover:shadow-lg inline-flex items-center gap-2"
+                >
+                  <Play className="w-5 h-5" />
+                  Start Quiz
+                </button>
+              </div>
             </div>
           </>
         )}
 
         {quizStatus === "inProgress" && (
-          <div className="p-4 max-w-3xl w-full mx-auto text-center rounded-2xl shadow-xl shadow-blue-300 space-y-6 my-6 bg-gradient-to-br from-blue-400 to-blue-600 slide-in-up">
+          <div className="p-6 max-w-4xl w-full mx-auto rounded-xl shadow-lg bg-white border border-slate-200">
             {/* Score & Timer */}
-            <div className="flex justify-between items-center mb-6 bg-blue-50/30 backdrop-blur-sm p-4 rounded-lg shadow-inner">
-              <div className="flex flex-col items-center justify-center font-bold">
-                <p className="text-3xl text-blue-900">{timerSeconds}s</p>
-                <div className="flex items-center justify-center gap-2 h-full">
-                  <Clock size={12} color="blue" />
-                  <small className="text-blue-800">Time</small>
+            <div className="flex justify-between items-center mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <Clock className="w-6 h-6 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-slate-600 font-medium">Time Remaining</p>
+                  <p className="text-2xl font-bold text-slate-800">{timerSeconds}s</p>
                 </div>
               </div>
-              <div className="flex flex-col items-center font-bold">
-                <p className="text-3xl text-blue-900">{score}</p>
-                <small className="text-blue-800">Score</small>
+              
+              <div className="flex items-center gap-3">
+                <div>
+                  <p className="text-sm text-slate-600 font-medium text-right">Current Score</p>
+                  <p className="text-2xl font-bold text-blue-600 text-right">{score} / {totalPoints}</p>
+                </div>
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <Trophy className="w-6 h-6 text-blue-600" />
+                </div>
               </div>
             </div>
 
             {/* Game Canvas */}
-            <div className="canvas relative w-full h-64 bg-blue-50/40 backdrop-blur-sm rounded-lg border border-blue-200 shadow-md">
+            <div className="canvas relative w-full h-80 bg-slate-100 rounded-lg border-2 border-slate-300 shadow-inner mb-6">
               {/* Word Target */}
               <div
-                className="bg-gradient-to-r from-red-600 to-red-700 rounded-lg sm:px-8 sm:py-4 px-4 py-2 text-center shadow-lg absolute transition-all ease-linear duration-500 animate-bounce border-4 border-red-300"
+                className="bg-red-600 rounded-lg px-8 py-4 text-center shadow-xl absolute transition-all ease-linear duration-500 animate-bounce border-4 border-red-400"
                 style={{
                   top: `${position.top}%`,
                   left: `${position.left}%`,
                   transform: "translate(-50%, -50%)",
                 }}
               >
-                <div className="text-2xl font-extrabold mb-3 text-white drop-shadow-lg tracking-wide">
+                <div className="text-3xl font-bold text-white tracking-wide">
                   {currentWord}
                 </div>
 
                 {/* Word timer bar */}
-                <div className="absolute bottom-0 left-0 right-0 h-2 bg-black/30 rounded-b-md overflow-hidden">
+                <div className="absolute bottom-0 left-0 right-0 h-2 bg-black/20 rounded-b-md overflow-hidden">
                   <div
                     className="h-full bg-green-500 transition-all"
                     style={{ width: `${Math.max(0, wordTimeLeft)}%` }}
@@ -465,17 +544,20 @@ const navigate = useNavigate();
             </div>
 
             {/* Instructions */}
-            <p className="text-xl text-center font-semibold text-white drop-shadow-md">
-              🎯 Read the word aloud to shoot!
-            </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 text-center">
+              <p className="text-lg font-semibold text-slate-800 flex items-center justify-center gap-2">
+                <Target className="w-5 h-5 text-blue-600" />
+                Speak the word clearly to score points
+              </p>
+            </div>
 
             {/* Mic button */}
             <div className="flex items-center justify-center">
               <button
                 onClick={startRecognition}
-                className="px-6 py-3 rounded-xl bg-blue-800 hover:bg-blue-900 text-white font-semibold shadow-lg transition-all flex items-center justify-center gap-2 capitalize cursor-pointer"
+                className="px-8 py-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg transition-all flex items-center justify-center gap-3 text-lg"
               >
-                <Mic size={20} color="white" /> {renderIsListening()}
+                <Mic size={24} /> {renderIsListening()}
               </button>
             </div>
           </div>
@@ -483,50 +565,56 @@ const navigate = useNavigate();
 
         {quizStatus === "submitting" && (
           <>
-            <div className="p-8 max-w-2xl w-full mx-auto text-center rounded-2xl shadow-lg shadow-blue-300 space-y-6 my-6 bg-gradient-to-br from-blue-400 to-blue-600">
-              {/* Loader Icon */}
-              <div className="flex justify-center">
-                <Loader2 className="w-14 h-14 text-yellow-300 animate-spin" />
+            <div className="p-12 max-w-md w-full mx-auto text-center rounded-xl shadow-lg bg-white border border-slate-200">
+              <div className="flex justify-center mb-6">
+                <Loader2 className="w-16 h-16 text-blue-600 animate-spin" />
               </div>
 
-              <h2 className="text-2xl font-semibold text-green-300">
-                Submitting Quiz...
+              <h2 className="text-2xl font-bold text-slate-800 mb-2">
+                Submitting Quiz
               </h2>
 
-              <p className="text-white">
-                Please wait while we save your answers
+              <p className="text-slate-600">
+                Please wait while we save your results...
               </p>
-
             </div>
           </>
         )}
 
         {quizStatus === "completed" && (
           <>
-            <div className="p-8 max-w-2xl flex flex-col items-center w-full mx-auto text-center rounded-2xl shadow-lg shadow-blue-300 space-y-6 my-6 bg-gradient-to-br from-blue-400 to-blue-600">
-              {/* Trophy */}
+            <div className="p-8 max-w-md w-full mx-auto text-center rounded-xl shadow-lg bg-white border border-slate-200">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 120 }}
-                className="flex justify-center"
+                className="flex justify-center mb-6"
               >
-                <Trophy className="w-14 h-14 text-yellow-300 drop-shadow-md" />
+                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
+                  <Trophy className="w-12 h-12 text-blue-600" />
+                </div>
               </motion.div>
 
-              <h2 className="text-2xl font-semibold text-green-300 flex justify-center items-center gap-2">
+              <h2 className="text-3xl font-bold text-slate-800 mb-2">
                 Quiz Completed!
               </h2>
+              
+              <p className="text-slate-600 mb-8">
+                Great job! Here are your results
+              </p>
 
-              <div className="text-lg space-y-2 text-white">
-                <p>
-                  Your collected points:{" "}
-                  <span className="font-bold text-yellow-200">{score}</span>
-                </p>
+              <div className="bg-slate-50 rounded-lg p-6 mb-6 border border-slate-200">
+                <div className="mb-4">
+                  <p className="text-sm text-slate-600 mb-1">Your Score</p>
+                  <p className="text-4xl font-bold text-blue-600">{score}</p>
+                </div>
+                <div className="pt-4 border-t border-slate-200">
+                  <p className="text-sm text-slate-600 mb-1">Total Possible</p>
+                  <p className="text-2xl font-semibold text-slate-700">{totalPoints}</p>
+                </div>
               </div>
 
-              {/* Stars animation */}
-              <div className="flex justify-center gap-2">
+              <div className="flex justify-center gap-2 mb-8">
                 {[...Array(3)].map((_, i) => (
                   <motion.div
                     key={i}
@@ -538,17 +626,18 @@ const navigate = useNavigate();
                       delay: i * 0.3,
                     }}
                   >
-                    <Star className="w-6 h-6 text-yellow-200" />
+                    <Star className="w-8 h-8 text-yellow-400 fill-yellow-400" />
                   </motion.div>
                 ))}
               </div>
 
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => handleSubmitQuiz()}
-                className="mt-4 px-6 py-2 flex items-center justify-center gap-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition cursor-pointer shadow-md"
+                className="w-full px-6 py-4 flex items-center justify-center gap-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-md font-semibold text-lg"
               >
+                <CheckCircle2 className="w-5 h-5" />
                 Submit Quiz
               </motion.button>
             </div>

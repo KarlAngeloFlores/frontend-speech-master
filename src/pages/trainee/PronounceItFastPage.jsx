@@ -41,7 +41,6 @@ const PronounceItFastPage = () => {
     }
   }, []);
 
-  const [hasSubmitted, setHasSubmitted] = useState(false);
     //page config
   const [isLoading, setIsLoading] = useState(false);
   const [errorPage, setErrorPage] = useState(null);
@@ -87,6 +86,7 @@ const PronounceItFastPage = () => {
 
         if(response?.status === 'pending') {
             setQuizStatus('completed')
+            setScore(response.score)
         } else if (response?.status === 'completed') {
             setAttemptStatus('completed')
         }
@@ -285,7 +285,6 @@ useEffect(() => {
         if (prev <= 1) {
           if (!hasSubmittedRef.current) {
             hasSubmittedRef.current = true; // instantly lock
-            setHasSubmitted(true);
 
             // First: save answers (pending)
             handleAnswerQuiz();
@@ -306,233 +305,318 @@ useEffect(() => {
   if(attemptStatus === "completed") return <QuizTaken />
   if(isLoading) return <LoadingScreen message={"Loading Quiz...."}/>
   if(errorPage) return <ErrorPage />
-  return (<>
-   <div className="w-full h-screen bg-blue-50 flex flex-col gap-4 justify-center px-2 ">
-        {quizStatus === "notStarted" && (
-          <div className="p-8 max-w-2xl w-full mx-auto text-center rounded-xl shadow-md shadow-blue-300 space-y-4 my-4 bg-linear-0 from-blue-400 to-blue-600 slide-in-up">
-            <h2 className="text-xl font-semibold text-white">
-              📝 Quiz Preparation Checklist
+return (
+  <>
+    <div className="w-full min-h-screen bg-slate-50 flex flex-col gap-4 justify-center px-4 py-8">
+      {quizStatus === "notStarted" && (
+        <div className="p-8 max-w-3xl w-full mx-auto rounded-xl shadow-lg bg-white border border-slate-200">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+              <Mic className="w-8 h-8 text-blue-600" />
+            </div>
+            <h1 className="text-3xl font-bold text-slate-800 mb-2">
+              Pronounce It Fast
+            </h1>
+            <p className="text-slate-600">
+              Test your pronunciation skills one word at a time
+            </p>
+          </div>
+
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+            <h2 className="text-xl font-semibold text-slate-800 mb-4">
+              Before You Start
             </h2>
-            <ul className="text-left list-disc list-inside space-y-1 text-green-50 text-lg">
-              <li>✅ Ensure your microphone is working properly.</li>
-              <li>🔇 Find a quiet place free from background noise.</li>
-              <li>🎧 Use headphones if possible for clearer audio.</li>
-              <li>📶 Make sure you have a stable internet connection.</li>
-              <li>
-                📱 Avoid switching tabs or using other apps during the quiz.
-              </li>
-              <li>
-                🧘 Sit comfortably and stay focused throughout the session.
-              </li>
-            </ul>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
+                  ✓
+                </div>
+                <p className="text-slate-700 leading-relaxed">
+                  <span className="font-semibold">Test your microphone</span> - Ensure it's working properly before starting
+                </p>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
+                  ✓
+                </div>
+                <p className="text-slate-700 leading-relaxed">
+                  <span className="font-semibold">Find a quiet environment</span> - Background noise may affect recognition
+                </p>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
+                  ✓
+                </div>
+                <p className="text-slate-700 leading-relaxed">
+                  <span className="font-semibold">Use headphones</span> - Optional but recommended for clearer audio
+                </p>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
+                  ✓
+                </div>
+                <p className="text-slate-700 leading-relaxed">
+                  <span className="font-semibold">Stable internet connection</span> - Required for speech recognition
+                </p>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
+                  ✓
+                </div>
+                <p className="text-slate-700 leading-relaxed">
+                  <span className="font-semibold">Stay focused</span> - Avoid switching tabs or apps during the quiz
+                </p>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">
+                  ✓
+                </div>
+                <p className="text-slate-700 leading-relaxed">
+                  <span className="font-semibold">Get comfortable</span> - Sit in a comfortable position and relax
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-slate-50 p-6 rounded-lg mb-6">
+            <h3 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+              <Trophy className="w-5 h-5 text-blue-600" />
+              Quiz Details
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-slate-600 mb-1">Total Words</p>
+                <p className="text-2xl font-bold text-blue-600">{words.length}</p>
+              </div>
+              <div>
+                <p className="text-sm text-slate-600 mb-1">Time Limit</p>
+                <p className="text-2xl font-bold text-blue-600">{timerSeconds}s</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center">
             <button
               onClick={() => handleStartQuiz()}
-              className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition cursor-pointer font-semibold"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg text-lg shadow-md transition-all duration-200 hover:shadow-lg inline-flex items-center gap-2"
             >
               Start Quiz
             </button>
           </div>
-        )}
+        </div>
+      )}
 
-        {quizStatus === "inProgress" && (
-          <>
-            <div className="p-8 max-w-2xl w-full mx-auto text-center rounded-xl shadow-md shadow-blue-300 space-y-4 my-4 bg-linear-0 from-blue-400 to-blue-600 slide-in-up">
-              <div className="flex justify-between">
-                <p className="font-bold text-white">
+      {quizStatus === "inProgress" && (
+        <>
+          <div className="p-6 max-w-3xl w-full mx-auto rounded-xl shadow-lg bg-white border border-slate-200">
+            {/* Progress Header */}
+            <div className="flex justify-between items-center mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
+              <div>
+                <p className="text-sm text-slate-600 font-medium">Progress</p>
+                <p className="text-xl font-bold text-slate-800">
                   Word {currentIndex + 1} of {words.length}
                 </p>
-                <p className="font-bold text-white">
-                  Time Left: {timerSeconds}
-                </p>
               </div>
+              <div className="text-right">
+                <p className="text-sm text-slate-600 font-medium">Time Remaining</p>
+                <p className="text-xl font-bold text-blue-600">{timerSeconds}s</p>
+              </div>
+            </div>
 
-              <div className="flex justify-center items-center gap-2">
-                <p className="text-xl  text-white">Say this word</p>
-                <p
-                  className={`font-semibold px-2 py-1 ${
+            {/* Word Display */}
+            <div className="text-center mb-6">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <p className="text-lg text-slate-700">Pronounce this word:</p>
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-semibold ${
                     currentDifficulty === "Easy"
-                      ? "bg-green-500 text-white "
+                      ? "bg-green-100 text-green-700 border border-green-300"
                       : currentDifficulty === "Medium"
-                      ? "bg-yellow-500"
-                      : "bg-red-500 text-white"
-                  }
-  `}
+                      ? "bg-yellow-100 text-yellow-700 border border-yellow-300"
+                      : "bg-red-100 text-red-700 border border-red-300"
+                  }`}
                 >
                   {currentDifficulty}
-                </p>
-              </div>
-              <div className="text-3xl font-semibold text-white mb-4">
-                {currentWord}
+                </span>
               </div>
 
-              <div className="flex items-center justify-center">
-                <button
-                  className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition cursor-pointer disabled:bg-gray-400 flex items-center text-center justify-center gap-2"
-                  onClick={startRecognition}
-                  disabled={isListening}
-                >
-                  <Mic size={20} className=" animate-bounce" />
-                  {isListening ? "Listening..." : "Start Speaking"}
-                </button>
+              <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-8 mb-6">
+                <p className="text-4xl font-bold text-blue-600">{currentWord}</p>
               </div>
 
-              {recognizedWord && (
-                <>
-                  <div>
-                    <p className="mt-4 px-4 py-2 rounded-md bg-yellow-500 text-white text-xl">
-                      You said:{" "}
-                      <span className="font-bold">{recognizedWord}</span>
+              {/* Microphone Button */}
+              <button
+                className="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center justify-center gap-3 mx-auto text-lg font-semibold shadow-md"
+                onClick={startRecognition}
+                disabled={isListening}
+              >
+                <Mic size={24} className={isListening ? "animate-bounce" : ""} />
+                {isListening ? "Listening..." : "Start Speaking"}
+              </button>
+            </div>
+
+            {/* Recognition Result */}
+            {recognizedWord && (
+              <div className="mb-6">
+                <div className={`p-4 rounded-lg border-2 ${
+                  recognizedWord === currentWord.toLowerCase()
+                    ? "bg-green-50 border-green-300"
+                    : "bg-yellow-50 border-yellow-300"
+                }`}>
+                  <p className="text-center text-lg">
+                    <span className="text-slate-600">You said: </span>
+                    <span className="font-bold text-slate-800">{recognizedWord}</span>
+                  </p>
+                  {recognizedWord === currentWord.toLowerCase() && (
+                    <p className="text-center text-green-600 font-semibold mt-2">
+                      Correct! ✓
                     </p>
-                    {/* <p className="text-lg mt-2">{result}</p> */}
-                  </div>
-                </>
-              )}
+                  )}
+                </div>
+              </div>
+            )}
 
-              {/**buttons */}
-              <div className="flex justify-between">
-                <div>
+            {/* Action Buttons */}
+            <div className="flex justify-between items-center gap-4 pt-4 border-t border-slate-200">
+              <button
+                onClick={() => handleSkipWord()}
+                disabled={!skipButton}
+                className="px-6 py-3 rounded-lg border-2 border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {!skipButton && <BanIcon size={16} />}
+                Skip Word
+              </button>
+
+              <div>
+                {isSubmitDisabled && (
                   <button
-                    onClick={() => handleSkipWord()}
-                    disabled={!skipButton}
-                    className=" disabled:bg-red-600 disabled:cursor-not-allowed cursor-pointer mt-4 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition flex gap-2 items-center justify-center"
+                    disabled={currentWord.toLowerCase() !== recognizedWord}
+                    onClick={() => proceedNextWord()}
+                    className="px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center gap-2"
                   >
-                    {!skipButton ? (
-                      <BanIcon size={16} className="animate-pulse" />
+                    {currentWord.toLowerCase() !== recognizedWord ? (
+                      <>
+                        <BanIcon size={20} />
+                        Next Word
+                      </>
                     ) : (
-                      ""
-                    )}{" "}
-                    Skip word
+                      <>
+                        Next Word
+                        <ArrowRight size={20} />
+                      </>
+                    )}
                   </button>
-                </div>
+                )}
 
-                <div>
-                  {isSubmitDisabled && (
-                    <>
-                      <button
-                        disabled={currentWord !== recognizedWord}
-                        onClick={() => proceedNextWord()}
-                        className=" disabled:bg-red-600 disabled:cursor-not-allowed cursor-pointer mt-4 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition flex gap-2 items-center justify-center"
-                      >
-                        {currentWord !== recognizedWord ? (
-                          <>
-                            <BanIcon size={20} className="animate-pulse" />
-                            Next Word
-                          </>
-                        ) : (
-                          <>
-                            Next Word{" "}
-                            <ArrowRight size={20} className=" animate-pulse" />{" "}
-                          </>
-                        )}
-                      </button>
-                    </>
-                  )}
-
-                  {!isSubmitDisabled && (
-                    <>
-                      <button
-                        onClick={() => handleSubmitQuiz()}
-                        className="bg-green-600 mt-4 px-6 py-3 text-white font-semibold rounded-md"
-                      >
-                        Submit Quiz
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-
-        {quizStatus === "submitting" && (
-          <>
-            <div className="p-8 max-w-2xl w-full mx-auto text-center rounded-2xl shadow-lg shadow-blue-300 space-y-6 my-6 bg-gradient-to-br from-blue-400 to-blue-600">
-              {/* Loader Icon */}
-              <div className="flex justify-center">
-                <Loader2 className="w-14 h-14 text-yellow-300 animate-spin" />
-              </div>
-
-              <h2 className="text-2xl font-semibold text-green-300">
-                Saving Quiz Scores...
-              </h2>
-
-              <p className="text-white">
-                Please wait while we save your scores
-              </p>
-
-              {/* Loading dots */}
-              <div className="flex justify-center gap-2 mt-4">
-                <span className="w-3 h-3 bg-yellow-200 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                <span className="w-3 h-3 bg-yellow-200 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                <span className="w-3 h-3 bg-yellow-200 rounded-full animate-bounce"></span>
-              </div>
-            </div>
-          </>
-        )}
-
-        {quizStatus === "completed" && (
-          <>
-            <div className="p-8 max-w-2xl flex flex-col items-center w-full mx-auto text-center rounded-2xl shadow-lg shadow-blue-300 space-y-6 my-6 bg-gradient-to-br from-blue-400 to-blue-600">
-              {/* Trophy */}
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 120 }}
-                className="flex justify-center"
-              >
-                <Trophy className="w-14 h-14 text-yellow-300 drop-shadow-md" />
-              </motion.div>
-
-              <h2 className="text-2xl font-semibold text-green-300 flex justify-center items-center gap-2">
-                Quiz Completed!
-              </h2>
-
-              <div className="text-lg space-y-2 text-white">
-                <p>
-                  Your score:{" "}
-                  <span className="font-bold text-yellow-200">
-                    {score}/{words.length}
-                  </span>
-                </p>
-                <p>
-                  Accuracy:{" "}
-                  <span className="font-bold text-green-200">
-                    {Math.round((score / words.length) * 100)}%
-                  </span>
-                </p>
-              </div>
-
-              {/* Stars animation */}
-              <div className="flex justify-center gap-2">
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: [1, 1.3, 1] }}
-                    transition={{
-                      repeat: Infinity,
-                      duration: 1.5,
-                      delay: i * 0.3,
-                    }}
+                {!isSubmitDisabled && (
+                  <button
+                    onClick={() => handleAnswerQuiz()}
+                    className="px-6 py-3 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition shadow-md"
                   >
-                    <Star className="w-6 h-6 text-yellow-200" />
-                  </motion.div>
-                ))}
+                    Finish Quiz
+                  </button>
+                )}
               </div>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => handleSubmitQuiz()}
-                className="mt-4 px-6 py-2 flex items-center justify-center gap-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition cursor-pointer shadow-md"
-              >
-                Submit Quiz
-              </motion.button>
             </div>
-          </>
-        )}
-      </div>
-  </>)
+          </div>
+        </>
+      )}
+
+      {quizStatus === "submitting" && (
+        <>
+          <div className="p-12 max-w-md w-full mx-auto text-center rounded-xl shadow-lg bg-white border border-slate-200">
+            <div className="flex justify-center mb-6">
+              <Loader2 className="w-16 h-16 text-blue-600 animate-spin" />
+            </div>
+
+            <h2 className="text-2xl font-bold text-slate-800 mb-2">
+              Saving Your Scores
+            </h2>
+
+            <p className="text-slate-600 mb-6">
+              Please wait while we save your results...
+            </p>
+
+            <div className="flex justify-center gap-2">
+              <span className="w-3 h-3 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+              <span className="w-3 h-3 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+              <span className="w-3 h-3 bg-blue-400 rounded-full animate-bounce"></span>
+            </div>
+          </div>
+        </>
+      )}
+
+      {quizStatus === "completed" && (
+        <>
+          <div className="p-8 max-w-md w-full mx-auto text-center rounded-xl shadow-lg bg-white border border-slate-200">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 120 }}
+              className="flex justify-center mb-6"
+            >
+              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
+                <Trophy className="w-12 h-12 text-blue-600" />
+              </div>
+            </motion.div>
+
+            <h2 className="text-3xl font-bold text-slate-800 mb-2">
+              Quiz Completed!
+            </h2>
+
+            <p className="text-slate-600 mb-8">Excellent work! Here are your results</p>
+
+            <div className="bg-slate-50 rounded-lg p-6 mb-6 border border-slate-200">
+              <div className="mb-4">
+                <p className="text-sm text-slate-600 mb-1">Your Score</p>
+                <p className="text-4xl font-bold text-blue-600">
+                  {score} / {words.length}
+                </p>
+              </div>
+              <div className="pt-4 border-t border-slate-200">
+                <p className="text-sm text-slate-600 mb-1">Accuracy Rate</p>
+                <p className="text-2xl font-semibold text-green-600">
+                  {Math.round((score / words.length) * 100)}%
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-center gap-2 mb-8">
+              {[...Array(3)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: [1, 1.3, 1] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 1.5,
+                    delay: i * 0.3,
+                  }}
+                >
+                  <Star className="w-8 h-8 text-yellow-400 fill-yellow-400" />
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => handleSubmitQuiz()}
+              className="w-full px-6 py-4 flex items-center justify-center gap-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-md font-semibold text-lg"
+            >
+              Submit Quiz
+            </motion.button>
+          </div>
+        </>
+      )}
+    </div>
+  </>
+);
 };
 
 export default PronounceItFastPage;
