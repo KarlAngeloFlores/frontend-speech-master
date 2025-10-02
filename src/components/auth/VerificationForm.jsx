@@ -66,7 +66,7 @@ const VerificationForm = ({ type, handleVerification, email }) => {
 
       if (type === "verify_account") {
         setTimeout(() => {
-          navigate('/auth');
+          window.location.reload();
         }, 2000);
       }
 
