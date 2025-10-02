@@ -71,7 +71,7 @@ const handleWordScroll = () => {
 
 
   return (
-    <div className="container mx-auto mb-2 scroll-smooth">
+    <div className="mb-2 scroll-smooth">
 
       <div className="bg-white p-4 mb-4 shadow-md rounded-lg border border-slate-200 modal-animation">
         <div className="flex gap-4 mb-4 ">
