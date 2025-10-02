@@ -36,11 +36,36 @@ const TrainerHomePage = () => {
     totalModules: 0,
   });
 
-  const completionStatusData = [
-    { name: "Completed", value: 400, color: "#4ade80" },
-    { name: "In Progress", value: 300, color: "#fbbf24" },
-    { name: "Not Started", value: 300, color: "#f87171" },
-  ];
+const [completionStatusData, setCompletionStatusData] = useState([]);
+
+useEffect(() => {
+  if (stats.totalTrainees > 0 && stats.totalQuizzes > 0) {
+    const totalPossibleAttempts = stats.totalTrainees * stats.totalQuizzes;
+    const completed = stats.totalAttempts;
+    const notStarted = totalPossibleAttempts - completed;
+
+    setCompletionStatusData([
+      {
+        name: "Completed",
+        value: completed,
+        percentage:
+          totalPossibleAttempts > 0
+            ? ((completed / totalPossibleAttempts) * 100).toFixed(2)
+            : 0,
+        color: "#4ade80", // green
+      },
+      {
+        name: "Unanswered Quizzes By Participants",
+        value: notStarted,
+        percentage:
+          totalPossibleAttempts > 0
+            ? ((notStarted / totalPossibleAttempts) * 100).toFixed(2)
+            : 0,
+        color: "#f87171", // red
+      },
+    ]);
+  }
+}, [stats]);
 
   /**
    * @FETCH_DATA_HOME_PAGE
@@ -78,7 +103,7 @@ const TrainerHomePage = () => {
       <main className="flex-1 min-h-screen flex flex-col overflow-y-auto">
 
         {/* Header */}
-        <header className="px-8 py-6 bg-white shadow flex items-center justify-between gap-4">
+        <header className="sm:px-8 sm:py-6 px-4 py-3  bg-white shadow flex items-center justify-between gap-4">
           <div className="flex gap-2">
           <button
             className="md:hidden bg-white text-blue-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
