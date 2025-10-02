@@ -76,7 +76,7 @@ const TraineeHomePage = () => {
         </header>
 
         {/**content */}
-        <div className="p-8 flex-1 w-full">
+        <div className="sm:p-8 p-4 flex-1 w-full">
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-4 w-full">

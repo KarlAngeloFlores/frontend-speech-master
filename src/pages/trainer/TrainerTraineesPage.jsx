@@ -181,7 +181,7 @@ const TrainerTraineesPage = () => {
         </header>
 
         {/**Filters */}
-        <div className="px-8 py-6 flex-1 w-full">
+        <div className="sm:p-8 p-4 flex-1 w-full">
           <section className="mb-4">
             {/* Wrapper for search + dropdowns */}
             <div className="flex flex-col sm:flex-row gap-4 w-full">

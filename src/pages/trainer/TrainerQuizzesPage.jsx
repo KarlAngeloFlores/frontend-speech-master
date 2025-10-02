@@ -123,36 +123,42 @@ const TrainerQuizzesPage = () => {
         </header>
 
         {/**content */}
-        <div className="px-8 py-6 flex-1 w-full">
+        <div className="sm:p-8 p-4 flex-1 w-full">
           {/**Filters*/}
-          <section className="mb-4">
-            <div className="flex gap-4">
-              <input
-                type="text"
-                placeholder="Search quizzes..."
-                className="border-2 border-gray-500 py-2 pl-4 pr-2 rounded-lg w-full active:ring-2 active:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}      
-              />
+<section className="mb-4">
+  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full">
+    {/* Search */}
+    <input
+      type="text"
+      placeholder="Search quizzes..."
+      className="border-2 border-gray-500 py-2 pl-4 pr-2 rounded-lg w-full sm:w-auto flex-1 active:ring-2 active:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}      
+    />
 
-              <select 
-              name="category" 
-              id="category" 
-              className="border-2 border-gray-500 py-2 pl-4 pr-2 rounded-lg active:ring-2 active:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-              onChange={(e) => setFilterTerm(e.target.value)}
-              >
-                <option value="">All Quiz Type</option>
-                <option value="pronounce_it_fast">Pronounce it Fast</option>
-                <option value="shoot_the_word">Shoot the Word</option>
+    {/* Filter Dropdown */}
+    <select 
+      name="category" 
+      id="category" 
+      className="border-2 border-gray-500 py-2 pl-4 pr-2 rounded-lg w-full sm:w-auto active:ring-2 active:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+      onChange={(e) => setFilterTerm(e.target.value)}
+    >
+      <option value="">All Quiz Type</option>
+      <option value="pronounce_it_fast">Pronounce it Fast</option>
+      <option value="shoot_the_word">Shoot the Word</option>
+    </select>
 
-              </select>
+    {/* Create Quiz Button */}
+    <button 
+      onClick={() => setCreateOpenModal(true)} 
+      className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition ease-in-out duration-150 cursor-pointer text-white px-4 py-2 rounded-lg text-nowrap flex items-center font-semibold text-lg w-full sm:w-auto justify-center"
+    >
+      <Plus className="w-4 h-4 inline-block mr-1" />
+      Create quiz
+    </button>
+  </div>
+</section>
 
-              <button onClick={() => setCreateOpenModal(true)} className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition ease-in-out duration-150 cursor-pointer text-white px-4 py-2 rounded-lg text-nowrap flex items-center font-semibold text-lg">
-                <Plus className="w-4 h-4 inline-block mr-1" />
-                Create quiz
-              </button>
-            </div>
-          </section>
 
           {/**Quiz List */}
           <section>

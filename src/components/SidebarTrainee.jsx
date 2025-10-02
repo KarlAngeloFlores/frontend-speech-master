@@ -17,7 +17,7 @@ const navItems = [
     path: "/trainee/quizzes",
   },
   {
-    name: "Quizzes Score",
+    name: "Quizzes Scores",
     icon: <BarChart2 className="w-5 h-5 mr-3" />,
     path: "/trainee/quizzes-score",
   },

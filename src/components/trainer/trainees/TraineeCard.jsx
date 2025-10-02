@@ -10,14 +10,8 @@ import {
 } from "lucide-react";
 import "../../../styles/animations.css";
 
-const TraineeCard = ({
-  trainee,
-  onAccept,
-  onDelete,
-  onView
-}) => {
-
-    const formatDate = (dateString) =>
+const TraineeCard = ({ trainee, onAccept, onDelete, onView }) => {
+  const formatDate = (dateString) =>
     new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
@@ -124,27 +118,25 @@ const TraineeCard = ({
         )}
 
         {/**Action Buttons Active */}
-        { trainee.status === "verified" && (
-          <div className="flex items-center gap-2">
-                                            <button
-            onClick={() => onDelete(trainee)}
-            className="w-full mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-red-500 hover:bg-red-600 text-white text-nowrap cursor-pointer"
-          >
-            <Trash2 className="w-4 h-4" />
-            <span>Delete</span>
-          </button>
+        {trainee.status === "verified" && (
+          <div className="flex flex-col sm:flex-row sm:justify-center sm:gap-3">
+            <button
+              onClick={() => onDelete(trainee)}
+              className="w-full sm:w-auto mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-red-500 hover:bg-red-600 text-white text-nowrap cursor-pointer"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span>Delete</span>
+            </button>
 
-          <button
-            onClick={() => onView(trainee)}
-            className="w-full mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-green-500 hover:bg-green-600 text-white text-nowrap cursor-pointer"
-          >
-            <Eye className="w-4 h-4" />
-            <span>View Performance</span>
-          </button>
+            <button
+              onClick={() => onView(trainee)}
+              className="w-full sm:w-auto mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-green-500 hover:bg-green-600 text-white text-nowrap cursor-pointer"
+            >
+              <Eye className="w-4 h-4" />
+              <span>View Performance</span>
+            </button>
           </div>
         )}
-
-        
       </div>
     </div>
   );

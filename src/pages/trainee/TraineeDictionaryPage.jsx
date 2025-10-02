@@ -28,7 +28,7 @@ const TraineeDictionaryPage = () => {
           <Logout/>
         </header>
 
-        <div className="p-8 flex-1 w-full">
+        <div className="sm:p-8 p-4 flex-1 w-full">
           <DictionaryTab />
         </div>
       </main>

@@ -95,7 +95,7 @@ const TrainerHomePage = () => {
           <Logout />
         </header>
         {/* Content */}
-        <div className="p-8 flex-1 w-full modal-animation">
+        <div className="sm:p-8 p-4 flex-1 w-full modal-animation">
           {/* Summary Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
             <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-l-blue-600">

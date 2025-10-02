@@ -46,7 +46,7 @@ const ViewPerformanceModal = ({ isOpen, onClose, trainee }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-2">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl p-8 modal-animation max-h-[80vh]">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
@@ -170,7 +170,7 @@ const ViewPerformanceModal = ({ isOpen, onClose, trainee }) => {
         )}
 
         {/* Footer */}
-        <div className="flex justify-end pt-6 mt-6 border-t border-gray-200">
+        <div className="flex justify-end pt-6 border-t border-gray-200">
           <button
             onClick={onClose}
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer"

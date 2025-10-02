@@ -81,7 +81,7 @@ const TraineeModulePage = () => {
         </header>
 
         {/* Content */}
-        <div className="p-8 flex-1 modal-animation">
+        <div className="sm:p-8 p-4 flex-1 modal-animation">
           <div className="bg-white w-full h-full rounded-lg shadow-md overflow-hidden flex flex-col">
             {/* Breadcrumb Header */}
             <div className="px-8 py-4 border-b border-gray-200 bg-gray-50">

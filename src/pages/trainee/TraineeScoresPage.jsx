@@ -60,16 +60,16 @@ const TraineeScoresPage = () => {
             <Menu className="w-7 h-7" />
           </button>
           <section>
-            <h1 className="text-2xl font-bold text-blue-700">Quizzes Scores</h1>
-            <p>See quizzes results and scores</p>
+            <h1 className="text-2xl font-bold text-blue-700">Scores</h1>
+            {/* <p>See quizzes results and scores</p> */}
           </section>
           </div>
           <Logout />
         </header>
 
         {/**content */}
-        <div className="p-8 flex-1 w-full">
-          <h2 className="text-xl font-bold text-blue-700 mb-4">Available Quizzes</h2>
+        <div className="sm:p-8 p-4 flex-1 w-full">
+          <h2 className="text-xl font-bold text-blue-700 mb-4">Quiz Results</h2>
           {filteredQuizzes.length === 0 ? (
             <>
               <div className=" flex items-center justify-center flex-col gap-2 bg-white py-12 rounded-lg shadow">

@@ -26,9 +26,9 @@ const TraineeSpeechPracticePage = () => {
             <Menu className="w-7 h-7" />
           </button>
           <section>
-            <h1 className="text-2xl font-bold text-blue-700">Home</h1>
+            <h1 className="text-2xl font-bold text-blue-700">Speech Practice</h1>
             <p>
-              Comprehensive insights into quiz performance and student progress
+              Turn every line into a powerful voice and read it with confidence!
             </p>
           </section>
           </div>
@@ -36,7 +36,7 @@ const TraineeSpeechPracticePage = () => {
         </header>
 
         {/**content */}
-        <div className="p-8 flex-1 w-full">
+        <div className="sm:p-8 p-4 flex-1 w-full">
           <Script />
         </div>
         
