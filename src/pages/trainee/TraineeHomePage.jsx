@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import SidebarTrainee from "../../components/SidebarTrainee";
 import { Menu, NotebookPen, Book, CheckCircle } from "lucide-react";
 import LoadingScreen from "../../components/LoadingScreen";
+import NotAnsweredQuizCard from "../../components/trainee/quiz/NotAnsweredQuizCard";
 import ErrorPage from "../ErrorPage";
-import quizTraineeService from "../../services/quizTrainee.service";
-import NotAnsweredQuizCard from "../../components/trainee/NotAnsweredQuizCard";
 import { Logout } from "../../components/auth/Logout";
+import quizTraineeService from "../../services/quizTrainee.service";
 import traineeService from "../../services/trainee.service";
 import "../../styles/animations.css";
 
@@ -32,8 +32,6 @@ const TraineeHomePage = () => {
       
       const responseStats = await traineeService.getHome();
       const response = await quizTraineeService.getQuizzes();
-
-      console.log(responseStats);
       console.log(response);
       setStats(responseStats)
       setQuizzes(response.data);
@@ -135,7 +133,7 @@ const TraineeHomePage = () => {
             </>
           ) : (
             <>
-            <div className="grid sm:grid-cols-2 grid-cols-1">
+            <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
             {filteredQuizzes.map((quiz, idx) => (
               <NotAnsweredQuizCard key={`not-answered-${idx}`} quiz={quiz}/>
             ))}

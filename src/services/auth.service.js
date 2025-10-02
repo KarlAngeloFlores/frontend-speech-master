@@ -101,9 +101,12 @@ const authService = {
         }
     },
 
-    resendVerification: async () => {
+    resendVerification: async (email, purpose) => {
         try {
             
+            const { data } = await axios.post(`${API_URL}/auth/resend_code`, { email, purpose });
+            return data;
+
         } catch (error) {
             const msg = error.response?.data?.message || error.message;
             throw new Error(msg); 

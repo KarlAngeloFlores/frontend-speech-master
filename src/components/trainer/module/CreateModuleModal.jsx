@@ -79,7 +79,7 @@ const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
               value={description}
               maxLength={200}
               onChange={(e) => setDescription(e.target.value)}
-              className=" resize-none w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className=" resize-none w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 h-28"
               disabled={loading}
               required
             />

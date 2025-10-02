@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { XCircle } from "lucide-react";
-import "../../../styles/animations.css";
+
 const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
+  const [error, setError] = useState("");
   const [quizTitle, setQuizTitle] = useState("");
   const [selectedQuizType, setSelectedQuizType] = useState("");
   const [quizTimer, setQuizTimer] = useState(0);
@@ -34,7 +35,6 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
   };
 
   const resetFields = () => {
-    // Optionally reset fields
     setQuizTitle("");
     setSelectedQuizType("");
     setQuizTimer(0);
@@ -43,9 +43,59 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
     onClose?.();
   };
 
-  //handle create
+const validateFields = () => {
+  if (!quizTitle.trim()) {
+    setError("Quiz title is required.");
+    return false;
+  }
+  if (quizTitle.trim().length < 3) {
+    setError("Quiz title must be at least 3 characters long.");
+    return false;
+  }
+  if (!selectedQuizType) {
+    setError("Please select a quiz type.");
+    return false;
+  }
+  if (!quizTimer || quizTimer <= 0) {
+    setError("Please enter a valid timer (greater than 0).");
+    return false;
+  }
+
+  if (selectedQuizType === "pronounce_it_fast") {
+    if (questions.length === 0) {
+      setError("At least 1 question is required.");
+      return false;
+    }
+    for (let i = 0; i < questions.length; i++) {
+      if (!questions[i].question_word.trim()) {
+        setError(`Question ${i + 1} cannot be empty.`);
+        return false;
+      }
+    }
+  }
+
+  if (selectedQuizType === "shoot_the_word") {
+    if (nonDifQuestions.length === 0) {
+      setError("At least 1 question is required.");
+      return false;
+    }
+    for (let i = 0; i < nonDifQuestions.length; i++) {
+      if (!nonDifQuestions[i].question_word.trim()) {
+        setError(`Question ${i + 1} cannot be empty.`);
+        return false;
+      }
+    }
+  }
+
+  setError(""); // clear errors if all good
+  return true;
+};
+
+
   const handleCreate = async () => {
     try {
+      if (!validateFields()) return;
+
       let totalPoints;
       let payloadQuestions;
 
@@ -53,7 +103,7 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
         totalPoints = questions.length;
         payloadQuestions = questions;
       } else if (selectedQuizType === "shoot_the_word") {
-        totalPoints = nonDifQuestions.length * 5; //maximum score = nondifquestions * 5
+        totalPoints = nonDifQuestions.length * 5;
         payloadQuestions = nonDifQuestions;
       }
 
@@ -66,29 +116,29 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
       );
       resetFields();
     } catch (error) {
-      console.log(error);
+      setError(error.message || "Something went wrong. Try again later");
     }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 modal-animation">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col h-[90vh] max-h-[600px]">
+        {/* Header - Fixed */}
+        <div className="flex justify-between items-center p-6 pb-4 border-b border-gray-200">
           <h2 className="text-2xl font-bold text-blue-700">Create New Quiz</h2>
           <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-blue-600 transition"
+            onClick={resetFields}
+            className="text-gray-400 hover:text-blue-600 transition cursor-pointer"
             aria-label="Close modal"
           >
             <XCircle size={28} />
           </button>
         </div>
 
-        {/* Form */}
-        <div className="space-y-4">
+        {/* Basic Info - Fixed */}
+        <div className="px-6 pt-4 pb-2 space-y-3">
           {/* Quiz Title */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -123,7 +173,7 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Quiz Timer (seconds)
+                Timer (sec)
               </label>
               <input
                 type="number"
@@ -131,23 +181,26 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
                 value={quizTimer}
                 onChange={(e) => setQuizTimer(Number(e.target.value))}
                 className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                placeholder="Time limit (e.g. 60 for 1 min)"
+                placeholder="e.g. 60"
                 required
               />
             </div>
           </div>
+        </div>
 
+        {/* Scrollable Questions Section */}
+        <div className="flex-1 overflow-y-auto px-6 py-4">
           {/* Questions */}
           {selectedQuizType === "pronounce_it_fast" && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
                 Questions
               </label>
               <div className="space-y-3">
                 {questions.map((q, index) => (
                   <div
                     key={index}
-                    className="border border-gray-200 rounded-lg p-4 space-y-2"
+                    className="border border-gray-200 rounded-lg p-4 space-y-2 bg-gray-50"
                   >
                     <input
                       type="text"
@@ -160,19 +213,15 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
                           e.target.value
                         )
                       }
-                      className="w-full px-4 py-2 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                      placeholder="Enter question text"
+                      className="w-full px-4 py-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+                      placeholder="Enter word"
                     />
                     <select
                       value={q.difficulty}
                       onChange={(e) =>
-                        handleQuestionChange(
-                          index,
-                          "difficulty",
-                          e.target.value
-                        )
+                        handleQuestionChange(index, "difficulty", e.target.value)
                       }
-                      className="w-full px-4 py-2 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                      className="w-full px-4 py-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
                     >
                       <option>Easy</option>
                       <option>Medium</option>
@@ -184,7 +233,7 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
               <button
                 onClick={addQuestion}
                 type="button"
-                className="mt-2 text-blue-600 hover:text-blue-800 font-medium"
+                className="mt-3 text-blue-600 hover:text-blue-800 font-medium"
               >
                 + Add Another Question
               </button>
@@ -193,12 +242,12 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
 
           {selectedQuizType === "shoot_the_word" && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
                 Questions
               </label>
               <div className="space-y-3">
                 {nonDifQuestions.map((q, index) => (
-                  <div key={index}>
+                  <div key={index} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
                     <input
                       type="text"
                       value={q.question_word}
@@ -210,8 +259,8 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
                           e.target.value
                         )
                       }
-                      className="w-full px-4 py-2 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                      placeholder="Enter question text"
+                      className="w-full px-4 py-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+                      placeholder="Enter word"
                     />
                   </div>
                 ))}
@@ -219,30 +268,38 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
               <button
                 onClick={addNonDifQuestion}
                 type="button"
-                className="mt-2 text-blue-600 hover:text-blue-800 font-medium"
+                className="mt-3 text-blue-600 hover:text-blue-800 font-medium"
               >
                 + Add Another Question
               </button>
             </div>
           )}
 
-          {/* Actions */}
-          <div className="flex gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 cursor-pointer transition"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleCreate}
-              type="button"
-              className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition cursor-pointer"
-            >
-              Create Quiz
-            </button>
-          </div>
+          {selectedQuizType === "" && (
+            <div className="text-center py-8 text-gray-500">
+              Select a quiz type to add questions
+            </div>
+          )}
+
+          {error && <p className="text-red-500 text-sm mt-4">{error}</p>}
+        </div>
+
+        {/* Actions - Fixed at bottom */}
+        <div className="flex gap-3 px-6 py-4 border-t border-gray-200 rounded-lg mt-4">
+          <button
+            type="button"
+            onClick={resetFields}
+            className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 cursor-pointer transition"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleCreate}
+            type="button"
+            className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition cursor-pointer"
+          >
+            Create Quiz
+          </button>
         </div>
       </div>
     </div>

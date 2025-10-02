@@ -1,5 +1,5 @@
 import { XCircle, UserCheck } from "lucide-react";
-import "../../styles/animations.css";
+import "../../../styles/animations.css";
 
 const ApproveTraineeModal = ({ isOpen, onClose, onConfirm, trainee }) => {
   if (!isOpen || !trainee) return null;
@@ -38,7 +38,7 @@ const ApproveTraineeModal = ({ isOpen, onClose, onConfirm, trainee }) => {
           </button>
           <button
             onClick={() => onConfirm(trainee.id)}
-            className="flex-1 px-4 py-2 rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 flex items-center justify-center gap-2 transition"
+            className="flex-1 px-4 py-2 rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 flex items-center justify-center gap-2 transition cursor-pointer"
           >
             <UserCheck size={18} />
             Approve

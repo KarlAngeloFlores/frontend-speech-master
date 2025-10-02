@@ -3,15 +3,18 @@ import {
   User,
   Mail,
   Calendar,
-  Clock,
+  Trash2,
+  Eye,
   UserCheck,
   UserX,
 } from "lucide-react";
-import "../../styles/animations.css";
+import "../../../styles/animations.css";
 
 const TraineeCard = ({
   trainee,
   onAccept,
+  onDelete,
+  onView
 }) => {
 
     const formatDate = (dateString) =>
@@ -35,11 +38,11 @@ const TraineeCard = ({
       <div className="p-6 text-white bg-gradient-to-r from-blue-500 to-blue-600">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-xl font-bold text-blue-600">
+            <div className="min-w-16 min-h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-xl font-bold text-blue-600">
               {getInitials(trainee.first_name, trainee.last_name)}
             </div>
             <div>
-              <h3 className="text-xl font-semibold">
+              <h3 className="text-lg font-semibold">
                 {getFullName(
                   trainee.first_name,
                   trainee.last_name,
@@ -109,26 +112,39 @@ const TraineeCard = ({
           </div>
         </div>
 
-        {/* Updated At
-        <div className="flex items-center space-x-2 text-gray-600 text-sm">
-          <Clock className="w-4 h-4" />
-          <div>
-            <span className="block">
-              Updated: {formatDate(trainee.updated_at)}
-            </span>
-          </div>
-        </div> */}
-
-        {/* Action Button */}
+        {/* Action Buttons Pending */}
         {trainee.status === "pending" && (
           <button
             onClick={() => onAccept(trainee)}
-            className="w-full mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white"
+            className="w-full mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white cursor-pointer"
           >
             <User className="w-4 h-4" />
             <span>Accept Application</span>
           </button>
         )}
+
+        {/**Action Buttons Active */}
+        { trainee.status === "verified" && (
+          <div className="flex items-center gap-2">
+                                            <button
+            onClick={() => onDelete(trainee)}
+            className="w-full mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-red-500 hover:bg-red-600 text-white text-nowrap cursor-pointer"
+          >
+            <Trash2 className="w-4 h-4" />
+            <span>Delete</span>
+          </button>
+
+          <button
+            onClick={() => onView(trainee)}
+            className="w-full mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-green-500 hover:bg-green-600 text-white text-nowrap cursor-pointer"
+          >
+            <Eye className="w-4 h-4" />
+            <span>View Performance</span>
+          </button>
+          </div>
+        )}
+
+        
       </div>
     </div>
   );

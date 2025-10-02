@@ -21,10 +21,34 @@ const trainerService = {
         }
     },
 
+    deleteTrainee: async (id) => {
+        try {
+            
+            const { data } = await api.delete(`/trainer/trainees/${id}`);
+            return data;
+
+        } catch (error) {
+            const msg = error.response?.data?.message || error.message;
+            throw new Error(msg); 
+        }
+    },
+
     getHome: async () => {
         try {
             const { data } = await api.get(`/trainer/home`);
             return data;
+        } catch (error) {
+            const msg = error.response?.data?.message || error.message;
+            throw new Error(msg); 
+        }
+    },
+
+    getTraineePerformance: async (id) => {
+        try {
+            
+            const { data } = await api.get(`/trainer/trainees/performance/${id}`);
+            return data;
+
         } catch (error) {
             const msg = error.response?.data?.message || error.message;
             throw new Error(msg); 

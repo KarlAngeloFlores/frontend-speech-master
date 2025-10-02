@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SidebarTrainee from "../../components/SidebarTrainee";
 import { Menu, NotebookPen } from "lucide-react";
 import LoadingScreen from "../../components/LoadingScreen";
 import ErrorPage from "../ErrorPage";
-import quizTraineeService from "../../services/quizTrainee.service"
-import AnsweredQuizCard from "../../components/trainee/AnsweredQuizCard";
+import AnsweredQuizCard from "../../components/trainee/quiz/AnsweredQuizCard";
 import { Logout } from "../../components/auth/Logout";
+import quizTraineeService from "../../services/quizTrainee.service"
 
 const TraineeScoresPage = () => {
   const [mobileOpen, setMobileOpen] = useState(false);

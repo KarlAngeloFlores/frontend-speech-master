@@ -1,6 +1,6 @@
 import { BarChart3, Calendar, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/animations.css";
+import "../../../styles/animations.css"
 
 const NotAnsweredQuizCard = ({quiz}) => {
 
@@ -14,6 +14,14 @@ const NotAnsweredQuizCard = ({quiz}) => {
       }
     }
 
+      const getQuizBadge = (quiz) => {
+    if(quiz.type === 'shoot_the_word') {
+      return 'Shoot the Word'
+    } else if (quiz.type === 'pronounce_it_fast') {
+      return `Pronounce it Fast`
+    };
+  }
+
   return (
      <div
         className="bg-white rounded-lg shadow-md p-6 hover:shadow-md transition-shadow modal-animation"
@@ -24,7 +32,7 @@ const NotAnsweredQuizCard = ({quiz}) => {
                       {quiz.title}
                     </h3>
                     <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-                      {quiz.type}
+                      {getQuizBadge(quiz)}
                     </span>
                   </div>
                 </div>
@@ -32,11 +40,7 @@ const NotAnsweredQuizCard = ({quiz}) => {
                 <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-4">
                   <div className="flex items-center gap-2">
                     <BarChart3 size={16} />
-                    {quiz.type === "Pronounce it fast" ? (
                       <span>{quiz.total_points} points</span>
-                    ) : (
-                      "Collective Points"
-                    )}
                   </div>
 
                   <div className="flex items-center gap-2">

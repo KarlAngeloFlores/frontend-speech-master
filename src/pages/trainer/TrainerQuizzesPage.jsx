@@ -14,9 +14,10 @@ import QuizResultModal from "../../components/trainer/quiz/QuizResultModal";
 const TrainerQuizzesPage = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const [filterTerm, setFilterTerm] = useState("");
   
   /**
    * @modals
@@ -91,7 +92,10 @@ const TrainerQuizzesPage = () => {
   const filteredQuizzes = quizzes.filter((quiz) =>
     quiz.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     quiz.type.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  ).filter((quiz) => {
+    if(!filterTerm || filterTerm === "") return true;
+    return quiz.type === filterTerm;
+  });
 
   if (loading) return <LoadingPage message={"Loading quizzes...."} />;
   if (error) return <ErrorPage />;
@@ -131,11 +135,16 @@ const TrainerQuizzesPage = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}      
               />
 
-              <select name="category" id="category" className="border-2 border-gray-500 py-2 pl-4 pr-2 rounded-lg active:ring-2 active:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
-                <option value="">All Categories</option>
-                <option value="category1">Category 1</option>
-                <option value="category2">Category 2</option>
-                <option value="category3">Category 3</option>
+              <select 
+              name="category" 
+              id="category" 
+              className="border-2 border-gray-500 py-2 pl-4 pr-2 rounded-lg active:ring-2 active:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              onChange={(e) => setFilterTerm(e.target.value)}
+              >
+                <option value="">All Quiz Type</option>
+                <option value="pronounce_it_fast">Pronounce it Fast</option>
+                <option value="shoot_the_word">Shoot the Word</option>
+
               </select>
 
               <button onClick={() => setCreateOpenModal(true)} className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition ease-in-out duration-150 cursor-pointer text-white px-4 py-2 rounded-lg text-nowrap flex items-center font-semibold text-lg">

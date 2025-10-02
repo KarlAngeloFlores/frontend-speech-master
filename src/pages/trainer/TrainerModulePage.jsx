@@ -282,7 +282,10 @@ const TrainerModulePage = () => {
       {/* Update Module Modal */}
       <UpdateModuleModal
         isOpen={showUpdateModal}
-        onClose={() => setShowUpdateModal(false)}
+        onClose={() => {
+          setShowUpdateModal(false);
+          setSelectedModule(null);
+        }}
         onUpdate={handleUpdateModule}
         module={selectedModule}
       />

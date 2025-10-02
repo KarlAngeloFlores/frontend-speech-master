@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CheckCircle2, Loader2, CircleX } from 'lucide-react';
 import authService from "../../services/auth.service";
 import { useNavigate } from 'react-router-dom';
@@ -20,27 +20,47 @@ const VerificationForm = ({ type, handleVerification, email }) => {
     },
   };
 
-  const [formData, setFormData] = useState({
-    verificationCode: ''
-  });
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData(prev => ({ ...prev, [id]: value }));
+  const handleCodeChange = (e) => {
+    setError("");
+    const numericValue = e.target.value.replace(/\D/g, ""); 
+    setCode(numericValue);
+  }
+
+  /**
+   * @RESENDING_THE_CODE
+   */
+  const handleResend = async () => {
+    setResending(true);
+    setError(null);
+    setSuccess(null);
+    console.log(email);
+    try {
+      await authService.resendVerification(email, purpose[type].purpose);
+      setSuccess("Verification code resent successfully");
+    } catch (error) {
+      setError(error.message || 'An error occurred while resending the verification code');
+    } finally {
+      setResending(false);
+    }
   };
 
-  const handleSubmit = async (e) => {
+  /**
+   * @SUBMITTING_THE_CODE
+   */
+    const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccess(null);
 
     try {
-      const result = await handleVerification(formData.verificationCode);
+      const result = await handleVerification(code);
       console.log(result);
       setSuccess(result?.message || "Verification successful!");
 
@@ -57,22 +77,9 @@ const VerificationForm = ({ type, handleVerification, email }) => {
     }
   };
 
-  const handleResend = async () => {
-    setResending(true);
-    setError(null);
-    setSuccess(null);
-    try {
-      await authService.resendVerificationCode(email);
-      setSuccess('Verification code resent successfully');
-    } catch (error) {
-      setError(error.message || 'An error occurred while resending the verification code');
-    } finally {
-      setResending(false);
-    }
-  };
-
   return (
-    <section className="min-h-screen w-full flex items-center justify-center bg-blue-50 px-4 sm:px-6 lg:px-8">
+    
+<section className="min-h-screen w-full flex items-center justify-center bg-blue-50 px-4 sm:px-6 lg:px-8">
       <div className="bg-white p-8 shadow-2xl w-full max-w-md rounded-2xl transition-all duration-300 hover:shadow-lg modal-animation">
         {/* Logo/Header */}
         <div className="flex justify-center items-center gap-2 mb-2">
@@ -89,7 +96,7 @@ const VerificationForm = ({ type, handleVerification, email }) => {
           <p className="text-gray-600 text-sm">{purpose[type].description}</p>
         </div>
         {/* Form */}
-        <form className="space-y-2" onSubmit={handleSubmit}>
+        <form className="space-y-2" onSubmit={onSubmit}>
           <div className="space-y-1">
             <label className="block text-sm font-medium text-gray-700" htmlFor="verificationCode">
               Verification Code
@@ -99,8 +106,8 @@ const VerificationForm = ({ type, handleVerification, email }) => {
               id="verificationCode"
               className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-center tracking-widest text-xl"
               placeholder="Enter code"
-              value={formData.verificationCode}
-              onChange={handleChange}
+              value={code}
+              onChange={handleCodeChange}
               maxLength={6}
               minLength={6}
               required
@@ -144,6 +151,10 @@ const VerificationForm = ({ type, handleVerification, email }) => {
               {resending ? <Loader2 className="animate-spin h-4 w-4 inline-block" /> : "Resend"}
             </button>
           </div>
+
+          <p className="text-center text-xs text-gray-500 mt-2">
+            Check your spam folder if you don't see the email
+          </p>
         </form>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import { BarChart3, Calendar, CheckCircle } from "lucide-react";
-import "../../styles/animations.css";
+import "../../../styles/animations.css"
 
 const AnsweredQuizCard = ({ quiz }) => {
 

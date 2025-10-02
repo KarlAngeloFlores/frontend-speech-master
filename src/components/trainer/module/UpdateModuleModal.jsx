@@ -39,13 +39,13 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
   const handleCancel = () => {
     setError(null);
     setTitle(module?.title || "");
-    setDescription(module?.description || "");
+    setDescription(module?.description || ""); 
     onClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 module-animation">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 modal-animation">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-blue-700">Update Module</h2>
@@ -86,7 +86,7 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
               value={description}
               maxLength={200}
               onChange={(e) => setDescription(e.target.value)}
-              className=" resize-none w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className=" resize-none w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 h-28"
               disabled={loading}
               required
             />
