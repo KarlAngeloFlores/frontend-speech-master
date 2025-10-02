@@ -73,8 +73,3 @@ VITE_API_URL=your_backend_api_url
 npm run dev
 ```
 - Frontend will run on http://localhost:5173
-
-
-# trainer account
-- **EMAIL:** boniola.bryanpaul@dfcamclp.edu.ph
-- **PASSWORD:** adminpassword
