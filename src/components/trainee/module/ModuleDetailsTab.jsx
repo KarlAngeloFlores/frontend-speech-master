@@ -29,7 +29,7 @@ const ModuleDetailsTab = ({ module }) => {
       setModuleContents(response.data.ModuleContents || []);
     } catch (error) {
       console.error("Error fetching module contents:", error);
-      setError(error.message || "Something went wrong. Try again later");
+      setError("Something went wrong. Try again later");
     } finally {
       setLoading(false);
     }
@@ -147,7 +147,7 @@ const ModuleDetailsTab = ({ module }) => {
       )}
 
       {/* Module Contents */}
-      <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
+      <div className="bg-white border-2 border-gray-200 rounded-lg sm:p-6 p-3">
         <div className="flex items-center gap-2 mb-4">
           <FileType className="w-5 h-5 text-blue-600" />
           <h3 className="font-semibold text-gray-800 text-lg">
@@ -175,7 +175,7 @@ const ModuleDetailsTab = ({ module }) => {
             {moduleContents.map((content, index) => (
               <div
                 key={content.id}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-blue-300 hover:shadow-md transition-all group"
+                className="flex items-center justify-between sm:p-4 p-2 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-blue-300 hover:shadow-md transition-all group"
               >
                 <div className="flex items-center gap-4 flex-1 min-w-0">
                   <div className="bg-white p-3 rounded-lg border-2 border-gray-200 group-hover:border-blue-300 transition-all">

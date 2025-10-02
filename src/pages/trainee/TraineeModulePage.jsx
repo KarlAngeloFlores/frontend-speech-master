@@ -108,7 +108,7 @@ const TraineeModulePage = () => {
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-y-auto p-8">
+            <div className="flex-1 overflow-y-auto sm:p-8 p-4">
               {openShowModule && selectedModule ? (
                 <ModuleDetailsTab module={selectedModule} />
               ) : (
