@@ -17,17 +17,27 @@ const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
   const [success, setSuccess] = useState(false);
   const [passwordError, setPasswordError] = useState('');
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
+const handleChange = (e) => {
+  const { id, value } = e.target;
 
-    if (id === 'confirm_password' || id === 'password') {
-      validatePasswords(
-        id === 'password' ? value : formData.password,
-        id === 'confirm_password' ? value : formData.confirm_password
-      );
+  // Regex for names (only letters and spaces)
+  const nameRegex = /^[A-Za-z\s]*$/;
+
+  if (["first_name", "middle_name", "last_name"].includes(id)) {
+    if (!nameRegex.test(value)) {
+      return; // block invalid input
     }
-  };
+  }
+
+  setFormData((prev) => ({ ...prev, [id]: value }));
+
+  if (id === "confirm_password" || id === "password") {
+    validatePasswords(
+      id === "password" ? value : formData.password,
+      id === "confirm_password" ? value : formData.confirm_password
+    );
+  }
+};
 
   const validatePasswords = (password, confirmPassword) => {
     if (confirmPassword && password !== confirmPassword) {
