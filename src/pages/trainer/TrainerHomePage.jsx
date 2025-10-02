@@ -88,9 +88,20 @@ useEffect(() => {
     }
   }
 
-  useEffect(() => {
+useEffect(() => {
+  // Initial fetch
+  fetchData();
+
+  // Poll every 1 minute
+  const interval = setInterval(() => {
     fetchData();
-  }, []);
+  }, 60000);
+
+  // Cleanup interval on unmount
+  return () => clearInterval(interval);
+}, []);
+
+  //polling
 
   if(loading) return <LoadingScreen message={"Loading data...."} />
   if(error) return <ErrorPage />

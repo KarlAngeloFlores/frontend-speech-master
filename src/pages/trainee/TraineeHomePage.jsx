@@ -43,9 +43,18 @@ const TraineeHomePage = () => {
     }
   };
 
-  useEffect(() => {
+useEffect(() => {
+  // Initial fetch
+  handleFetchQuizzes();
+
+  // Poll every 1 minute
+  const interval = setInterval(() => {
     handleFetchQuizzes();
-  }, []);
+  }, 60000);
+
+  // Cleanup interval on unmount
+  return () => clearInterval(interval);
+}, []);
 
   if (error) return <ErrorPage />;
   if (loading) return <LoadingScreen message={"Loading Quizzes...."} />;

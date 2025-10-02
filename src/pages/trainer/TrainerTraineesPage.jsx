@@ -151,8 +151,17 @@ const TrainerTraineesPage = () => {
   };
 
   useEffect(() => {
-    handleFetchTrainees();
-  }, []);
+  // Initial fetch
+      handleFetchTrainees();
+
+  // Poll every 1 minute
+  const interval = setInterval(() => {
+      handleFetchTrainees();
+  }, 60000);
+
+  // Cleanup interval on unmount
+  return () => clearInterval(interval);
+}, []);
 
   if (loading) return <LoadingScreen message={"Loading trainees"} />;
   if (error) return <ErrorPage />;
