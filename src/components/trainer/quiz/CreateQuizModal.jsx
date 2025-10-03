@@ -6,6 +6,7 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
   const [quizTitle, setQuizTitle] = useState("");
   const [selectedQuizType, setSelectedQuizType] = useState("");
   const [quizTimer, setQuizTimer] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const [questions, setQuestions] = useState([
     { question_word: "", difficulty: "Easy" },
@@ -14,18 +15,22 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
     { question_word: "" },
   ]);
 
-  const handleQuestionChange = (index, field, value) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[index][field] = value;
-    setQuestions(updatedQuestions);
-  };
+  const sanitizeWord = (value) => {
+  // force lowercase, remove disallowed chars
+  return value.toLowerCase().replace(/[^a-z'-]/g, "");
+};
 
-  const handleNonDifQuestionChange = (index, field, value) => {
-    const updatedQuestions = [...nonDifQuestions];
-    updatedQuestions[index][field] = value;
-    setNonDifQuestions(updatedQuestions);
-  };
+const handleQuestionChange = (index, field, value) => {
+  const updatedQuestions = [...questions];
+  updatedQuestions[index][field] = sanitizeWord(value);
+  setQuestions(updatedQuestions);
+};
 
+const handleNonDifQuestionChange = (index, field, value) => {
+  const updatedQuestions = [...nonDifQuestions];
+  updatedQuestions[index][field] = sanitizeWord(value);
+  setNonDifQuestions(updatedQuestions);
+};
   const addQuestion = () => {
     setQuestions([...questions, { question_word: "", difficulty: "Easy" }]);
   };
@@ -40,6 +45,7 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
     setQuizTimer(0);
     setQuestions([{ question_word: "", difficulty: "Easy" }]);
     setNonDifQuestions([{ question_word: "" }]);
+    setError("");
     onClose?.();
   };
 
@@ -93,6 +99,7 @@ const validateFields = () => {
 
 
   const handleCreate = async () => {
+    setLoading(true);
     try {
       if (!validateFields()) return;
 
@@ -117,6 +124,8 @@ const validateFields = () => {
       resetFields();
     } catch (error) {
       setError(error.message || "Something went wrong. Try again later");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -296,9 +305,10 @@ const validateFields = () => {
           <button
             onClick={handleCreate}
             type="button"
+            disabled={loading}
             className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition cursor-pointer"
           >
-            Create Quiz
+            {loading ? 'Creating...' : 'Create Quiz'}
           </button>
         </div>
       </div>

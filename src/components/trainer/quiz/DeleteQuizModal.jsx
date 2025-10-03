@@ -5,17 +5,25 @@ import "../../../styles/animations.css";
 const DeleteQuizModal = ({ isOpen, onClose, onDelete, quiz }) => {
   const [confirmTitle, setConfirmTitle] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
     if (confirmTitle.trim() === quiz.title.trim()) {
-      onDelete?.(quiz.id);
+      await onDelete?.(quiz.id);
       setConfirmTitle("");
       setError("");
       onClose();
     } else {
       setError("Quiz title does not match. Please type it exactly.");
+    }
+    } catch (error) {
+      setError(error.message || 'Something went wrong. Try again later');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,14 +87,14 @@ const DeleteQuizModal = ({ isOpen, onClose, onDelete, quiz }) => {
           <button
             type="button"
             onClick={handleDelete}
-            disabled={confirmTitle.trim() !== quiz.title.trim()}
+            disabled={confirmTitle.trim() !== quiz.title.trim() || loading}
             className={`flex-1 px-4 py-2 rounded-lg text-white transition ${
               confirmTitle.trim() === quiz.title.trim()
                 ? "bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 cursor-pointer"
                 : "bg-gray-300 cursor-not-allowed opacity-50"
             }`}
           >
-            Delete
+            { loading ? 'Deleting...' : 'Delete' }
           </button>
         </div>
       </div>
