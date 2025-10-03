@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, Loader2, CircleX } from 'lucide-react';
+import { CheckCircle2, Loader2, CircleX, Eye, EyeClosed, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import authService from "../../services/auth.service";
 import "../../styles/animations.css";
@@ -12,6 +12,7 @@ const SignInForm = ({ setCurrentAuth }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -84,10 +85,10 @@ const SignInForm = ({ setCurrentAuth }) => {
                 required
               />
             </div>
-            <div className="space-y-1">
+            <div className="space-y-1 relative">
               <label className="block text-sm font-medium text-gray-700" htmlFor="password">Password</label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                 placeholder="Enter your password"
@@ -96,6 +97,13 @@ const SignInForm = ({ setCurrentAuth }) => {
                 onChange={handleChange}
                 required
               />
+              <button 
+              type="text"
+              onClick={() => setShowPassword(prev => !prev)}
+              className='absolute right-3 top-10 text-gray-600'
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} /> }
+              </button>
             </div>
             <div className="text-right">
               <div className="text-sm">
