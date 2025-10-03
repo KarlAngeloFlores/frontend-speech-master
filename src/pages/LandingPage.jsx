@@ -92,19 +92,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-  <div className="max-w-4xl mx-auto text-center">
-    <h3 className="text-3xl font-bold mb-4">Ready to start improving your English?</h3>
-    <p className="mb-8 text-lg">Sign up now and join the learners on SpeechMaster!</p>
-    <button
-      onClick={() => navigate('/auth')}
-      className="bg-white text-blue-700 font-semibold px-8 py-4 rounded-lg shadow-md hover:bg-blue-100 transition"
-    >
-      Join Now
-    </button>
-  </div>
-</section>
-
 <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
   <div className="max-w-4xl mx-auto">
     <h3 className="text-2xl font-bold mb-8 text-center text-gray-900">Frequently Asked Questions</h3>

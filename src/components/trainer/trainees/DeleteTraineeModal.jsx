@@ -70,7 +70,7 @@ const DeleteTraineeModal = ({ isOpen, onClose, onDelete, trainee }) => {
             value={confirmEmail}
             onChange={handleInputChange}
             maxLength={100}
-            placeholder="Type quiz title here"
+            placeholder="Type the displayed email here"
             className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
           />
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
