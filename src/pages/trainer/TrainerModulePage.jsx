@@ -10,6 +10,7 @@ import moduleService from "../../services/module.service";
 import LoadingScreen from "../../components/LoadingScreen";
 import ErrorPage from "../ErrorPage";
 import "../../styles/animations.css"
+import DeleteModuleModal from "../../components/trainer/module/DeleteModuleModal";
 
 const TrainerModulePage = () => {
   const [loading, setLoading] = useState(false);
@@ -28,6 +29,7 @@ const TrainerModulePage = () => {
    */
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   /**
    * @FETCH_MAIN_DATA_FROM_BACKEND_API
@@ -110,23 +112,18 @@ const TrainerModulePage = () => {
    * @param {*} id
    * @returns id
    */
+
+  const handleOpenDeleteModule = (module) => {
+    setSelectedModule(module);
+    setShowDeleteModal(true);
+  }
+
   const handleDeleteModule = async (id) => {
-    if (
-      !confirm(
-        "Are you sure you want to delete this module and all its contents?"
-      )
-    )
-      return;
-
     try {
+      
       await moduleService.deleteModule(id);
-
-      // If deleted module is currently open, close it
-      if (selectedModule && selectedModule.id === id) {
-        handleCloseModule();
-      }
-
       await fetchData();
+
     } catch (error) {
       console.error("Error deleting module:", error);
       throw error;
@@ -261,7 +258,7 @@ const TrainerModulePage = () => {
                       modules={modules}
                       onOpenModule={handleOpenModule}
                       onOpenUpdateModule={handleOpenUpdateModule}
-                      onDeleteModule={handleDeleteModule}
+                      onDeleteModule={handleOpenDeleteModule}
                       formatDate={formatDate}
                     />
                   )}
@@ -288,6 +285,18 @@ const TrainerModulePage = () => {
         }}
         onUpdate={handleUpdateModule}
         module={selectedModule}
+      />
+
+      {/**Delete Module Modal */}
+      <DeleteModuleModal 
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setSelectedModule(null);
+        }}
+        onDelete={handleDeleteModule}
+        module={selectedModule}
+
       />
     </div>
   );

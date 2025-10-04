@@ -84,9 +84,9 @@ const TrainerTraineesPage = () => {
       setOpenApproveModal(false);
     } catch (error) {
       console.error("Error approving trainee:", error);
+      throw error;
     }
   };
-
 
   /**
    * @FUNCTIONS_AND_MODAL_FOR_DELETE_FUNCTIONALITY

@@ -99,7 +99,7 @@ const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
           </button>
           <button
             onClick={handleSubmit}
-            className="flex-1 px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+            className="flex-1 px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={loading}
           >
             {loading ? (

@@ -81,7 +81,7 @@ const TrainerModuleList = ({
                     Edit
                   </button>
                   <button
-                    onClick={() => onDeleteModule(module.id)}
+                    onClick={() => onDeleteModule(module)}
                     className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition text-sm font-medium cursor-pointer"
                   >
                     Delete

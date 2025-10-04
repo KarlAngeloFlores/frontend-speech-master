@@ -1,7 +1,26 @@
 import { XCircle, UserCheck } from "lucide-react";
 import "../../../styles/animations.css";
+import { useState } from "react";
 
 const ApproveTraineeModal = ({ isOpen, onClose, onConfirm, trainee }) => {
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleConfirm = async () => {
+    setLoading(true);
+    try {
+      
+      await onConfirm(trainee.id);
+
+    } catch (error) {
+      setError("Something went wrong")
+      
+    } finally {
+      setLoading(false);
+    }
+  }
+
   if (!isOpen || !trainee) return null;
 
   return (
@@ -37,11 +56,12 @@ const ApproveTraineeModal = ({ isOpen, onClose, onConfirm, trainee }) => {
             Cancel
           </button>
           <button
-            onClick={() => onConfirm(trainee.id)}
-            className="flex-1 px-4 py-2 rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 flex items-center justify-center gap-2 transition cursor-pointer"
+            onClick={() => handleConfirm(trainee.id)}
+            disabled={loading}
+            className="flex-1 px-4 py-2 rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 flex items-center justify-center gap-2 transition cursor-pointer disabled:cursor-not-allowed"
           >
             <UserCheck size={18} />
-            Approve
+            {loading ? 'Approving...' : 'Approve'}
           </button>
         </div>
       </div>
