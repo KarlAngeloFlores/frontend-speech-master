@@ -35,7 +35,7 @@ const EmailForm = ({ onSend, loading: parentLoading }) => {
       <div className="bg-white p-8 shadow-2xl w-full max-w-md rounded-2xl transition-all duration-300 hover:shadow-lg modal-animation">
         {/* Logo/Header */}
         <div className="flex justify-center items-center gap-2 mb-2">
-          <span className="mr-1 font-bold text-2xl py-2 px-4 text-white from-blue-600 to-indigo-600 bg-gradient-to-r rounded-lg">
+          <span className="mr-1 font-bold text-2xl py-2 px-4 text-white bg-blue-600 rounded-lg">
             S
           </span>
           <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-transparent bg-clip-text font-bold text-3xl">
