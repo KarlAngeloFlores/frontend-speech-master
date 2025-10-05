@@ -42,7 +42,7 @@ const LandingPage = () => {
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
             Practice Speech<br />
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Simplified
+              Quick and Easy
             </span>
           </h1>
           <p className="text-xl text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed">
