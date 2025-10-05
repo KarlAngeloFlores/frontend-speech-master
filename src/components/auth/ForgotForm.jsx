@@ -61,7 +61,7 @@ const ForgotForm = ({ onSubmit, loading: parentLoading }) => {
   };
 
   return (
-    <section className="min-h-screen w-full flex items-center justify-center bg-blue-50 px-4 sm:px-6 lg:px-8">
+    <section className="min-h-screen w-full flex items-center justify-center bg-blue-50 px-2 sm:px-6 lg:px-8">
       <div className="bg-white p-8 shadow-2xl w-full max-w-md rounded-2xl transition-all duration-300 hover:shadow-lg modal-animation">
         {/* Logo/Header */}
         <div className="flex justify-center items-center gap-2 mb-2">
