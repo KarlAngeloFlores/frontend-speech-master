@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { XCircle } from "lucide-react";
 
 const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
@@ -20,6 +20,7 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
   return value.toLowerCase().replace(/[^a-z'-]/g, "");
 };
 
+//small changes to make difficulty working
 const handleQuestionChange = (index, field, value) => {
   const updatedQuestions = [...questions];
   updatedQuestions[index][field] = field === "question_word"
@@ -308,7 +309,7 @@ const validateFields = () => {
             onClick={handleCreate}
             type="button"
             disabled={loading}
-            className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition cursor-pointer"
+            className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition cursor-pointer disabled:cursor-pointer"
           >
             {loading ? 'Creating...' : 'Create Quiz'}
           </button>

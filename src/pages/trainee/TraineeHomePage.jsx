@@ -20,14 +20,18 @@ const TraineeHomePage = () => {
     completedQuizzes: 0,
   });
 
+  
+
   //implement logic if data available
   const filteredQuizzes = quizzes;
 
   /**
    * @FETCH_QUIZZES connecting to backend api
    */
-  const handleFetchQuizzes = async () => {
-    setLoading(true);
+  const handleFetchQuizzes = async (showLoading = false) => {
+    
+    if(showLoading) setLoading(true);
+
     try {
       
       const responseStats = await traineeService.getHome();
@@ -39,17 +43,17 @@ const TraineeHomePage = () => {
     } catch (error) {
       setError(error.message || "An error occured. Try again later.");
     } finally {
-      setLoading(false);
+      if(showLoading) setLoading(false);
     }
   };
 
 useEffect(() => {
   // Initial fetch
-  handleFetchQuizzes();
+  handleFetchQuizzes(true);
 
   // Poll every 1 minute
   const interval = setInterval(() => {
-    handleFetchQuizzes();
+    handleFetchQuizzes(false);
   }, 60000);
 
   // Cleanup interval on unmount

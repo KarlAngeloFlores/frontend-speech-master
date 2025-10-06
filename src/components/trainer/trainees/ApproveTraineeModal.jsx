@@ -31,7 +31,7 @@ const ApproveTraineeModal = ({ isOpen, onClose, onConfirm, trainee }) => {
           <h2 className="text-2xl font-bold text-blue-600">Approve trainee</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-red-600 transition"
+            className="text-gray-400 hover:text-red-600 transition cursor-pointer"
             aria-label="Close modal"
           >
             <XCircle size={28} />
@@ -51,7 +51,7 @@ const ApproveTraineeModal = ({ isOpen, onClose, onConfirm, trainee }) => {
         <div className="flex gap-3 mt-6">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+            className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition cursor-pointer"
           >
             Cancel
           </button>

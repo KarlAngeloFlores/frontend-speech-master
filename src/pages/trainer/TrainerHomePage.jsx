@@ -71,8 +71,8 @@ useEffect(() => {
    * @FETCH_DATA_HOME_PAGE
    */
 
-  const fetchData = async () => {
-    setLoading(true);
+  const fetchData = async (showLoading = false) => {
+    if(showLoading) setLoading(true);
     try {
       
       const response = await trainerService.getHome();
@@ -84,17 +84,17 @@ useEffect(() => {
       console.log(error);
       setError(error.message || "Something went wrong. Try again later");
     } finally {
-      setLoading(false);
+      if(showLoading) setLoading(false);
     }
   }
 
 useEffect(() => {
   // Initial fetch
-  fetchData();
+  fetchData(true);
 
   // Poll every 1 minute
   const interval = setInterval(() => {
-    fetchData();
+    fetchData(false);
   }, 60000);
 
   // Cleanup interval on unmount

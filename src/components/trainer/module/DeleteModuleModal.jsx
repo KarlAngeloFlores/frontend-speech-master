@@ -45,7 +45,7 @@ const DeleteModuleModal = ({ isOpen, onClose, onDelete, module }) => {
           <h2 className="text-2xl font-bold text-red-600">Delete Module</h2>
           <button
             onClick={handleCancel}
-            className="text-gray-400 hover:text-red-600 transition"
+            className="text-gray-400 hover:text-red-600 transition cursor-pointer"
             aria-label="Close modal"
           >
             <XCircle size={28} />

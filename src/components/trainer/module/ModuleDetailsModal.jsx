@@ -96,7 +96,7 @@ const ModuleDetailsModal = ({ data, isOpen, onClose }) => {
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-blue-600 transition"
+            className="text-gray-400 hover:text-blue-600 transition cursor-pointer"
             aria-label="Close modal"
           >
             <XCircle size={28} />

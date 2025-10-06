@@ -44,7 +44,7 @@ const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
           <h2 className="text-2xl font-bold text-blue-700">Create New Module</h2>
           <button
             onClick={handleCancel}
-            className="text-gray-400 hover:text-blue-600 transition"
+            className="text-gray-400 hover:text-blue-600 transition cursor-pointer"
             aria-label="Close modal"
           >
             <XCircle size={28} />

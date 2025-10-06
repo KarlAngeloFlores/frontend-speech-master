@@ -43,6 +43,8 @@ const navigate = useNavigate();
   const [wordTimeLeft, setWordTimeLeft] = useState(100);
   const [isShooting, setIsShooting] = useState(false); //shooting effect
   const [isListening, setIsListening] = useState(false); //mic listening
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [currentWord, setCurrentWord] = useState(""); //changes
   const [spokenWord, setSpokenWord] = useState(""); //changes
@@ -228,22 +230,23 @@ const handleAnswerQuiz = async (finalScore = score) => {
 
 
   const handleSubmitQuiz = async () => {
+    setIsSubmitting(true);
     try {
 
         const response = await quizTraineeService.submitQuiz(quiz_id);
-        console.log(response);
+        setIsSubmitted(true);
 
-        setTimeout(() => {
         SweetAlert.showSuccess(
           "Quiz Submitted",
           "Quiz Submitted Successfully",
           () => navigate("/trainee/quizzes")
         );
-      }, 2000);
-        
+    
     } catch (error) {
         console.log(error);
         SweetAlert.showError(error.message || "Something went wrong. Try again later");
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -470,7 +473,7 @@ useEffect(() => {
               <div className="text-center">
                 <button
                   onClick={() => handleStartQuiz()}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg text-lg shadow-md transition-all duration-200 hover:shadow-lg inline-flex items-center gap-2"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg text-lg shadow-md transition-all duration-200 hover:shadow-lg inline-flex items-center gap-2 cursor-pointer"
                 >
                   <Play className="w-5 h-5" />
                   Start Quiz
@@ -555,7 +558,8 @@ useEffect(() => {
             <div className="flex items-center justify-center">
               <button
                 onClick={startRecognition}
-                className="px-8 py-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg transition-all flex items-center justify-center gap-3 text-lg"
+                disabled={isListening}
+                className="px-8 py-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg transition-all flex items-center justify-center gap-3 text-lg cursor-pointer disabled:cursor-not-allowed"
               >
                 <Mic size={24} /> {renderIsListening()}
               </button>
@@ -609,7 +613,7 @@ useEffect(() => {
                   <p className="text-4xl font-bold text-blue-600">{score}</p>
                 </div>
                 <div className="pt-4 border-t border-slate-200">
-                  <p className="text-sm text-slate-600 mb-1">Total Possible</p>
+                  <p className="text-sm text-slate-600 mb-1">Total Scores</p>
                   <p className="text-2xl font-semibold text-slate-700">{totalPoints}</p>
                 </div>
               </div>
@@ -635,10 +639,11 @@ useEffect(() => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleSubmitQuiz()}
-                className="w-full px-6 py-4 flex items-center justify-center gap-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-md font-semibold text-lg"
+                disabled={isSubmitting || isSubmitted}
+                className="w-full px-6 py-4 flex items-center justify-center gap-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-md font-semibold text-lg disabled:cursor-not-allowed cursor-pointer disabled:bg-blue-800"
               >
                 <CheckCircle2 className="w-5 h-5" />
-                Submit Quiz
+                {isSubmitting ? 'Submitting' : 'Submit Quiz'}
               </motion.button>
             </div>
           </>

@@ -69,7 +69,7 @@ const SidebarTrainee = ({ mobileOpen, setMobileOpen }) => {
           </span>
           {/* Close btn mobile */}
           <button
-            className="absolute top-4 right-4 text-white md:hidden"
+            className="absolute top-4 right-4 text-white md:hidden cursor-pointer"
             onClick={() => setMobileOpen(false)}
             aria-label="Close sidebar"
           >

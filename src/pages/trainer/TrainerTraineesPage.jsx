@@ -126,8 +126,8 @@ const TrainerTraineesPage = () => {
   /**
    * @Fetch trainees from backend api
    */
-  const handleFetchTrainees = async () => {
-    setLoading(true);
+  const handleFetchTrainees = async (showLoading) => {
+    if(showLoading) setLoading(true);
     try {
       const response = await trainerService.getTrainees();
       setTrainees(response.data);
@@ -135,7 +135,7 @@ const TrainerTraineesPage = () => {
     } catch (error) {
       setError(error.message || "An error occured while fetching trainees");
     } finally {
-      setLoading(false);
+      if(showLoading) setLoading(false);
     }
   };
 
@@ -152,11 +152,11 @@ const TrainerTraineesPage = () => {
 
   useEffect(() => {
   // Initial fetch
-      handleFetchTrainees();
+      handleFetchTrainees(true);
 
   // Poll every 1 minute
   const interval = setInterval(() => {
-      handleFetchTrainees();
+      handleFetchTrainees(false);
   }, 60000);
 
   // Cleanup interval on unmount

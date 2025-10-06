@@ -97,6 +97,7 @@ const SignInForm = ({ setCurrentAuth }) => {
                 onChange={handleChange}
                 required
               />
+              {/**fixed logging in when showing encryption */}
               <button 
               type="button"
               onClick={() => setShowPassword(prev => !prev)}

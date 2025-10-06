@@ -57,6 +57,7 @@ const PronounceItFastPage = () => {
     //quiz!!!!
   const [quizStatus, setQuizStatus] = useState("notStarted");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
     const [currentIndex, setCurrentIndex] = useState(0);
   const [recognizedWord, setRecognizedWord] = useState("");
@@ -156,11 +157,6 @@ const PronounceItFastPage = () => {
     try {
       setQuizStatus("submitting");
 
-    setTimeout(() => {
-        setQuizStatus("completed");
-      }, 2000);
-      
-
       const completedAt = new Date()
         .toISOString()
         .slice(0, 19)
@@ -179,6 +175,8 @@ const PronounceItFastPage = () => {
       );
       console.log(result);
 
+      setQuizStatus("completed");
+
       return;
     } catch (error) {
       console.log(error);
@@ -186,22 +184,24 @@ const PronounceItFastPage = () => {
   };
 
   const handleSubmitQuiz = async () => {
+    setIsSubmitting(true);
     try {
         
         const response = await quizTraineeService.submitQuiz(quiz_id);
         console.log(response);
+        setIsSubmitted(true);
 
-        setTimeout(() => {
         SweetAlert.showSuccess(
           "Quiz Submitted",
           "Quiz Submitted Successfully",
           () => navigate("/trainee/quizzes")
         );
-      }, 2000);
 
     } catch (error) {
         console.log(error);
         SweetAlert.showError(error.message || "Something went wrong. Try again later");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -403,7 +403,7 @@ return (
           <div className="text-center">
             <button
               onClick={() => handleStartQuiz()}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg text-lg shadow-md transition-all duration-200 hover:shadow-lg inline-flex items-center gap-2"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg text-lg shadow-md transition-all duration-200 hover:shadow-lg inline-flex items-center gap-2 cursor-pointer"
             >
               Start Quiz
             </button>
@@ -451,7 +451,7 @@ return (
 
               {/* Microphone Button */}
               <button
-                className="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center justify-center gap-3 mx-auto text-lg font-semibold shadow-md"
+                className="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:bg-slate-400 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-3 mx-auto text-lg font-semibold shadow-md"
                 onClick={startRecognition}
                 disabled={isListening}
               >
@@ -486,7 +486,7 @@ return (
               <button
                 onClick={() => handleSkipWord()}
                 disabled={!skipButton}
-                className="px-6 py-3 rounded-lg border-2 border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-3 rounded-lg border-2 border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition disabled:bg-slate-200 disabled:text-slate-400 cursor-pointer disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {!skipButton && <BanIcon size={16} />}
                 Skip Word
@@ -497,7 +497,7 @@ return (
                   <button
                     disabled={currentWord.toLowerCase() !== recognizedWord}
                     onClick={() => proceedNextWord()}
-                    className="px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center gap-2"
+                    className="px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:bg-slate-400 disabled:cursor-not-allowed cursor-pointer flex items-center gap-2"
                   >
                     {currentWord.toLowerCase() !== recognizedWord ? (
                       <>
@@ -516,7 +516,8 @@ return (
                 {!isSubmitDisabled && (
                   <button
                     onClick={() => handleAnswerQuiz()}
-                    className="px-6 py-3 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition shadow-md"
+                    className="px-6 py-3 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition shadow-md cursor-pointer"
+                    
                   >
                     Finish Quiz
                   </button>
@@ -607,9 +608,10 @@ return (
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSubmitQuiz()}
-              className="w-full px-6 py-4 flex items-center justify-center gap-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-md font-semibold text-lg"
+              disabled={isSubmitting || isSubmitted}
+              className="w-full px-6 py-4 flex items-center justify-center gap-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-800 transition shadow-md font-semibold text-lg cursor-pointer disabled:cursor-not-allowed"
             >
-              Submit Quiz
+              {isSubmitting ? 'Submitting' : 'Submit Quiz'}
             </motion.button>
           </div>
         </>

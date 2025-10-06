@@ -20,15 +20,9 @@ const formatDateOnly = (date) => {
   });
 };
 
+{/**fixes */}
   const getScore = () => {
-    switch (quiz.type) {
-      case "Shoot the Word":
-        return `Collected points: ${quiz.score}`;
-      case "Pronounce it Fast":
-        return `Score: ${quiz.score} / ${quiz.total_points}`;
-      default:
-        return `Score: ${quiz.score}`;
-    }
+        return `Score: ${quiz.score}/${quiz.total_points}`;
   };
 
   const DetailRow = ({ icon: Icon, label }) => (
