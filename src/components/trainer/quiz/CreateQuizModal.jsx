@@ -22,7 +22,9 @@ const CreateQuizModal = ({ isOpen, onClose, onCreate }) => {
 
 const handleQuestionChange = (index, field, value) => {
   const updatedQuestions = [...questions];
-  updatedQuestions[index][field] = sanitizeWord(value);
+  updatedQuestions[index][field] = field === "question_word"
+    ? sanitizeWord(value)
+    : value; // don't sanitize difficulty
   setQuestions(updatedQuestions);
 };
 

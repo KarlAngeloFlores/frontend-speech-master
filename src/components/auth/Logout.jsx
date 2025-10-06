@@ -17,11 +17,12 @@ export const Logout = ({user}) => {
 
   const handleLogout = async () => {
     //remove access token on local storage
+    localStorage.removeItem("accessToken");
+    navigate("/");
     try {
 
         await authService.logout();
-        localStorage.removeItem("accessToken");
-        navigate("/");
+
     } catch (error) {
         console.log(error)
     }
