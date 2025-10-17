@@ -37,6 +37,29 @@ const traineeService = {
         }
     },
 
+    scenarioFeedback: async (audioBlob, scenario, question) => {
+        try {
+            
+            const formData = new FormData();
+            formData.append("audio", audioBlob, "scenario_response.webm");
+            formData.append("scenario", scenario);
+            formData.append("question", question);
+
+
+            const { data } = await api.post('/trainee/openai/scenario-feedback', formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+
+            return data;
+
+        } catch (error) {
+            const msg = error.response?.data?.message || error.message;
+            throw new Error(msg);
+        }
+    },
+
     /**
      * @HOME_PAGE_OR_QUIZ
      */

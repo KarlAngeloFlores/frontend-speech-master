@@ -33,6 +33,7 @@ import TraineeModulePage from './pages/trainee/TraineeModulePage'
 import TraineeDictionaryPage from './pages/trainee/TraineeDictionaryPage'
 import ShootTheWordPage from './pages/trainee/ShootTheWordPage'
 import PronounceItFastPage from './pages/trainee/PronounceItFastPage'
+import InteractPage from './pages/trainee/InteractPage'
 
 
 function App() {
@@ -109,7 +110,12 @@ function App() {
               <ShootTheWordPage />
           </ProtectedRoute>} />
 
-          <Route path='/trainee/pending' element={< PendingPage/>}/>
+          <Route path='/trainee/interact' element = {
+            <ProtectedRoute allowedRoles={["trainee"]}>
+              <InteractPage />
+          </ProtectedRoute>} />
+
+          <Route path='/trainee/pending' element={<PendingPage/>}/>
           
       </Routes>
 

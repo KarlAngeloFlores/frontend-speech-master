@@ -64,13 +64,6 @@ const Script = ({}) => {
     try {
       // Simulate analysis
       await new Promise(resolve => setTimeout(resolve, 3000));
-      const mockFeedback = {
-        result: {
-          score: "85/100",
-          feedback: "Great job! Your pronunciation was clear and your pace was well-controlled. Consider adding more emphasis on key points to make your delivery more engaging. Your articulation was excellent throughout the reading."
-        }
-      };
-
       const data = await traineeService.analyzeVoice(blob, script);
       setFeedbackState((prev) => ({...prev, isLoading: false, error: null, value: data}));
     } catch (error) {
@@ -205,7 +198,7 @@ return (
             {!recording ? (
               <button
                 onClick={startRecording}
-                className="flex items-center gap-3 px-8 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all font-semibold text-lg shadow-md hover:shadow-md"
+                className="flex items-center gap-3 px-8 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all font-semibold text-lg shadow-md hover:shadow-md cursor-pointer"
               >
                 <Mic className="w-6 h-6" />
                 Start Recording
@@ -214,7 +207,7 @@ return (
               <div className="flex flex-col items-center gap-4">
                 <button
                   onClick={stopRecording}
-                  className="flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-semibold text-lg shadow-md hover:shadow-md"
+                  className="flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-semibold text-lg shadow-md hover:shadow-md cursor-pointer cursor-pointer"
                 >
                   <MicOff className="w-6 h-6" />
                   Stop Recording

@@ -6,7 +6,8 @@ import {
   BarChart2, 
   BookMarked, 
   Menu, 
-  X 
+  X, 
+  Mic
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
@@ -36,6 +37,11 @@ const navItems = [
     icon: <FileText className="w-5 h-5 mr-3" />,
     path: "/trainee/modules",
   },
+  {
+    name: "Talk to AI",
+    icon: <Mic className="w-5 h-5 mr-3" />,
+    path: "/trainee/interact",
+  }
 ];
 
 const SidebarTrainee = ({ mobileOpen, setMobileOpen }) => {
