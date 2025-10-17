@@ -9,6 +9,9 @@ const DictionaryTab = () => {
   const [error, setError] = useState("");
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [showSpeedControl, setShowSpeedControl] = useState(true);
+  const [openAIDef, setOpenAIDef] = useState(null);
+  const [openAILoading, setOpenAILoading] = useState(false);
+  const [openAIError, setOpenAIError] = useState("");
 
   const wordRef = useRef(null);
 
@@ -27,30 +30,49 @@ const handleWordScroll = () => {
     { label: "Very Fast", value: 1.5 }
   ];
 
+  const API_URL = import.meta.env.VITE_API_URL;
+  const open_ai_api = `${API_URL}/trainee/alternative-dictionary/${searchTerm.toLowerCase()}`;
+  const proxy_api = `${API_URL}/trainee/dictionary/${searchTerm.toLowerCase()}`;
+
   const searchWord = async (word) => {
     if (!word.trim()) return;
-    
     setLoading(true);
     setError("");
     setWordData(null);
-
+    setOpenAIDef(null);
+    setOpenAIError("");
     try {
-      const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`);
-      
+      const response = await fetch(proxy_api);
       if (!response.ok) {
         throw new Error("Word not found");
       }
-      
       const data = await response.json();
       setWordData(data[0]);
-
       setTimeout(() => {
-  handleWordScroll();
-}, 100); // small delay so React renders first
+        handleWordScroll();
+      }, 100);
     } catch (err) {
-      setError(err.message === "Word not found" ? "Word not found in dictionary" : "Error fetching word definition");
+      setError("Word not available in the source");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchOpenAIDefinition = async () => {
+    setOpenAILoading(true);
+    setOpenAIError("");
+    setOpenAIDef(null);
+    try {
+      const response = await fetch(open_ai_api);
+      if (!response.ok) {
+        throw new Error("OpenAI definition not found");
+      }
+      const data = await response.json();
+      setOpenAIDef(data);
+    } catch (err) {
+      setOpenAIError("Failed to fetch OpenAI definition");
+    } finally {
+      setOpenAILoading(false);
     }
   };
 
@@ -126,10 +148,26 @@ const handleWordScroll = () => {
         </div>
       </div>
 
-      {/* Error Message */}
+      {/* Error Message & OpenAI Fallback */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
-          <p className="text-red-700">{error}</p>
+        <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6 text-center">
+          <p className="text-red-700 mb-2">{error}</p>
+          <button
+            onClick={fetchOpenAIDefinition}
+            disabled={openAILoading}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors cursor-pointer"
+          >
+            {openAILoading ? <Loader className="h-4 w-4 animate-spin inline-block" /> : "Try AI Dictionary"}
+          </button>
+          {openAIError && <p className="text-red-500 mt-2">{openAIError}</p>}
+        </div>
+      )}
+
+      {/* OpenAI Definition Fallback */}
+      {openAIDef && (
+        <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6 text-center">
+          <h3 className="text-xl font-bold text-blue-700 mb-2">AI Dictionary Result</h3>
+          <p className="text-lg text-gray-800 mb-1"><span className="font-semibold">{openAIDef.word}:</span> {openAIDef.definition}</p>
         </div>
       )}
 
