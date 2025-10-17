@@ -3,7 +3,8 @@ import SidebarTrainee from '../../components/SidebarTrainee'
 import { useState } from 'react';
 import { Logout } from '../../components/auth/Logout';
 import { Menu } from 'lucide-react';
-import InteractContent from '../../components/trainee/interact/interactContent';
+import TalkContent from '../../components/trainee/interact/TalkContent';
+
 
 const InteractPage = () => {
 
@@ -36,7 +37,7 @@ const InteractPage = () => {
         </header>
 
         <div className="sm:p-8 p-4 flex-1 w-full">
-            <InteractContent />
+            <TalkContent />
         </div>
         </main>
     </div>

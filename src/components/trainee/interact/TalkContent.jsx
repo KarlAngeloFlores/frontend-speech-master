@@ -1,4 +1,3 @@
-import React, { useState, useRef } from "react";
 import {
   Mic,
   MicOff,
@@ -10,8 +9,10 @@ import {
 } from "lucide-react";
 import traineeService from "../../../services/trainee.service";
 import "../../../styles/animations.css";
+import { useState } from "react";
+import { useRef } from "react";
 
-const InteractContent = () => {
+const TalkContent = () => {
   const scenarios = {
     "Introduce Yourself": [
       { id: 1, ai: "Hello! Can you introduce yourself?" },
@@ -234,4 +235,4 @@ const InteractContent = () => {
   );
 };
 
-export default InteractContent;
+export default TalkContent;
