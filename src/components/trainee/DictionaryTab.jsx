@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Search, Volume2, BookOpen, Loader, Settings } from "lucide-react";
-import "../../styles/animations.css"
+import "../../styles/animations.css";
 
 const DictionaryTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,11 +15,11 @@ const DictionaryTab = () => {
 
   const wordRef = useRef(null);
 
-const handleWordScroll = () => {
-  if (wordRef.current) {
-    wordRef.current.scrollIntoView({ behavior: "smooth" });
-  }
-};
+  const handleWordScroll = () => {
+    if (wordRef.current) {
+      wordRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   // Speed levels: Very Slow, Slow, Normal, Fast, Very Fast
   const speedLevels = [
@@ -27,7 +27,7 @@ const handleWordScroll = () => {
     { label: "Slow", value: 0.75 },
     { label: "Normal", value: 1 },
     { label: "Fast", value: 1.25 },
-    { label: "Very Fast", value: 1.5 }
+    { label: "Very Fast", value: 1.5 },
   ];
 
   const API_URL = import.meta.env.VITE_API_URL;
@@ -69,8 +69,9 @@ const handleWordScroll = () => {
       }
       const data = await response.json();
       setOpenAIDef(data);
+      setError("");
     } catch (err) {
-      setOpenAIError("Failed to fetch OpenAI definition");
+      setOpenAIError("Something went wrong. Please try again later.");
     } finally {
       setOpenAILoading(false);
     }
@@ -80,21 +81,19 @@ const handleWordScroll = () => {
     e.preventDefault();
     searchWord(searchTerm);
   };
-  
+
   const handleSpeak = (word) => {
-    if(!word.trim()) return;
+    if (!word.trim()) return;
 
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.rate = playbackSpeed;
 
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
-  }
-
+  };
 
   return (
     <div className="mb-2 scroll-smooth">
-
       <div className="bg-white p-4 mb-4 shadow-md rounded-lg border border-slate-200 modal-animation">
         <div className="flex gap-4 mb-4 ">
           <div className="flex-1 relative">
@@ -102,8 +101,14 @@ const handleWordScroll = () => {
             <input
               type="text"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSubmit(e)}
+              onChange={(e) => {
+                const formatted = e.target.value
+                  .replace(/\s+/g, "")
+                  .toLowerCase();
+                setSearchTerm(formatted);
+              }}
+              onKeyPress={(e) => e.key === "Enter" && handleSubmit(e)}
+              disabled={loading}
               placeholder="Search for a word..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             />
@@ -113,13 +118,17 @@ const handleWordScroll = () => {
             disabled={loading || !searchTerm.trim()}
             className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center gap-2 cursor-pointer"
           >
-            {loading ? <Loader className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
+            {loading ? (
+              <Loader className="h-4 w-4 animate-spin" />
+            ) : (
+              <Search className="h-4 w-4" />
+            )}
             Search
           </button>
         </div>
 
         {/* Speed Control */}
-        <div className="flex sm:flex-row flex-col gap-3" >
+        <div className="flex sm:flex-row flex-col gap-3">
           <button
             onClick={() => setShowSpeedControl(!showSpeedControl)}
             className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition-colors cursor-pointer"
@@ -127,7 +136,7 @@ const handleWordScroll = () => {
             <Settings className="h-4 w-4" />
             Pronunciation Speed
           </button>
-          
+
           {showSpeedControl && (
             <div className="flex items-center gap-2">
               {speedLevels.map((speed, index) => (
@@ -136,8 +145,8 @@ const handleWordScroll = () => {
                   onClick={() => setPlaybackSpeed(speed.value)}
                   className={`px-3 py-1 text-xs rounded-full transition-colors cursor-pointer ${
                     playbackSpeed === speed.value
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
                 >
                   {speed.label}
@@ -157,7 +166,11 @@ const handleWordScroll = () => {
             disabled={openAILoading}
             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
-            {openAILoading ? <Loader className="h-4 w-4 animate-spin inline-block" /> : "Try AI Dictionary"}
+            {openAILoading ? (
+              <Loader className="h-4 w-4 animate-spin inline-block" />
+            ) : (
+              "Try AI Dictionary"
+            )}
           </button>
           {openAIError && <p className="text-red-500 mt-2">{openAIError}</p>}
         </div>
@@ -165,33 +178,73 @@ const handleWordScroll = () => {
 
       {/* OpenAI Definition Fallback */}
       {openAIDef && (
-        <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6 text-center">
-          <h3 className="text-xl font-bold text-blue-700 mb-2">AI Dictionary Result</h3>
-          <p className="text-lg text-gray-800 mb-1"><span className="font-semibold">{openAIDef.word}:</span> {openAIDef.definition}</p>
+        <div
+          className="dictionary-container bg-white p-4 mb-4 shadow-md rounded-lg border border-slate-200"
+          ref={wordRef}
+        >
+          {/* Word Header */}
+          <div className="mb-2 pb-4 border-b border-gray-200">
+            <div className="flex items-center gap-4 mb-2">
+              <h2 className="text-3xl font-bold text-blue-700 capitalize">
+                {openAIDef.word}
+              </h2>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleSpeak(openAIDef.word)}
+                  className="p-2 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors cursor-pointer"
+                  title={`Play pronunciation`}
+                >
+                  <Volume2 className="h-5 w-5 text-blue-600" />
+                </button>
+                <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                  {speedLevels.find((s) => s.value === playbackSpeed)?.label}
+                </span>
+              </div>
+            </div>
+          </div>
+          {/* Definition */}
+          <div className="space-y-2">
+            <div className="border-l-4 border-l-blue-500 pl-4">
+              <h3 className="text-xl font-semibold text-blue-600 mb-3 flex items-center gap-2">
+                <BookOpen className="h-5 w-5" />
+                Definition
+              </h3>
+              <div className="space-y-4">
+                <div className="bg-gray-50 rounded-md p-4">
+                  <p className="text-gray-800 mb-2">{openAIDef.definition}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
       {/* Word Definition */}
       {wordData && (
-        <div className="dictionary-container bg-white p-4 mb-4 shadow-md rounded-lg border border-slate-200" ref={wordRef}>
+        <div
+          className="dictionary-container bg-white p-4 mb-4 shadow-md rounded-lg border border-slate-200"
+          ref={wordRef}
+        >
           {/* Word Header */}
           <div className="mb-2 pb-4 border-b border-gray-200">
             <div className="flex items-center gap-4 mb-2">
               <h2 className="text-3xl font-bold text-gray-900 capitalize">
                 {wordData.word}
               </h2>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleSpeak(searchTerm)}
-                    className="p-2 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors"
-                    title={`Play pronunciation at ${speedLevels.find(s => s.value === playbackSpeed)?.label} speed`}
-                  >
-                    <Volume2 className="h-5 w-5 text-blue-600" />
-                  </button>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                    {speedLevels.find(s => s.value === playbackSpeed)?.label}
-                  </span>
-                </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleSpeak(searchTerm)}
+                  className="p-2 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors cursor-pointer"
+                  title={`Play pronunciation at ${
+                    speedLevels.find((s) => s.value === playbackSpeed)?.label
+                  } speed`}
+                >
+                  <Volume2 className="h-5 w-5 text-blue-600" />
+                </button>
+                <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                  {speedLevels.find((s) => s.value === playbackSpeed)?.label}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -203,7 +256,7 @@ const handleWordScroll = () => {
                   <BookOpen className="h-5 w-5" />
                   {meaning.partOfSpeech}
                 </h3>
-                
+
                 <div className="space-y-4">
                   {meaning.definitions?.slice(0, 3).map((def, defIndex) => (
                     <div key={defIndex} className="bg-gray-50 rounded-md p-4">
@@ -215,7 +268,9 @@ const handleWordScroll = () => {
                       )}
                       {def.synonyms && def.synonyms.length > 0 && (
                         <div className="mt-2">
-                          <span className="text-sm font-medium text-green-700">Synonyms: </span>
+                          <span className="text-sm font-medium text-green-700">
+                            Synonyms:{" "}
+                          </span>
                           <span className="text-sm text-green-600">
                             {def.synonyms.slice(0, 3).join(", ")}
                           </span>
@@ -226,11 +281,14 @@ const handleWordScroll = () => {
                 </div>
 
                 {/* Part of speech synonyms and antonyms */}
-                {(meaning.synonyms?.length > 0 || meaning.antonyms?.length > 0) && (
+                {(meaning.synonyms?.length > 0 ||
+                  meaning.antonyms?.length > 0) && (
                   <div className="mt-4 pt-3 border-t border-gray-200">
                     {meaning.synonyms?.length > 0 && (
                       <div className="mb-2">
-                        <span className="font-medium text-green-700">Synonyms: </span>
+                        <span className="font-medium text-green-700">
+                          Synonyms:{" "}
+                        </span>
                         <span className="text-green-600">
                           {meaning.synonyms.slice(0, 5).join(", ")}
                         </span>
@@ -238,7 +296,9 @@ const handleWordScroll = () => {
                     )}
                     {meaning.antonyms?.length > 0 && (
                       <div>
-                        <span className="font-medium text-red-700">Antonyms: </span>
+                        <span className="font-medium text-red-700">
+                          Antonyms:{" "}
+                        </span>
                         <span className="text-red-600">
                           {meaning.antonyms.slice(0, 5).join(", ")}
                         </span>
@@ -270,12 +330,15 @@ const handleWordScroll = () => {
       )}
 
       {/* Empty State */}
-      {!wordData && !loading && !error && (
+      {!wordData && !loading && !error && !openAIDef && (
         <div className="bg-white p-4 mb-4 shadow-md rounded-md border border-slate-200 text-center modal-animation">
           <BookOpen className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-xl font-medium text-gray-500 mb-2">Search for a word</h3>
+          <h3 className="text-xl font-medium text-gray-500 mb-2">
+            Search for a word
+          </h3>
           <p className="text-gray-400">
-            Enter a word in the search box above to get its definition and pronunciation.
+            Enter a word in the search box above to get its definition and
+            pronunciation.
           </p>
         </div>
       )}
