@@ -134,7 +134,7 @@ useEffect(() => {
                     </div>
                   ) : (
                     modules.map((module) => (
-                      <ModuleCard module={module} handleOpenModule={handleOpenModule}/>
+                      <ModuleCard key={`module-${module.id}`} module={module} handleOpenModule={handleOpenModule}/>
                     ))
                   )}
                 </div>
