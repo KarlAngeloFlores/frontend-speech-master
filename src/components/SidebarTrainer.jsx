@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 const navItems = [
   {
     //icon for report
-    name: "Progress reports",
+    name: "Progress Reports",
     icon: <BarChart2 className="w-5 h-5 mr-3" />,
     path: "/trainer/progress-reports",
   },
