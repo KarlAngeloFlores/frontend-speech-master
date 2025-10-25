@@ -124,7 +124,7 @@ useEffect(() => {
             <Menu className="w-7 h-7" />
           </button>
           <section>
-            <h1 className="text-2xl font-bold text-blue-700">Home</h1>
+            <h1 className="text-2xl font-bold text-blue-700">Progress Reports</h1>
             <p>Comprehensive insights into quiz performance and trainees progress</p>
           </section>
           </div>
