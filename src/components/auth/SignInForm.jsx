@@ -37,7 +37,7 @@ const SignInForm = ({ setCurrentAuth }) => {
       }
 
       if (data?.role === 'trainer' && data?.status === 'verified') {
-        navigate('/trainer/home');
+        navigate('/trainer/progress-reports');
       } else if (data?.role === 'trainee' && data?.status === 'verified') {
         navigate('/trainee/quizzes');
       } else {
