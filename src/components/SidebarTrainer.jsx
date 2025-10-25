@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Home, FileText, BookOpen, BarChart2, Users, Menu, X } from "lucide-react";
+import { Home, FileText, BookOpen, BarChart2, Users, Menu, X,  } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const navItems = [
   {
-    name: "Home",
-    icon: <Home className="w-5 h-5 mr-3" />,
-    path: "/trainer/home",
+    //icon for report
+    name: "Progress reports",
+    icon: <BarChart2 className="w-5 h-5 mr-3" />,
+    path: "/trainer/progress-reports",
   },
   {
     name: "Quizzes",

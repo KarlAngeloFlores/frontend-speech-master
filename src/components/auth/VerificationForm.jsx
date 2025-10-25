@@ -145,7 +145,7 @@ const VerificationForm = ({ type, handleVerification, email }) => {
             <button
               type="button"
               disabled={resending}
-              className="text-blue-600 hover:text-blue-500 font-medium transition-colors disabled:opacity-50"
+              className="text-blue-600 hover:text-blue-500 font-medium transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
               onClick={handleResend}
             >
               {resending ? <Loader2 className="animate-spin h-4 w-4 inline-block" /> : "Resend"}

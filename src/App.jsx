@@ -51,7 +51,7 @@ function App() {
           {/**
            * @TRAINER_PAGES
            */}
-        <Route path='/trainer/home' element={
+        <Route path='/trainer/progress-reports' element={
           <ProtectedRoute allowedRoles={["trainer"]}>
             <TrainerHomePage />
           </ProtectedRoute>} />
