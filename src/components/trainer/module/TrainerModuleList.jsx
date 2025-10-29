@@ -5,6 +5,7 @@ const TrainerModuleList = ({
   onOpenModule,
   onOpenUpdateModule,
   onDeleteModule,
+  onArchiveModule,
   formatDate,
 }) => {
   if (modules.length === 0) {
@@ -42,7 +43,7 @@ const TrainerModuleList = ({
           <tr className="bg-gray-100">
             <th className="p-4 text-left font-semibold text-gray-700">Title</th>
             <th className="p-4 text-left font-semibold text-gray-700">
-              Description
+              Category
             </th>
             <th className="p-4 text-left font-semibold text-gray-700">Created</th>
             <th className="p-4 text-right font-semibold text-gray-700">
@@ -66,27 +67,40 @@ const TrainerModuleList = ({
               </td>
               <td className="p-4">
                 <div className="text-gray-600 text-sm line-clamp-2 max-w-40 min-w-40 truncate">
-                  {module.description || "No description"}
+                  {module.category || "No category"}
                 </div>
               </td>
               <td className="p-4 text-gray-600 text-sm">
                 {formatDate(module.created_at)}
               </td>
               <td className="p-4">
+                {module.status !== 'archived' ? (
                 <div className="flex gap-2 justify-end">
+                  
                   <button
                     onClick={() => onOpenUpdateModule(module)}
                     className="px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition text-sm font-medium cursor-pointer"
                   >
                     Edit
                   </button>
-                  <button
+                  {/* <button
                     onClick={() => onDeleteModule(module)}
                     className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition text-sm font-medium cursor-pointer"
                   >
                     Delete
+                  </button> */}
+
+                  <button onClick={() => onArchiveModule(module)} className="px-3 py-2 text-yellow-600 text-sm font-medium cursor-pointer">
+                    Archive
                   </button>
                 </div>
+              ) : (
+                <div className="flex gap-2 justify-end">
+                  <span className="px-3 py-2 text-gray-500 text-sm font-medium">
+                    Archived
+                  </span>
+                </div>
+              )}
               </td>
             </tr>
           ))}

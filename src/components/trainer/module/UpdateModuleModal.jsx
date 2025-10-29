@@ -4,7 +4,7 @@ import "../../../styles/animations.css"
 
 const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -12,14 +12,14 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
   useEffect(() => {
     if (module) {
       setTitle(module.title || "");
-      setDescription(module.description || "");
+      setCategory(module.category || "");
     }
   }, [module]);
 
   if (!isOpen) return null;
 
   const handleSubmit = async () => {
-    if (!title.trim() || !description.trim()) {
+    if (!title.trim() || !category.trim()) {
       setError("Missing inputs");
       return;
     }
@@ -27,7 +27,7 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
     setLoading(true);
     setError(null);
     try {
-      await onUpdate(title, description);
+      await onUpdate(title, category);
       onClose();
     } catch (error) {
       setError(error.message || "Something went wrong. Try again later");
@@ -39,7 +39,7 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
   const handleCancel = () => {
     setError(null);
     setTitle(module?.title || "");
-    setDescription(module?.description || ""); 
+    setCategory(module?.category || "");
     onClose();
   };
 
@@ -78,15 +78,30 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
           </div>
                     <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Description
+              Category
             </label>
-            <textarea
+            <input
               type="text"
-              placeholder="Enter module description"
-              value={description}
-              maxLength={200}
-              onChange={(e) => setDescription(e.target.value)}
-              className=" resize-none w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 h-28"
+              placeholder="Enter module category"
+              value={category}
+              maxLength={100}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              disabled={loading}
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Category
+            </label>
+            <input
+              type="text"
+              placeholder="Enter module category"
+              value={category}
+              maxLength={100}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               disabled={loading}
               required
             />

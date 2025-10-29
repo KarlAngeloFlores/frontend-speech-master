@@ -55,9 +55,17 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
         "application/pdf",
         "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+        "image/bmp",
+        "image/svg+xml",
+        "image/tiff",
+        "image/x-icon",
       ];
       if (!allowedTypes.includes(selectedFile.type)) {
-        alert("Please select a PDF or Word document");
+        alert("Please select a PDF, Word document, or image file");
         return;
       }
       setFile(selectedFile);
@@ -182,8 +190,8 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
               <h2 className="text-2xl font-bold text-blue-700 mb-2">
                 {moduleData.title}
               </h2>
-              {moduleData.description && (
-                <p className="text-gray-700 mb-3">{moduleData.description}</p>
+              {moduleData.category && (
+                <p className="text-gray-700 mb-3">{moduleData.category}</p>
               )}
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Calendar className="w-4 h-4" />
@@ -220,7 +228,7 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
             <input
               id="file-upload"
               type="file"
-              accept=".pdf,.doc,.docx"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.webp,.bmp,.svg,.tiff,.ico"
               onChange={handleFileChange}
               className="w-full border-2 border-gray-300 p-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all cursor-pointer"
             />

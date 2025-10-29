@@ -26,9 +26,9 @@ const moduleService = {
     }
   },
 
-  createModule: async (title, description) => {
+  createModule: async (title, category) => {
     try {
-      const { data } = await api.post("/module", { title, description });
+      const { data } = await api.post("/module", { title, category });
       return data;
     } catch (error) {
       const msg = error.response?.data?.message || error.message;
@@ -36,9 +36,9 @@ const moduleService = {
     }
   },
 
-  updateModule: async (id, title, description) => {
+  updateModule: async (id, title, category) => {
     try {
-      const { data } = await api.patch("/module", { id, title, description });
+      const { data } = await api.patch("/module", { id, title, category });
       return data;
     } catch (error) {
       const msg = error.response?.data?.message || error.message;

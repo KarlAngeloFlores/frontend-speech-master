@@ -136,8 +136,8 @@ const ModuleDetailsTab = ({ module }) => {
           <h2 className="text-2xl font-bold text-blue-700 mb-2">
             {moduleData.title}
           </h2>
-          {moduleData.description && (
-            <p className="text-gray-700 mb-3 overflow-hidden">{moduleData.description}</p>
+          {moduleData.category && (
+            <p className="text-gray-700 mb-3 overflow-hidden">{moduleData.category}</p>
           )}
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <Calendar className="w-4 h-4" />

@@ -9,7 +9,7 @@ import ApproveTraineeModal from "../../components/trainer/trainees/ApproveTraine
 import { Logout } from "../../components/auth/Logout";
 import DeleteTraineeModal from "../../components/trainer/trainees/DeleteTraineeModal";
 import ViewPerformanceModal from "../../components/trainer/trainees/ViewPerformanceModal";
-
+import PendingTraineeModal from "../../components/trainer/trainees/PendingTraineeModal";
 const TrainerTraineesPage = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -21,8 +21,7 @@ const TrainerTraineesPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [trainees, setTrainees] = useState([]);
-
-
+  const [openPendingModal, setOpenPendingModal] = useState(false);
 
   const filteredTrainees = trainees
     .filter(
@@ -87,6 +86,34 @@ const TrainerTraineesPage = () => {
       throw error;
     }
   };
+
+  /**
+   * @SUSPEND_TRAINEES
+   * @param {*} id 
+   * connects to backend api
+   */
+  const handleSuspendTrainee = async (id) => {
+    try {
+      const response = await trainerService.setPendingTrainee(id);
+      const updatedTrainee = response.data;
+
+      setTrainees((prev) =>
+        prev.map((trainee) =>
+          trainee.id === id ? { ...trainee, ...updatedTrainee } : trainee
+        )
+      );
+
+      setOpenPendingModal(false);
+    } catch (error) {
+      console.error("Error suspending trainee:", error);
+      throw error;
+    }
+  };
+
+  const handleOpenPending = (trainee) => {
+    setSelectedTrainee(trainee);
+    setOpenPendingModal(true);
+  }
 
   /**
    * @FUNCTIONS_AND_MODAL_FOR_DELETE_FUNCTIONALITY
@@ -259,6 +286,7 @@ const TrainerTraineesPage = () => {
                       trainee={trainee}
                       onAccept={handleOpenApprove}
                       onDelete={handleOpenDelete}
+                      onSuspend={handleOpenPending}
                       onView={handleOpenPerformance}
                     />
                   ))}
@@ -280,6 +308,13 @@ const TrainerTraineesPage = () => {
         isOpen={openDeleteModal}
         onClose={() => setOpenDeleteModal(false)}
         onDelete={handleDeleteTrainee}
+        trainee={selectedTrainee}
+      />
+
+      <PendingTraineeModal
+        isOpen={openPendingModal}
+        onClose={() => setOpenPendingModal(false)}
+        onSuspend={handleSuspendTrainee}
         trainee={selectedTrainee}
       />
 

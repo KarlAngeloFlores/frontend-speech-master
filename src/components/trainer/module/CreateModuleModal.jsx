@@ -5,7 +5,7 @@ import "../../../styles/animations.css";
 
 const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -20,8 +20,14 @@ const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
     setLoading(true);
     setError(null);
     try {
-      await onCreate(title, description);
+      if (!category.trim()) {
+        setError("Please select a category");
+        setLoading(false);
+        return;
+      }
+      await onCreate(title, category);
       setTitle(""); 
+      setCategory("");
       onClose(); // close modal after success
     } catch (err) {
       setError(err.message || "Failed to create module");
@@ -32,6 +38,7 @@ const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
 
   const handleCancel = () => {
     setTitle("");
+    setCategory("");
     setError(null);
     onClose();
   };
@@ -67,24 +74,30 @@ const CreateModuleModal = ({ isOpen, onClose, onCreate }) => {
               disabled={loading}
               required
             />
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Description
+              Category
             </label>
-            <textarea
-              type="text"
-              placeholder="Enter module description"
-              value={description}
-              maxLength={200}
-              onChange={(e) => setDescription(e.target.value)}
-              className=" resize-none w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 h-28"
+            {/**dropdown */}
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               disabled={loading}
               required
-            />
-            
+            >
+              <option value="">Select a category</option>
+              <option value="Vocabulary">Vocabulary</option>
+              <option value="Pronunciation">Pronunciation</option>
+              <option value="Grammar">Grammar</option>
+            </select>
           </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex gap-3">
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
 

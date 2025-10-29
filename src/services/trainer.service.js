@@ -20,7 +20,15 @@ const trainerService = {
             throw new Error(msg); 
         }
     },
-
+    setPendingTrainee: async (id) => {
+        try {
+            const { data } = await api.patch(`/trainer/trainees/${id}/pending`);
+            return data;
+        } catch (error) {
+            const msg = error.response?.data?.message || error.message;
+            throw new Error(msg);
+        }
+    },
     deleteTrainee: async (id) => {
         try {
             

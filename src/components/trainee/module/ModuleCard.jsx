@@ -27,9 +27,9 @@ const ModuleCard = ({ module, handleOpenModule }) => {
           {module.title}
         </h3>
       </div>
-      {module.description && (
+      {module.category && (
         <p className="text-gray-600 mb-3 break-words whitespace-pre-line line-clamp-2">
-          {module.description}
+          {module.category}
         </p>
       )}
       <div className="flex items-center gap-2 text-sm text-gray-500">

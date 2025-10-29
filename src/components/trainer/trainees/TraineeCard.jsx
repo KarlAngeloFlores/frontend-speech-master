@@ -7,10 +7,11 @@ import {
   Eye,
   UserCheck,
   UserX,
+  Clock
 } from "lucide-react";
 import "../../../styles/animations.css";
 
-const TraineeCard = ({ trainee, onAccept, onDelete, onView }) => {
+const TraineeCard = ({ trainee, onAccept, onDelete, onView, onSuspend }) => {
   const formatDate = (dateString) =>
     new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -108,6 +109,11 @@ const TraineeCard = ({ trainee, onAccept, onDelete, onView }) => {
 
         {/* Action Buttons Pending */}
         {trainee.status === "pending" && (
+          <div className="flex flex-col sm:flex-row sm:justify-center sm:gap-3">
+            <button className="w-full sm:w-auto mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-red-500 hover:bg-red-600 active:bg-red-700 text-white text-nowrap cursor-pointer" onClick={() => onDelete(trainee)}>
+              <Trash2 className="w-4 h-4" />
+              <span>Delete</span>
+            </button>
           <button
             onClick={() => onAccept(trainee)}
             className="w-full mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white cursor-pointer"
@@ -115,22 +121,25 @@ const TraineeCard = ({ trainee, onAccept, onDelete, onView }) => {
             <User className="w-4 h-4" />
             <span>Accept Application</span>
           </button>
+
+
+          </div>
         )}
 
         {/**Action Buttons Active */}
         {trainee.status === "verified" && (
           <div className="flex flex-col sm:flex-row sm:justify-center sm:gap-3">
             <button
-              onClick={() => onDelete(trainee)}
-              className="w-full sm:w-auto mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-red-500 hover:bg-red-600 text-white text-nowrap cursor-pointer"
+              onClick={() => onSuspend(trainee)}
+              className="w-full sm:w-auto mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 text-white text-nowrap cursor-pointer"
             >
-              <Trash2 className="w-4 h-4" />
-              <span>Delete</span>
+              <Clock className="w-4 h-4" />
+              <span>Set inactive</span>
             </button>
 
             <button
               onClick={() => onView(trainee)}
-              className="w-full sm:w-auto mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-green-500 hover:bg-green-600 text-white text-nowrap cursor-pointer"
+              className="w-full sm:w-auto mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white text-nowrap cursor-pointer"
             >
               <Eye className="w-4 h-4" />
               <span>View Performance</span>

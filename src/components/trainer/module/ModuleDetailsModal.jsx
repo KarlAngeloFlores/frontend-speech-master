@@ -62,17 +62,27 @@ const ModuleDetailsModal = ({ data, isOpen, onClose }) => {
   /**
    * @FOR_FILES
    */
-  const handleOpen = async (id) => {
-    console.log(id);
-    try {
-      const blob = await moduleService.getFileBlob(id);
-      console.log(blob);
-      const url = URL.createObjectURL(blob);
-      window.open(url, "_blank"); // opens PDF/Doc in new tab
-    } catch (err) {
-      console.error("Failed to open file", err);
+const handleOpen = async (id, fileType) => {
+  try {
+    const blob = await moduleService.getFileBlob(id);
+    const url = URL.createObjectURL(blob);
+    
+    // Check if it's an image
+    if (fileType.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp)$/)) {
+      // For images, you could either:
+      // Option A: Open in new tab (like current behavior)
+      window.open(url, "_blank");
+      
+      // Option B: Show in a lightbox/modal within the app
+      // (would require additional state and UI)
+    } else {
+      // For PDFs/docs, open in new tab
+      window.open(url, "_blank");
     }
-  };
+  } catch (err) {
+    console.error("Failed to open file", err);
+  }
+};
 
   const formatFileSize = (bytes) => {
     if (!bytes) return "N/A";
@@ -109,7 +119,7 @@ const ModuleDetailsModal = ({ data, isOpen, onClose }) => {
           <div className="flex flex-col md:flex-row items-center gap-3">
             <input
               type="file"
-              accept=".pdf,.doc,.docx"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.webp,.bmp,.svg,.tiff,.ico"
               onChange={handleFileChange}
               className="border-2 border-gray-500 p-2 rounded-lg w-full md:flex-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
             />
@@ -166,7 +176,7 @@ const ModuleDetailsModal = ({ data, isOpen, onClose }) => {
                   </div>
                   <div className="flex gap-2 flex-shrink-0 ml-3">
                     <button
-                      onClick={() => handleOpen(content.id)}
+                      onClick={() => handleOpen(content.id, content.file_type)}
                       className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:from-blue-700 hover:to-indigo-700 transition"
                     >
                       Open
