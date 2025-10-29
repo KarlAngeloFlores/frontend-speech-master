@@ -247,7 +247,7 @@ const validateFields = () => {
                 type="button"
                 className="mt-3 text-blue-600 hover:text-blue-800 font-medium"
               >
-                + Add Another Question
+                + Add Another Word
               </button>
             </div>
           )}
@@ -282,7 +282,7 @@ const validateFields = () => {
                 type="button"
                 className="mt-3 text-blue-600 hover:text-blue-800 font-medium"
               >
-                + Add Another Question
+                + Add Another Word
               </button>
             </div>
           )}
