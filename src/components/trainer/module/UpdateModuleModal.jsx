@@ -77,10 +77,11 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
             
           </div>
                     <div>
+            {/**Dropdown */}
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Category
             </label>
-            <input
+            <select
               type="text"
               placeholder="Enter module category"
               value={category}
@@ -89,23 +90,13 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
               className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               disabled={loading}
               required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Category
-            </label>
-            <input
-              type="text"
-              placeholder="Enter module category"
-              value={category}
-              maxLength={100}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-              disabled={loading}
-              required
-            />
-            
+            >
+              <option value="">Select category</option>
+              <option value="Vocabulary">Vocabulary</option>
+              <option value="Pronunciation">Pronunciation</option>
+              <option value="Grammar">Grammar</option>
+
+            </select>
           </div>
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>

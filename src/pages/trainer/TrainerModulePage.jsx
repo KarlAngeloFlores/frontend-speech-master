@@ -38,6 +38,8 @@ const TrainerModulePage = () => {
     setLoading(true);
     try {
       const response = await moduleService.getModules();
+      const moduleHistory = await moduleService.getModuleHistory(5);
+      console.log(moduleHistory);
       console.log(response);
       setModules(response.data);
     } catch (error) {

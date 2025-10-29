@@ -1,3 +1,4 @@
+import { get } from "../../../backend/routes/module.routes";
 import api from "./api.service";
 
 const moduleService = {
@@ -19,6 +20,16 @@ const moduleService = {
   getModule: async (id, content) => {
     try {
       const { data } = await api.get(`/module/${id}/${content}`);
+      return data;
+    } catch (error) {
+      const msg = error.response?.data?.message || error.message;
+      throw new Error(msg);
+    }
+  },
+
+  getModuleHistory: async (id) => {
+    try {
+      const { data } = await api.get(`/module/history/${id}`);
       return data;
     } catch (error) {
       const msg = error.response?.data?.message || error.message;
@@ -49,6 +60,26 @@ const moduleService = {
   deleteModule: async (id) => {
     try {
       const { data } = await api.delete(`/module/${id}`);
+      return data;
+    } catch (error) {
+      const msg = error.response?.data?.message || error.message;
+      throw new Error(msg);
+    }
+  },
+
+  archiveModule: async (id) => {
+    try {
+      const { data } = await api.patch(`/module/archive/${id}`);
+      return data;
+    } catch (error) {
+      const msg = error.response?.data?.message || error.message;
+      throw new Error(msg);
+    }
+  },
+
+  restoreModule: async (id) => {
+    try {
+      const { data } = await api.patch(`/module/restore/${id}`);
       return data;
     } catch (error) {
       const msg = error.response?.data?.message || error.message;
