@@ -31,7 +31,7 @@ const NotAnsweredQuizCard = ({quiz}) => {
                     <h3 className="text-xl font-semibold text-gray-800 mb-1">
                       {quiz.title}
                     </h3>
-                    <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                    <span className="inline-block px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
                       {getQuizBadge(quiz)}
                     </span>
                   </div>
@@ -61,7 +61,7 @@ const NotAnsweredQuizCard = ({quiz}) => {
                 <div className="flex gap-2">
                   <button
                     onClick={handleStartQuiz}
-                    className="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 cursor-pointer"
+                    className="flex-1 px-3 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700 cursor-pointer"
                   >
                     Start Quiz
                   </button>

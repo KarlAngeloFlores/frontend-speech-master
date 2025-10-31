@@ -11,6 +11,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import moduleService from "../../../services/module.service";
+import FileViewerModal from "../../FileViewerModal";
 
 const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
   const [moduleData, setModuleData] = useState(null);
@@ -19,6 +20,13 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
   const [error, setError] = useState(null);
   const [moduleContents, setModuleContents] = useState([]);
   const [file, setFile] = useState(null);
+  const [viewerModal, setViewerModal] = useState({
+    isOpen: false,
+    fileUrl: null,
+    fileName: null,
+    fileType: null,
+    blobUrl: null,
+  });
 
   /**
    * @FETCH_MODULE_CONTENTS
@@ -109,11 +117,17 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
   /**
    * @OPEN_FILE
    */
-  const handleOpen = async (id) => {
+  const handleOpen = async (id, content) => {
     try {
       const blob = await moduleService.getFileBlob(id);
       const url = URL.createObjectURL(blob);
-      window.open(url, "_blank");
+      setViewerModal({
+        isOpen: true,
+        fileUrl: url,
+        fileName: content.name,
+        fileType: content.file_type,
+        blobUrl: url,
+      });
     } catch (error) {
       console.error("Failed to open file", error);
       alert("Failed to open file. Please try again.");
@@ -151,14 +165,14 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
     if (!fileType) return "text-gray-500";
     const type = fileType.toLowerCase();
     if (type.includes("pdf")) return "text-red-500";
-    if (type.includes("doc")) return "text-blue-500";
+    if (type.includes("doc")) return "text-green-500";
     return "text-gray-500";
   };
 
   if (loading && !moduleData) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <Loader2 className="w-12 h-12 animate-spin text-blue-600 mb-4" />
+        <Loader2 className="w-12 h-12 animate-spin text-green-600 mb-4" />
         <p className="text-gray-600">Loading module contents...</p>
       </div>
     );
@@ -184,10 +198,10 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
     <div className="space-y-6">
       {/* Module Info with Actions */}
       {moduleData && (
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-lg p-6">
+        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-lg p-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1 overflow-hidden wrap-break-word">
-              <h2 className="text-2xl font-bold text-blue-700 mb-2">
+              <h2 className="text-2xl font-bold text-green-700 mb-2">
                 {moduleData.title}
               </h2>
               {moduleData.category && (
@@ -201,7 +215,7 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
             <div className="flex gap-2 flex-shrink-0 ml-4">
               <button
                 onClick={() => onUpdate(moduleData)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 shadow-md cursor-pointer"
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center gap-2 shadow-md cursor-pointer"
               >
                 <Edit className="w-4 h-4" />
 
@@ -220,7 +234,7 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
       {/* Upload Section */}
       <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
         <div className="flex items-center gap-2 mb-4 cursor-pointer">
-          <Upload className="w-5 h-5 text-blue-600" />
+          <Upload className="w-5 h-5 text-green-600" />
           <h3 className="font-semibold text-gray-800 text-lg">Upload File</h3>
         </div>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
@@ -230,7 +244,7 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
               type="file"
               accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.webp,.bmp,.svg,.tiff,.ico"
               onChange={handleFileChange}
-              className="w-full border-2 border-gray-300 p-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all cursor-pointer"
+              className="w-full border-2 border-gray-300 p-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all cursor-pointer"
             />
             {file && (
               <p className="mt-2 text-sm text-gray-600">
@@ -242,7 +256,7 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
           <button
             onClick={handleUpload}
             disabled={!file || uploading}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-md w-full md:w-auto"
+            className="bg-green-600 text-white px-6 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-md w-full md:w-auto"
           >
             {uploading ? (
               <>
@@ -262,12 +276,12 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
       {/* Module Contents */}
       <div className="bg-white border-2 border-gray-200 rounded-lg p-6">
         <div className="flex items-center gap-2 mb-4">
-          <FileType className="w-5 h-5 text-blue-600" />
+          <FileType className="w-5 h-5 text-green-600" />
           <h3 className="font-semibold text-gray-800 text-lg">
             Module Contents
           </h3>
           {moduleContents.length > 0 && (
-            <span className="ml-auto bg-blue-100 text-blue-700 text-xs font-medium px-3 py-1 rounded-full">
+            <span className="ml-auto bg-green-100 text-green-700 text-xs font-medium px-3 py-1 rounded-full">
               {moduleContents.length}{" "}
               {moduleContents.length === 1 ? "file" : "files"}
             </span>
@@ -294,10 +308,10 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
             {moduleContents.map((content, index) => (
               <div
                 key={content.id}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-blue-300 hover:shadow-md transition-all group"
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-green-300 hover:shadow-md transition-all group"
               >
                 <div className="flex items-center gap-4 flex-1 min-w-0">
-                  <div className="bg-white p-3 rounded-lg border-2 border-gray-200 group-hover:border-blue-300 transition-all">
+                  <div className="bg-white p-3 rounded-lg border-2 border-gray-200 group-hover:border-green-300 transition-all">
                     <FileText
                       className={`w-6 h-6 ${getFileIconColor(content.file_type)}`}
                     />
@@ -322,8 +336,8 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
 
                 <div className="flex gap-2 flex-shrink-0 ml-4">
                   <button
-                    onClick={() => handleOpen(content.id)}
-                    className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition flex items-center gap-2 shadow-md hover:shadow-md cursor-pointer"
+                    onClick={() => handleOpen(content.id, content)}
+                    className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition flex items-center gap-2 shadow-md hover:shadow-md cursor-pointer"
                     title="Open file in new tab"
                   >
                     <ExternalLink className="w-4 h-4" />
@@ -347,8 +361,8 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
       {/* Quick Stats */}
       {moduleContents.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-blue-700">
+          <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-green-700">
               {moduleContents.length}
             </p>
             <p className="text-sm text-gray-600">Total Files</p>
@@ -367,6 +381,13 @@ const TrainerModuleDetailsTab = ({ module, onUpdate, onDelete }) => {
           </div>
         </div>
       )}
+
+      {/* File Viewer Modal */}
+      <FileViewerModal 
+        isOpen={viewerModal.isOpen} 
+        viewerData={viewerModal.isOpen ? viewerModal : null}
+        onClose={() => setViewerModal({ isOpen: false, fileUrl: null, fileName: null, fileType: null, blobUrl: null })}
+      />
     </div>
   );
 };

@@ -56,7 +56,7 @@ const PendingTraineeModal = ({ isOpen, onClose, trainee, onSuspend }) => {
           Please confirm by typing the email address of the trainee:
         </p>
 
-        <p className="font-semibold text-center text-blue-600 mb-4">
+        <p className="font-semibold text-center text-green-600 mb-4">
           {trainee.email}
         </p>
         

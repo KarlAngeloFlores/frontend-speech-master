@@ -47,7 +47,7 @@ export const Logout = ({user}) => {
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           {/* <span className="sm:block hidden">{user.first_name || 'U'} {user.last_name || 'U'}</span>
-          <div className="rounded-full bg-blue-500 w-8 h-8 font-medium flex items-center justify-center text-white">
+          <div className="rounded-full bg-green-500 w-8 h-8 font-medium flex items-center justify-center text-white">
             {getInitials(user.first_name || 'U', user.last_name || 'U')}
           </div> */}
           <ChevronDown

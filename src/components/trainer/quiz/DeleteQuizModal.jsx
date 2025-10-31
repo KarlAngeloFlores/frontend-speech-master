@@ -58,7 +58,7 @@ const DeleteQuizModal = ({ isOpen, onClose, onDelete, quiz }) => {
           Are you sure you want to delete this quiz? This action cannot be
           undone. To confirm, please type the quiz title below:
         </p>
-        <p className="font-semibold text-center text-blue-600 mb-4">
+        <p className="font-semibold text-center text-green-600 mb-4">
           {quiz.title}
         </p>
 

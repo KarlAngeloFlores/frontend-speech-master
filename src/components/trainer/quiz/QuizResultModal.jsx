@@ -118,12 +118,12 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden modal-animation">
         {/* Header */}
-        <div className="bg-blue-600 text-white p-6">
+        <div className="bg-green-600 text-white p-6">
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-3xl font-bold mb-2">Quiz Results</h2>
               {info && (
-                <div className="flex items-center gap-4 text-blue-100">
+                <div className="flex items-center gap-4 text-green-100">
                   <span className="flex items-center gap-1">
                     <Trophy size={16} />
                     {info.title}
@@ -146,24 +146,24 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
 
         {isLoading ? (
           <div className="flex items-center justify-center p-12">
-            <Loader2 size={24} className="text-blue-600" />
+            <Loader2 size={24} className="text-green-600" />
           </div>
         ) : (
           <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
             {/* Statistics Cards */}
             {info && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                <div className="bg-green-50 p-4 rounded-xl border border-green-200">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-blue-600 text-sm font-medium">
+                      <p className="text-green-600 text-sm font-medium">
                         Total Points
                       </p>
-                      <p className="text-2xl font-bold text-blue-800">
+                      <p className="text-2xl font-bold text-green-800">
                         {getTotalPoints(info)}
                       </p>
                     </div>
-                    <Award className="text-blue-500" size={24} />
+                    <Award className="text-green-500" size={24} />
                   </div>
                 </div>
 
@@ -264,7 +264,7 @@ const QuizResultModal = ({ onClose, isOpen, quiz }) => {
 
                           <td className="p-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+                              <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-white font-semibold">
                                 {result.first_name.charAt(0)}
                                 {result.last_name.charAt(0)}
                               </div>

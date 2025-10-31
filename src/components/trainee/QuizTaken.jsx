@@ -29,10 +29,10 @@ const QuizTaken = () => {
       <div className={`text-center max-w-2xl mx-auto transition-all duration-1000 ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         {/* Main Icon */}
         <div className="mb-8 relative">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-blue-100 rounded-full mb-6">
-            <CheckCircle className="w-12 h-12 text-blue-600" />
+          <div className="inline-flex items-center justify-center w-24 h-24 bg-green-100 rounded-full mb-6">
+            <CheckCircle className="w-12 h-12 text-green-600" />
           </div>
-          <div className="w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
         </div>
 
         {/* Main Message */}
@@ -47,12 +47,12 @@ const QuizTaken = () => {
         </div>
 
         {/* Info Card */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+        <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
           <div className="flex items-center justify-center gap-2 mb-3">
-            <Clock className="w-5 h-5 text-blue-600" />
-            <span className="text-blue-800 font-semibold">Quiz Status</span>
+            <Clock className="w-5 h-5 text-green-600" />
+            <span className="text-green-800 font-semibold">Quiz Status</span>
           </div>
-          <p className="text-blue-700 text-sm">
+          <p className="text-green-700 text-sm">
             Your quiz submission has been recorded and is being processed. 
             You can check your results in the dashboard.
           </p>
@@ -62,7 +62,7 @@ const QuizTaken = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
           <button
             onClick={handleGoHome}
-            className="group flex items-center gap-3 px-8 py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all duration-300 hover:shadow-lg min-w-[160px] cursor-pointer"
+            className="group flex items-center gap-3 px-8 py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-all duration-300 hover:shadow-lg min-w-[160px] cursor-pointer"
           >
             <Home className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
             Back to Dashboard
@@ -71,7 +71,7 @@ const QuizTaken = () => {
       </div>
 
       {/* Corner indicator */}
-      <div className="absolute top-6 right-6 text-blue-400 text-xs font-medium tracking-wider">
+      <div className="absolute top-6 right-6 text-green-400 text-xs font-medium tracking-wider">
         COMPLETED
       </div>
     </div>

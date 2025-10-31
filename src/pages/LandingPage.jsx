@@ -1,6 +1,8 @@
 import { ArrowRight, Check, Mic, WholeWord } from 'lucide-react'
 // import NavHeader from '../components/NavHeader'
 import { useNavigate } from 'react-router-dom'
+import Logo from '../components/Logo';
+
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -32,16 +34,14 @@ const LandingPage = () => {
       <section className="flex-1 flex items-center justify-center py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center items-center gap-2 mb-6">
-            <span className='mr-1 font-bold text-2xl py-2 px-4 text-white from-blue-600 to-indigo-600 bg-gradient-to-r rounded-lg'>
-              S
-            </span>
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-transparent bg-clip-text font-bold text-4xl md:text-5xl">
+            <Logo className="w-12 h-12" />
+            <span className="bg-gradient-to-r from-green-600 to-emerald-600 text-transparent bg-clip-text font-bold text-4xl md:text-5xl">
               SpeechMaster
             </span>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
             Practice Speech<br />
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
               Quick and Easy
             </span>
           </h1>
@@ -52,7 +52,7 @@ const LandingPage = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
               onClick={() => navigate('/auth')}
-              className="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all transform hover:scale-105 flex items-center shadow-md cursor-pointer"
+              className="group bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-green-700 hover:to-emerald-700 transition-all transform hover:scale-105 flex items-center shadow-md cursor-pointer"
             >
               Get Started
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -62,12 +62,12 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-blue-50">
+      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-green-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
               Everything you need to <br />
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                 practice your skills
               </span>
             </h2>
@@ -79,9 +79,9 @@ const LandingPage = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="group p-8 bg-blue-50 rounded-xl border border-blue-200 hover:border-blue-400 transition-all hover:scale-105 shadow"
+                className="group p-8 bg-green-50 rounded-xl border border-green-200 hover:border-green-400 transition-all hover:scale-105 shadow"
               >
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   {feature.icon}
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-gray-900">{feature.title}</h3>
@@ -97,11 +97,11 @@ const LandingPage = () => {
     <h3 className="text-2xl font-bold mb-8 text-center text-gray-900">Frequently Asked Questions</h3>
     <div className="space-y-6">
       {/* <div>
-        <h4 className="font-semibold text-blue-700">Is SpeechMaster free?</h4>
+        <h4 className="font-semibold text-green-700">Is SpeechMaster free?</h4>
         <p className="text-gray-700">Yes! You can get started for free. Premium features may be added in the future.</p>
       </div> */}
       <div>
-        <h4 className="font-semibold text-blue-700">Do I need a microphone?</h4>
+        <h4 className="font-semibold text-green-700">Do I need a microphone?</h4>
         <p className="text-gray-700">A microphone is recommended for pronunciation practice, but other features work without one.</p>
       </div>
       {/* Add more questions as needed */}
@@ -112,7 +112,7 @@ const LandingPage = () => {
       {/* Footer */}
       <footer className="py-10 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="border-t border-blue-200 pt-6 text-center text-gray-600">
+          <div className="border-t border-green-200 pt-6 text-center text-gray-600">
             <p>&copy; 2025 SpeechMaster. All rights reserved.</p>
           </div>
         </div>

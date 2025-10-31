@@ -108,14 +108,14 @@ const TrainerQuizzesPage = () => {
         <header className="sm:px-8 sm:py-6 px-4 py-3 bg-white shadow flex items-center justify-between gap-4">
           <div className="flex gap-2">
           <button
-            className="md:hidden bg-white text-blue-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
+            className="md:hidden bg-white text-green-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
             onClick={() => setMobileOpen(true)}
             aria-label="Open sidebar"
           >
             <Menu className="w-7 h-7" />
           </button>
           <section>
-            <h1 className="text-2xl font-bold text-blue-700">Quizzes</h1>
+            <h1 className="text-2xl font-bold text-green-700">Quizzes</h1>
             <p>Manage your quizzes here.</p>
           </section>
           </div>
@@ -131,7 +131,7 @@ const TrainerQuizzesPage = () => {
     <input
       type="text"
       placeholder="Search quizzes..."
-      className="border-2 border-gray-500 py-2 pl-4 pr-2 rounded-lg w-full sm:w-auto flex-1 active:ring-2 active:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+      className="border-2 border-gray-500 py-2 pl-4 pr-2 rounded-lg w-full sm:w-auto flex-1 active:ring-2 active:ring-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}      
     />
@@ -140,7 +140,7 @@ const TrainerQuizzesPage = () => {
     <select 
       name="category" 
       id="category" 
-      className="border-2 border-gray-500 py-2 pl-4 pr-2 rounded-lg w-full sm:w-auto active:ring-2 active:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+      className="border-2 border-gray-500 py-2 pl-4 pr-2 rounded-lg w-full sm:w-auto active:ring-2 active:ring-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
       onChange={(e) => setFilterTerm(e.target.value)}
     >
       <option value="">All Quiz Type</option>
@@ -151,7 +151,7 @@ const TrainerQuizzesPage = () => {
     {/* Create Quiz Button */}
     <button 
       onClick={() => setCreateOpenModal(true)} 
-      className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition ease-in-out duration-150 cursor-pointer text-white px-4 py-2 rounded-lg text-nowrap flex items-center font-semibold text-lg w-full sm:w-auto justify-center"
+      className="bg-green-600 hover:bg-green-700 active:bg-green-800 transition ease-in-out duration-150 cursor-pointer text-white px-4 py-2 rounded-lg text-nowrap flex items-center font-semibold text-lg w-full sm:w-auto justify-center"
     >
       <Plus className="w-4 h-4 inline-block mr-1" />
       Create quiz
@@ -162,12 +162,12 @@ const TrainerQuizzesPage = () => {
 
           {/**Quiz List */}
           <section>
-            <h2 className="text-xl font-bold text-blue-700 mb-4">Quizzes</h2>
+            <h2 className="text-xl font-bold text-green-700 mb-4">Quizzes</h2>
             <div className="space-y-4">
               {filteredQuizzes.length === 0 ? (
                 <div className=" flex items-center justify-center flex-col gap-2 bg-white py-12 rounded-lg shadow">
-                  <NotebookPen className="w-12 h-12 inline-block mr-2 text-blue-800" />
-                  <h2 className="text-xl text-blue-600">No quizzes found.</h2>
+                  <NotebookPen className="w-12 h-12 inline-block mr-2 text-green-800" />
+                  <h2 className="text-xl text-green-600">No quizzes found.</h2>
                 </div>
               ) : (
                 <div className="sm:grid-cols-2 grid-cols-1 grid gap-4">

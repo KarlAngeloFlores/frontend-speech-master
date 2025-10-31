@@ -311,8 +311,8 @@ return (
       {quizStatus === "notStarted" && (
         <div className="p-8 max-w-3xl w-full mx-auto rounded-xl shadow-lg bg-white border border-slate-200">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-              <Mic className="w-8 h-8 text-blue-600" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+              <Mic className="w-8 h-8 text-green-600" />
             </div>
             <h1 className="text-3xl font-bold text-slate-800 mb-2">
               Pronounce It Fast
@@ -322,7 +322,7 @@ return (
             </p>
           </div>
 
-          <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+          <div className="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
             <h2 className="text-xl font-semibold text-slate-800 mb-4">
               Before You Start
             </h2>
@@ -385,17 +385,17 @@ return (
 
           <div className="bg-slate-50 p-6 rounded-lg mb-6">
             <h3 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
-              <Trophy className="w-5 h-5 text-blue-600" />
+              <Trophy className="w-5 h-5 text-green-600" />
               Quiz Details
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-slate-600 mb-1">Total Words</p>
-                <p className="text-2xl font-bold text-blue-600">{words.length}</p>
+                <p className="text-2xl font-bold text-green-600">{words.length}</p>
               </div>
               <div>
                 <p className="text-sm text-slate-600 mb-1">Time Limit</p>
-                <p className="text-2xl font-bold text-blue-600">{timerSeconds}s</p>
+                <p className="text-2xl font-bold text-green-600">{timerSeconds}s</p>
               </div>
             </div>
           </div>
@@ -403,7 +403,7 @@ return (
           <div className="text-center">
             <button
               onClick={() => handleStartQuiz()}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg text-lg shadow-md transition-all duration-200 hover:shadow-lg inline-flex items-center gap-2 cursor-pointer"
+              className="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg text-lg shadow-md transition-all duration-200 hover:shadow-lg inline-flex items-center gap-2 cursor-pointer"
             >
               Start Quiz
             </button>
@@ -424,7 +424,7 @@ return (
               </div>
               <div className="text-right">
                 <p className="text-sm text-slate-600 font-medium">Time Remaining</p>
-                <p className="text-xl font-bold text-blue-600">{timerSeconds}s</p>
+                <p className="text-xl font-bold text-green-600">{timerSeconds}s</p>
               </div>
             </div>
 
@@ -445,13 +445,13 @@ return (
                 </span>
               </div>
 
-              <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-8 mb-6">
-                <p className="text-4xl font-bold text-blue-600">{currentWord}</p>
+              <div className="bg-green-50 border-2 border-green-200 rounded-xl p-8 mb-6">
+                <p className="text-4xl font-bold text-green-600">{currentWord}</p>
               </div>
 
               {/* Microphone Button */}
               <button
-                className="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:bg-slate-400 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-3 mx-auto text-lg font-semibold shadow-md"
+                className="px-8 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition disabled:bg-slate-400 cursor-pointer disabled:cursor-not-allowed flex items-center justify-center gap-3 mx-auto text-lg font-semibold shadow-md"
                 onClick={startRecognition}
                 disabled={isListening}
               >
@@ -497,7 +497,7 @@ return (
                   <button
                     disabled={currentWord.toLowerCase() !== recognizedWord}
                     onClick={() => proceedNextWord()}
-                    className="px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:bg-slate-400 disabled:cursor-not-allowed cursor-pointer flex items-center gap-2"
+                    className="px-6 py-3 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700 transition disabled:bg-slate-400 disabled:cursor-not-allowed cursor-pointer flex items-center gap-2"
                   >
                     {currentWord.toLowerCase() !== recognizedWord ? (
                       <>
@@ -532,7 +532,7 @@ return (
         <>
           <div className="p-12 max-w-md w-full mx-auto text-center rounded-xl shadow-lg bg-white border border-slate-200">
             <div className="flex justify-center mb-6">
-              <Loader2 className="w-16 h-16 text-blue-600 animate-spin" />
+              <Loader2 className="w-16 h-16 text-green-600 animate-spin" />
             </div>
 
             <h2 className="text-2xl font-bold text-slate-800 mb-2">
@@ -544,9 +544,9 @@ return (
             </p>
 
             <div className="flex justify-center gap-2">
-              <span className="w-3 h-3 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-              <span className="w-3 h-3 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-              <span className="w-3 h-3 bg-blue-400 rounded-full animate-bounce"></span>
+              <span className="w-3 h-3 bg-green-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+              <span className="w-3 h-3 bg-green-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+              <span className="w-3 h-3 bg-green-400 rounded-full animate-bounce"></span>
             </div>
           </div>
         </>
@@ -561,8 +561,8 @@ return (
               transition={{ type: "spring", stiffness: 120 }}
               className="flex justify-center mb-6"
             >
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
-                <Trophy className="w-12 h-12 text-blue-600" />
+              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+                <Trophy className="w-12 h-12 text-green-600" />
               </div>
             </motion.div>
 
@@ -575,7 +575,7 @@ return (
             <div className="bg-slate-50 rounded-lg p-6 mb-6 border border-slate-200">
               <div className="mb-4">
                 <p className="text-sm text-slate-600 mb-1">Your Score</p>
-                <p className="text-4xl font-bold text-blue-600">
+                <p className="text-4xl font-bold text-green-600">
                   {score} / {words.length}
                 </p>
               </div>
@@ -609,7 +609,7 @@ return (
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSubmitQuiz()}
               disabled={isSubmitting || isSubmitted}
-              className="w-full px-6 py-4 flex items-center justify-center gap-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-800 transition shadow-md font-semibold text-lg cursor-pointer disabled:cursor-not-allowed"
+              className="w-full px-6 py-4 flex items-center justify-center gap-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-green-800 transition shadow-md font-semibold text-lg cursor-pointer disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Submitting' : 'Submit Quiz'}
             </motion.button>

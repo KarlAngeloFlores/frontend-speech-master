@@ -84,14 +84,14 @@ useEffect(() => {
         <header className="sm:px-8 sm:py-6 px-4 py-3 bg-white shadow flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <button
-              className="md:hidden bg-white text-blue-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
+              className="md:hidden bg-white text-green-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
               onClick={() => setMobileOpen(true)}
               aria-label="Open sidebar"
             >
               <Menu className="w-7 h-7" />
             </button>
             <section>
-              <h1 className="text-2xl font-bold text-blue-700">Modules</h1>
+              <h1 className="text-2xl font-bold text-green-700">Modules</h1>
               <p className="text-gray-600">View posted modules here</p>
             </section>
           </div>
@@ -107,7 +107,7 @@ useEffect(() => {
                 <button
                   className={`font-semibold transition ${
                     selectedModule
-                      ? "text-blue-600 hover:text-blue-700 cursor-pointer"
+                      ? "text-green-600 hover:text-green-700 cursor-pointer"
                       : "text-gray-900 cursor-default"
                   }`}
                   onClick={selectedModule ? handleCloseModule : undefined}
@@ -135,7 +135,7 @@ useEffect(() => {
                     placeholder="Search modules by title or category..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   />
                   {searchTerm && (
                     <button

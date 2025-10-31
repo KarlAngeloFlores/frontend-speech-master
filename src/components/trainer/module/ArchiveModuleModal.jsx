@@ -55,10 +55,10 @@ const ArchiveModuleModal = ({ isOpen, onClose, onArchive, module }) => {
 
         {/* Confirmation Text */}
         <p className="text-gray-700 mb-4">
-          Are you sure you want to archive this module? This will hide it from
-          active modules. To confirm, please type the module's title below:
+          Are you sure you want to archive this module? This action cannot be
+          undone. To confirm, please type the module's title below:
         </p>
-        <p className="font-semibold text-center text-blue-600 mb-4">
+        <p className="font-semibold text-center text-green-600 mb-4">
           {module.title}
         </p>
 

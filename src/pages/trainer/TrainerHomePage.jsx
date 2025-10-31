@@ -117,14 +117,14 @@ useEffect(() => {
         <header className="sm:px-8 sm:py-6 px-4 py-3  bg-white shadow flex items-center justify-between gap-4">
           <div className="flex gap-2">
           <button
-            className="md:hidden bg-white text-blue-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
+            className="md:hidden bg-white text-green-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
             onClick={() => setMobileOpen(true)}
             aria-label="Open sidebar"
           >
             <Menu className="w-7 h-7" />
           </button>
           <section>
-            <h1 className="text-2xl font-bold text-blue-700">Progress Reports</h1>
+            <h1 className="text-2xl font-bold text-green-700">Progress Reports</h1>
             <p>Comprehensive insights into quiz performance and trainees progress</p>
           </section>
           </div>
@@ -134,13 +134,13 @@ useEffect(() => {
         <div className="sm:p-8 p-4 flex-1 w-full modal-animation">
           {/* Summary Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
-            <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-l-blue-600">
+            <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-l-green-600">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Total Quizzes</p>
                   <p className="text-2xl font-bold text-gray-900">{stats.totalQuizzes}</p>
                 </div>
-                <BarChart3 className="h-8 w-8 text-blue-600" />
+                <BarChart3 className="h-8 w-8 text-green-600" />
               </div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-l-purple-600">

@@ -48,10 +48,10 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-8 modal-animation">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-blue-700">Update Module</h2>
+          <h2 className="text-2xl font-bold text-green-700">Update Module</h2>
           <button
             onClick={handleCancel}
-            className="text-gray-400 hover:text-blue-600 transition cursor-pointer"
+            className="text-gray-400 hover:text-green-600 transition cursor-pointer"
             aria-label="Close modal"
           >
             <XCircle size={28} />
@@ -70,7 +70,7 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
               value={title}
               maxLength={100}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
               disabled={loading}
               required
             />
@@ -87,7 +87,7 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
               value={category}
               maxLength={100}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
               disabled={loading}
               required
             >
@@ -112,7 +112,7 @@ const UpdateModuleModal = ({ isOpen, onClose, onUpdate, module }) => {
           </button>
           <button
             onClick={handleSubmit}
-            className="flex-1 px-4 py-2 bg-gradient-to-r bg-blue-600 text-white rounded-lg hover:from-blue-700 transition cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 px-4 py-2 bg-gradient-to-r bg-green-600 text-white rounded-lg hover:from-green-700 transition cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={loading}
           >
             {loading ? (

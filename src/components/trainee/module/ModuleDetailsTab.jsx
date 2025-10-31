@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Loader2, FileText, Download, ExternalLink, Calendar, FileType } from "lucide-react";
 import moduleService from "../../../services/module.service";
+import FileViewerModal from "../../FileViewerModal";
 
 const ModuleDetailsTab = ({ module }) => {
   const [moduleData, setModuleData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [moduleContents, setModuleContents] = useState([]);
+  const [viewerModal, setViewerModal] = useState({ isOpen: false, fileUrl: null, fileName: null, fileType: null, blobUrl: null });
 
   useEffect(() => {
     if (module) {
@@ -36,13 +38,13 @@ const ModuleDetailsTab = ({ module }) => {
   };
 
   /**
-   * @FOR_OPENING_FILES
+   * @FOR_OPENING_FILES - Opens in modal viewer
    */
-  const handleOpen = async (id) => {
+  const handleOpen = async (id, fileType, fileName) => {
     try {
       const blob = await moduleService.getFileBlob(id);
       const url = URL.createObjectURL(blob);
-      window.open(url, "_blank");
+      setViewerModal({ isOpen: true, fileUrl: url, fileName, fileType, blobUrl: url });
     } catch (error) {
       console.error("Failed to open file", error);
       alert("Failed to open file. Please try again.");
@@ -100,14 +102,14 @@ const ModuleDetailsTab = ({ module }) => {
     if (!fileType) return "text-gray-500";
     const type = fileType.toLowerCase();
     if (type.includes("pdf")) return "text-red-500";
-    if (type.includes("doc")) return "text-blue-500";
+    if (type.includes("doc")) return "text-green-500";
     return "text-gray-500";
   };
 
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <Loader2 className="w-12 h-12 animate-spin text-blue-600 mb-4" />
+        <Loader2 className="w-12 h-12 animate-spin text-green-600 mb-4" />
         <p className="text-gray-600">Loading module contents...</p>
       </div>
     );
@@ -132,8 +134,8 @@ const ModuleDetailsTab = ({ module }) => {
     <div className="space-y-6">
       {/* Module Info */}
       {moduleData && (
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-lg p-6 overflow-hidden break-all">
-          <h2 className="text-2xl font-bold text-blue-700 mb-2">
+        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-lg p-6 overflow-hidden break-all">
+          <h2 className="text-2xl font-bold text-green-700 mb-2">
             {moduleData.title}
           </h2>
           {moduleData.category && (
@@ -149,12 +151,12 @@ const ModuleDetailsTab = ({ module }) => {
       {/* Module Contents */}
       <div className="bg-white border-2 border-gray-200 rounded-lg sm:p-6 p-3">
         <div className="flex items-center gap-2 mb-4">
-          <FileType className="w-5 h-5 text-blue-600" />
+          <FileType className="w-5 h-5 text-green-600" />
           <h3 className="font-semibold text-gray-800 text-lg">
             Learning Materials
           </h3>
           {moduleContents.length > 0 && (
-            <span className="ml-auto bg-blue-100 text-blue-700 text-xs font-medium px-3 py-1 rounded-full">
+            <span className="ml-auto bg-green-100 text-green-700 text-xs font-medium px-3 py-1 rounded-full">
               {moduleContents.length} {moduleContents.length === 1 ? "file" : "files"}
             </span>
           )}
@@ -175,10 +177,10 @@ const ModuleDetailsTab = ({ module }) => {
             {moduleContents.map((content, index) => (
               <div
                 key={content.id}
-                className="flex items-center justify-between sm:p-4 p-2 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-blue-300 hover:shadow-md transition-all group"
+                className="flex items-center justify-between sm:p-4 p-2 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-green-300 hover:shadow-md transition-all group"
               >
                 <div className="flex items-center gap-4 flex-1 min-w-0">
-                  <div className="bg-white p-3 rounded-lg border-2 border-gray-200 group-hover:border-blue-300 transition-all">
+                  <div className="bg-white p-3 rounded-lg border-2 border-gray-200 group-hover:border-green-300 transition-all">
                     <FileText
                       className={`w-6 h-6 ${getFileIconColor(content.file_type)}`}
                     />
@@ -203,16 +205,16 @@ const ModuleDetailsTab = ({ module }) => {
 
                 <div className="flex gap-2 flex-shrink-0 ml-4">
                   <button
-                    onClick={() => handleOpen(content.id)}
-                    className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition flex items-center gap-2 shadow-sm hover:shadow-md"
-                    title="Open file in new tab"
+                    onClick={() => handleOpen(content.id, content.file_type, content.name)}
+                    className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition flex items-center gap-2 shadow-sm hover:shadow-md cursor-pointer"
+                    title="Open file in viewer"
                   >
                     <ExternalLink className="w-4 h-4" />
                     <span className="hidden sm:inline">Open</span>
                   </button>
                   <button
                     onClick={() => handleDownload(content)}
-                    className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition flex items-center gap-2 shadow-sm hover:shadow-md"
+                    className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition flex items-center gap-2 shadow-sm hover:shadow-md cursor-pointer"
                     title="Download file"
                   >
                     <Download className="w-4 h-4" />
@@ -228,8 +230,8 @@ const ModuleDetailsTab = ({ module }) => {
       {/* Quick Stats */}
       {moduleContents.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-blue-700">
+          <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 text-center">
+            <p className="text-2xl font-bold text-green-700">
               {moduleContents.length}
             </p>
             <p className="text-sm text-gray-600">Total Files</p>
@@ -248,6 +250,13 @@ const ModuleDetailsTab = ({ module }) => {
           </div>
         </div>
       )}
+
+      {/* File Viewer Modal */}
+      <FileViewerModal 
+        isOpen={viewerModal.isOpen} 
+        viewerData={viewerModal.isOpen ? viewerModal : null}
+        onClose={() => setViewerModal({ isOpen: false, fileUrl: null, fileName: null, fileType: null, blobUrl: null })}
+      />
     </div>
   );
 };

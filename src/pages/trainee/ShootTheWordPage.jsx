@@ -379,8 +379,8 @@ useEffect(() => {
           <>
             <div className="p-8 max-w-3xl w-full mx-auto rounded-xl shadow-lg bg-white border border-slate-200">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                  <Target className="w-8 h-8 text-blue-600" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+                  <Target className="w-8 h-8 text-green-600" />
                 </div>
                 <h1 className="text-3xl font-bold text-slate-800 mb-2">
                   Shoot The Word
@@ -390,13 +390,13 @@ useEffect(() => {
                 </p>
               </div>
 
-              <div className="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+              <div className="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
                 <h2 className="text-xl font-semibold text-slate-800 mb-4">
                   How to Play
                 </h2>
                 <div className="space-y-4">
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold">
+                    <div className="flex-shrink-0 w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-semibold">
                       1
                     </div>
                     <div>
@@ -410,7 +410,7 @@ useEffect(() => {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold">
+                    <div className="flex-shrink-0 w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-semibold">
                       2
                     </div>
                     <div>
@@ -424,7 +424,7 @@ useEffect(() => {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold">
+                    <div className="flex-shrink-0 w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-semibold">
                       3
                     </div>
                     <div>
@@ -438,7 +438,7 @@ useEffect(() => {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold">
+                    <div className="flex-shrink-0 w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center font-semibold">
                       4
                     </div>
                     <div>
@@ -455,17 +455,17 @@ useEffect(() => {
 
               <div className="bg-slate-50 p-6 rounded-lg mb-6">
                 <h3 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                  <Award className="w-5 h-5 text-blue-600" />
+                  <Award className="w-5 h-5 text-green-600" />
                   Quiz Information
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-slate-600 mb-1">Total Points Available</p>
-                    <p className="text-2xl font-bold text-blue-600">{totalPoints}</p>
+                    <p className="text-2xl font-bold text-green-600">{totalPoints}</p>
                   </div>
                   <div>
                     <p className="text-sm text-slate-600 mb-1">Points Per Word</p>
-                    <p className="text-2xl font-bold text-blue-600">5</p>
+                    <p className="text-2xl font-bold text-green-600">5</p>
                   </div>
                 </div>
               </div>
@@ -473,7 +473,7 @@ useEffect(() => {
               <div className="text-center">
                 <button
                   onClick={() => handleStartQuiz()}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-lg text-lg shadow-md transition-all duration-200 hover:shadow-lg inline-flex items-center gap-2 cursor-pointer"
+                  className="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 rounded-lg text-lg shadow-md transition-all duration-200 hover:shadow-lg inline-flex items-center gap-2 cursor-pointer"
                 >
                   <Play className="w-5 h-5" />
                   Start Quiz
@@ -488,8 +488,8 @@ useEffect(() => {
             {/* Score & Timer */}
             <div className="flex justify-between items-center mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-blue-600" />
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Clock className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
                   <p className="text-sm text-slate-600 font-medium">Time Remaining</p>
@@ -500,10 +500,10 @@ useEffect(() => {
               <div className="flex items-center gap-3">
                 <div>
                   <p className="text-sm text-slate-600 font-medium text-right">Current Score</p>
-                  <p className="text-2xl font-bold text-blue-600 text-right">{score} / {totalPoints}</p>
+                  <p className="text-2xl font-bold text-green-600 text-right">{score} / {totalPoints}</p>
                 </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Trophy className="w-6 h-6 text-blue-600" />
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <Trophy className="w-6 h-6 text-green-600" />
                 </div>
               </div>
             </div>
@@ -547,9 +547,9 @@ useEffect(() => {
             </div>
 
             {/* Instructions */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 text-center">
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4 text-center">
               <p className="text-lg font-semibold text-slate-800 flex items-center justify-center gap-2">
-                <Target className="w-5 h-5 text-blue-600" />
+                <Target className="w-5 h-5 text-green-600" />
                 Speak the word clearly to score points
               </p>
             </div>
@@ -559,7 +559,7 @@ useEffect(() => {
               <button
                 onClick={startRecognition}
                 disabled={isListening}
-                className="px-8 py-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg transition-all flex items-center justify-center gap-3 text-lg cursor-pointer disabled:cursor-not-allowed"
+                className="px-8 py-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold shadow-lg transition-all flex items-center justify-center gap-3 text-lg cursor-pointer disabled:cursor-not-allowed"
               >
                 <Mic size={24} /> {renderIsListening()}
               </button>
@@ -571,7 +571,7 @@ useEffect(() => {
           <>
             <div className="p-12 max-w-md w-full mx-auto text-center rounded-xl shadow-lg bg-white border border-slate-200">
               <div className="flex justify-center mb-6">
-                <Loader2 className="w-16 h-16 text-blue-600 animate-spin" />
+                <Loader2 className="w-16 h-16 text-green-600 animate-spin" />
               </div>
 
               <h2 className="text-2xl font-bold text-slate-800 mb-2">
@@ -594,8 +594,8 @@ useEffect(() => {
                 transition={{ type: "spring", stiffness: 120 }}
                 className="flex justify-center mb-6"
               >
-                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Trophy className="w-12 h-12 text-blue-600" />
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+                  <Trophy className="w-12 h-12 text-green-600" />
                 </div>
               </motion.div>
 
@@ -610,7 +610,7 @@ useEffect(() => {
               <div className="bg-slate-50 rounded-lg p-6 mb-6 border border-slate-200">
                 <div className="mb-4">
                   <p className="text-sm text-slate-600 mb-1">Your Score</p>
-                  <p className="text-4xl font-bold text-blue-600">{score}</p>
+                  <p className="text-4xl font-bold text-green-600">{score}</p>
                 </div>
                 <div className="pt-4 border-t border-slate-200">
                   <p className="text-sm text-slate-600 mb-1">Total Scores</p>
@@ -640,7 +640,7 @@ useEffect(() => {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleSubmitQuiz()}
                 disabled={isSubmitting || isSubmitted}
-                className="w-full px-6 py-4 flex items-center justify-center gap-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-md font-semibold text-lg disabled:cursor-not-allowed cursor-pointer disabled:bg-blue-800"
+                className="w-full px-6 py-4 flex items-center justify-center gap-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition shadow-md font-semibold text-lg disabled:cursor-not-allowed cursor-pointer disabled:bg-green-800"
               >
                 <CheckCircle2 className="w-5 h-5" />
                 {isSubmitting ? 'Submitting' : 'Submit Quiz'}

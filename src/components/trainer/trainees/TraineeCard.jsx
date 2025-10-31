@@ -30,10 +30,10 @@ const TraineeCard = ({ trainee, onAccept, onDelete, onView, onSuspend }) => {
   return (
     <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden modal-animation">
       {/* Header with Avatar and Status */}
-      <div className="p-6 text-white bg-gradient-to-r from-blue-500 to-blue-600">
+      <div className="p-6 text-white bg-gradient-to-r from-green-500 to-green-600">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="min-w-16 min-h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-xl font-bold text-blue-600">
+            <div className="min-w-16 min-h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-xl font-bold text-green-600">
               {getInitials(trainee.first_name, trainee.last_name)}
             </div>
             <div>
@@ -63,7 +63,7 @@ const TraineeCard = ({ trainee, onAccept, onDelete, onView, onSuspend }) => {
           <span
             className={`px-3 py-1 rounded-full text-sm font-medium ${
               trainee.role === "trainee"
-                ? "bg-blue-100 text-blue-800"
+                ? "bg-green-100 text-green-800"
                 : "bg-gray-100 text-gray-800"
             }`}
           >
@@ -93,7 +93,7 @@ const TraineeCard = ({ trainee, onAccept, onDelete, onView, onSuspend }) => {
 
         {/* Email */}
         <div className="flex items-center space-x-2 text-gray-700 pt-2 border-t">
-          <Mail className="w-4 h-4 text-blue-500" />
+          <Mail className="w-4 h-4 text-green-500" />
           <span className="text-sm truncate">{trainee.email}</span>
         </div>
 
@@ -116,7 +116,7 @@ const TraineeCard = ({ trainee, onAccept, onDelete, onView, onSuspend }) => {
             </button>
           <button
             onClick={() => onAccept(trainee)}
-            className="w-full mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white cursor-pointer"
+            className="w-full mt-4 py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 bg-green-500 hover:bg-green-600 text-white cursor-pointer"
           >
             <User className="w-4 h-4" />
             <span>Accept Application</span>

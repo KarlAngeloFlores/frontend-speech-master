@@ -112,8 +112,8 @@ return (
     <div className="">
       {/* Header */}
       <div className="text-center mb-4 bg-white p-4 rounded-lg shadow-md border border-slate-200 modal-animation">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-          <FileText className="w-8 h-8 text-blue-600" />
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+          <FileText className="w-8 h-8 text-green-600" />
         </div>
         <h1 className="text-3xl font-bold text-slate-800 mb-2">Script Practice</h1>
         <p className="text-slate-600 max-w-2xl mx-auto">
@@ -124,7 +124,7 @@ return (
       {/* Input Section */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-slate-200 modal-animation">
         <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-blue-600" />
+          <Sparkles className="w-5 h-5 text-green-600" />
           Create Your Script
         </h2>
         
@@ -135,14 +135,14 @@ return (
               value={topic} 
               type="text" 
               placeholder="Enter a topic (e.g., climate change, technology, history...)" 
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all"
             /> 
           </div>
           <div className="flex gap-3 flex-col sm:flex-row">
             <button 
               onClick={handleGenerateScript} 
               disabled={scriptState.isLoading || !topic.trim()} 
-              className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-all font-semibold flex items-center justify-center gap-2 shadow-md cursor-pointer"
+              className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-all font-semibold flex items-center justify-center gap-2 shadow-md cursor-pointer"
             >
               {scriptState.isLoading ? (
                 <>
@@ -187,7 +187,7 @@ return (
             <h2 className="text-xl font-bold text-slate-800">Practice Script</h2>
           </div>
           
-          <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 mb-6">
+          <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-500 mb-6">
             <p className="text-slate-800 leading-relaxed text-lg">
               {scriptState.value.script}
             </p>
@@ -226,15 +226,15 @@ return (
       {feedbackState.isLoading && (
         <div className="bg-white rounded-xl shadow-md p-8 mb-6 border border-slate-200">
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+              <Loader2 className="w-8 h-8 animate-spin text-green-600" />
             </div>
             <h3 className="text-xl font-semibold text-slate-800 mb-2">Analyzing Your Speech...</h3>
             <p className="text-slate-600">Our AI is evaluating your pronunciation, pace, and clarity</p>
             <div className="flex justify-center gap-2 mt-6">
-              <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-              <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-              <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></span>
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-bounce"></span>
             </div>
           </div>
         </div>
@@ -260,8 +260,8 @@ return (
               </div>
             </div>
             
-            <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
-              <p className="text-sm font-semibold text-blue-700 mb-3 uppercase tracking-wide">
+            <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+              <p className="text-sm font-semibold text-green-700 mb-3 uppercase tracking-wide">
                 Detailed Feedback
               </p>
               <p className="text-slate-800 leading-relaxed">

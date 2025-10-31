@@ -139,10 +139,10 @@ const validateFields = () => {
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col h-[90vh] max-h-[600px]">
         {/* Header - Fixed */}
         <div className="flex justify-between items-center p-6 pb-4 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-blue-700">Create New Quiz</h2>
+          <h2 className="text-2xl font-bold text-green-700">Create New Quiz</h2>
           <button
             onClick={resetFields}
-            className="text-gray-400 hover:text-blue-600 transition cursor-pointer"
+            className="text-gray-400 hover:text-green-600 transition cursor-pointer"
             aria-label="Close modal"
           >
             <XCircle size={28} />
@@ -161,7 +161,7 @@ const validateFields = () => {
               maxLength={100}
               onChange={(e) => setQuizTitle(e.target.value)}
               type="text"
-              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
               placeholder="Enter quiz title"
               required
             />
@@ -174,7 +174,7 @@ const validateFields = () => {
                 Quiz Type
               </label>
               <select
-                className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                 value={selectedQuizType}
                 onChange={(e) => setSelectedQuizType(e.target.value)}
               >
@@ -192,7 +192,7 @@ const validateFields = () => {
                 min="0"
                 value={quizTimer}
                 onChange={(e) => setQuizTimer(Number(e.target.value))}
-                className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                 placeholder="e.g. 60"
                 required
               />
@@ -225,7 +225,7 @@ const validateFields = () => {
                           e.target.value
                         )
                       }
-                      className="w-full px-4 py-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+                      className="w-full px-4 py-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 bg-white"
                       placeholder="Enter word"
                     />
                     <select
@@ -233,7 +233,7 @@ const validateFields = () => {
                       onChange={(e) =>
                         handleQuestionChange(index, "difficulty", e.target.value)
                       }
-                      className="w-full px-4 py-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+                      className="w-full px-4 py-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 bg-white"
                     >
                       <option>Easy</option>
                       <option>Medium</option>
@@ -245,7 +245,7 @@ const validateFields = () => {
               <button
                 onClick={addQuestion}
                 type="button"
-                className="mt-3 text-blue-600 hover:text-blue-800 font-medium"
+                className="mt-3 text-green-600 hover:text-green-800 font-medium"
               >
                 + Add Another Word
               </button>
@@ -271,7 +271,7 @@ const validateFields = () => {
                           e.target.value
                         )
                       }
-                      className="w-full px-4 py-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
+                      className="w-full px-4 py-2 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 bg-white"
                       placeholder="Enter word"
                     />
                   </div>
@@ -280,7 +280,7 @@ const validateFields = () => {
               <button
                 onClick={addNonDifQuestion}
                 type="button"
-                className="mt-3 text-blue-600 hover:text-blue-800 font-medium"
+                className="mt-3 text-green-600 hover:text-green-800 font-medium"
               >
                 + Add Another Word
               </button>
@@ -309,7 +309,7 @@ const validateFields = () => {
             onClick={handleCreate}
             type="button"
             disabled={loading}
-            className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition cursor-pointer disabled:cursor-pointer"
+            className="flex-1 px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition cursor-pointer disabled:cursor-pointer"
           >
             {loading ? 'Creating...' : 'Create Quiz'}
           </button>

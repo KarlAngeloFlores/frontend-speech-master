@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Home, FileText, BookOpen, BarChart2, Users, Menu, X,  } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import Logo from "./Logo";
 
 const navItems = [
   {
@@ -45,7 +46,7 @@ const SidebarTrainer = ({ mobileOpen, setMobileOpen }) => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed z-50 top-0 left-0 h-screen w-64 bg-blue-600 text-white flex flex-col shadow-md
+          fixed z-50 top-0 left-0 h-screen w-64 bg-green-600 text-white flex flex-col shadow-md
           transform transition-transform duration-300
           ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0 md:sticky md:shadow-md md:flex
@@ -57,9 +58,7 @@ const SidebarTrainer = ({ mobileOpen, setMobileOpen }) => {
 
         {/* Logo/Header */}
         <div className="flex items-center gap-2 px-6 py-6 mb-6">
-          <span className="font-bold text-2xl py-1 px-3 bg-white text-blue-700 rounded-lg">
-            S
-          </span>
+          <Logo className="w-10 h-10" />
           <span className="font-bold text-2xl text-white bg-clip-text">
             SpeechMaster
           </span>
@@ -83,8 +82,8 @@ const SidebarTrainer = ({ mobileOpen, setMobileOpen }) => {
                   className={({ isActive }) =>
                     `flex items-center px-6 py-3 rounded-lg transition-colors duration-200 font-medium ${
                       isActive
-                        ? "bg-white text-blue-700 shadow"
-                        : "hover:bg-blue-700/40 hover:text-white"
+                        ? "bg-white text-green-700 shadow"
+                        : "hover:bg-green-700/40 hover:text-white"
                     }`
                   }
                   end

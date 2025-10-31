@@ -73,14 +73,14 @@ useEffect(() => {
         <header className="sm:px-8 sm:py-6 px-4 py-3 bg-white shadow flex items-center justify-between gap-4">
           <div className="flex gap-2">
           <button
-            className="md:hidden bg-white text-blue-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
+            className="md:hidden bg-white text-green-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
             onClick={() => setMobileOpen(true)}
             aria-label="Open sidebar"
           >
             <Menu className="w-7 h-7" />
           </button>
           <section>
-            <h1 className="text-2xl font-bold text-blue-700">Quizzes Page</h1>
+            <h1 className="text-2xl font-bold text-green-700">Quizzes Page</h1>
             <p>See the available set of Quizzes</p>
           </section>
           </div>
@@ -94,7 +94,7 @@ useEffect(() => {
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-4 w-full">
 
-              <div className="bg-white shadow-md rounded-md p-6 flex justify-between items-center gap-2 relative border-l-4 border-l-blue-600 modal-animation">
+              <div className="bg-white shadow-md rounded-md p-6 flex justify-between items-center gap-2 relative border-l-4 border-l-green-600 modal-animation">
                 
                 <div>
                 <p className="text-gray-500 font-medium text-sm">
@@ -106,7 +106,7 @@ useEffect(() => {
 
                 </div>
 
-                <NotebookPen className="text-blue-600 h-8 w-8" />
+                <NotebookPen className="text-green-600 h-8 w-8" />
               </div>
 
               <div className="bg-white shadow-md rounded-md p-6 flex items-center justify-between gap-2 relative border-l-4 border-l-green-600 modal-animation">
@@ -136,12 +136,12 @@ useEffect(() => {
               </div>
             </div>
 
-          <h2 className="text-xl font-bold text-blue-700 mb-4">Available Quizzes</h2>
+          <h2 className="text-xl font-bold text-green-700 mb-4">Available Quizzes</h2>
           {filteredQuizzes.length === 0 ? (
             <>
               <div className=" flex items-center justify-center flex-col gap-2 bg-white py-12 rounded-lg shadow-md modal-animation">
-                <NotebookPen className="w-12 h-12 inline-block mr-2 text-blue-800" />
-                <h2 className="text-xl text-blue-600">No Quizzes found.</h2>
+                <NotebookPen className="w-12 h-12 inline-block mr-2 text-green-800" />
+                <h2 className="text-xl text-green-600">No Quizzes found.</h2>
               </div>
             </>
           ) : (

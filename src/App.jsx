@@ -21,7 +21,6 @@ import TrainerHomePage from './pages/trainer/TrainerHomePage'
 import TrainerQuizzesPage from './pages/trainer/TrainerQuizzesPage'
 import TrainerModulePage from './pages/trainer/TrainerModulePage'
 import TrainerTraineesPage from './pages/trainer/TrainerTraineesPage'
-import TrainerModuleHistory from './pages/trainer/TrainerModuleHistory'
 
 /**
  * @TRAINEES_PAGES
@@ -70,11 +69,6 @@ function App() {
           <Route path='/trainer/trainees' element={
           <ProtectedRoute allowedRoles={["trainer"]}>
             <TrainerTraineesPage />
-          </ProtectedRoute>} />
-
-          <Route path='/trainer/modules/:module_id/history' element={
-          <ProtectedRoute allowedRoles={["trainer"]}>
-            <TrainerModuleHistory />
           </ProtectedRoute>} />
 
           {/**

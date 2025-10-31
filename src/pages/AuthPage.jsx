@@ -25,7 +25,7 @@ const AuthPage = () => {
     }
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-blue-50 px-4 sm:px-6 lg:px-8'>
+    <div className='min-h-screen flex items-center justify-center bg-green-50 px-4 sm:px-6 lg:px-8'>
         {currentAuth === 'signin' && <SignInForm 
         setCurrentAuth={setCurrentAuth} 
         />}

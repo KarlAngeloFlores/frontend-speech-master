@@ -59,7 +59,7 @@ const DeleteTraineeModal = ({ isOpen, onClose, onDelete, trainee }) => {
           Are you sure you want to delete this trainee? This action cannot be
           undone. To confirm, please type the trainee's email below:
         </p>
-        <p className="font-semibold text-center text-blue-600 mb-4">
+        <p className="font-semibold text-center text-green-600 mb-4">
           {trainee.email}
         </p>
 

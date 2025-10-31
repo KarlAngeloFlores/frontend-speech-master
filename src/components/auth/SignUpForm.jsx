@@ -2,7 +2,7 @@ import { CheckCircle2, Loader2, CircleX, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import authService from "../../services/auth.service";
 import "../../styles/animations.css";
-
+import Logo from "../Logo";
 const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
   const [formData, setFormData] = useState({
     first_name: '',
@@ -75,14 +75,12 @@ const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-blue-50 px-2 py-4 sm:px-6 lg:px-8">
+    <section className="min-h-screen flex items-center justify-center bg-green-50 px-2 py-4 sm:px-6 lg:px-8">
       <div className="bg-white p-8 shadow-2xl w-full max-w-md rounded-2xl transition-all duration-300 hover:shadow-lg modal-animation">
         {/* Logo/Header */}
         <div className="flex justify-center items-center mb-2">
-          <span className='mr-1 font-bold text-2xl py-2 px-4 text-white bg-blue-600 rounded-lg'>
-            S
-          </span>
-          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 text-transparent bg-clip-text font-bold text-3xl">
+          <Logo className="w-10 h-10" />
+          <span className="bg-gradient-to-r from-green-600 to-emerald-600 text-transparent bg-clip-text font-bold text-3xl">
             SpeechMaster
           </span>
         </div>
@@ -102,7 +100,7 @@ const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
                 type="text"
                 id="first_name"
                 maxLength={100}
-                className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                 placeholder="First Name"
                 value={formData.first_name}
                 onChange={handleChange}
@@ -117,7 +115,7 @@ const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
                 type="text"
                 id="last_name"
                 maxLength={100}
-                className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                 placeholder="Last Name"
                 value={formData.last_name}
                 onChange={handleChange}
@@ -134,7 +132,7 @@ const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
               type="text"
               id="middle_name"
               maxLength={100}
-              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
               placeholder="Middle Name (Optional)"
               value={formData.middle_name}
               onChange={handleChange}
@@ -149,7 +147,7 @@ const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
               type="email"
               id="email"
               maxLength={100}
-              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
@@ -165,7 +163,7 @@ const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
             <input
               type={showPassword ? "text" : "password"}
               id="password"
-              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
               placeholder="Create password"
               value={formData.password}
               onChange={handleChange}
@@ -190,7 +188,7 @@ const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
             <input
               type={showConfirmPassword ? "text" : "password"}
               id="confirm_password"
-              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full px-4 py-3 border-2 border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
               placeholder="Confirm your password"
               value={formData.confirm_password}
               onChange={handleChange}
@@ -226,7 +224,7 @@ const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
           <button
             type="submit"
             disabled={loading || passwordError}
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {loading ? (
               <Loader2 className="animate-spin h-5 w-5" />
@@ -239,7 +237,7 @@ const SignUpForm = ({ setCurrentAuth, setEmail, setPassword, setToken }) => {
             <span className="text-gray-600">Already have an account? </span>
             <a
               onClick={() => setCurrentAuth('signin')}
-              className="text-blue-600 hover:text-blue-500 font-medium transition-colors cursor-pointer"
+              className="text-green-600 hover:text-green-500 font-medium transition-colors cursor-pointer"
             >
               Sign In
             </a>

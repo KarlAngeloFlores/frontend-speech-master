@@ -44,7 +44,7 @@ const ForgotPage = () => {
     }
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-blue-50 px-4 sm:px-6 lg:px-8'>
+    <div className='min-h-screen flex items-center justify-center bg-green-50 px-4 sm:px-6 lg:px-8'>
         {currentForgot === 'email' && <EmailForm setCurrentForgot={setCurrentForgot} onSend={handleEmailSend} />}
         {currentForgot === 'verification' && <VerificationForm handleVerification={handleVerification} type="change_password" email={email} />}
         {currentForgot === 'reset' && <ForgotForm onSubmit={handleChangePassword} />}

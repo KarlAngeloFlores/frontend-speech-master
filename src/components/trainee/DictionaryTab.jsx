@@ -110,13 +110,13 @@ const DictionaryTab = () => {
               onKeyPress={(e) => e.key === "Enter" && handleSubmit(e)}
               disabled={loading}
               placeholder="Search for a word..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
             />
           </div>
           <button
             onClick={handleSubmit}
             disabled={loading || !searchTerm.trim()}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center gap-2 cursor-pointer"
+            className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center gap-2 cursor-pointer"
           >
             {loading ? (
               <Loader className="h-4 w-4 animate-spin" />
@@ -145,7 +145,7 @@ const DictionaryTab = () => {
                   onClick={() => setPlaybackSpeed(speed.value)}
                   className={`px-3 py-1 text-xs rounded-full transition-colors cursor-pointer ${
                     playbackSpeed === speed.value
-                      ? "bg-blue-600 text-white"
+                      ? "bg-green-600 text-white"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
                 >
@@ -164,7 +164,7 @@ const DictionaryTab = () => {
           <button
             onClick={fetchOpenAIDefinition}
             disabled={openAILoading}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors cursor-pointer"
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
             {openAILoading ? (
               <Loader className="h-4 w-4 animate-spin inline-block" />
@@ -185,16 +185,16 @@ const DictionaryTab = () => {
           {/* Word Header */}
           <div className="mb-2 pb-4 border-b border-gray-200">
             <div className="flex items-center gap-4 mb-2">
-              <h2 className="text-3xl font-bold text-blue-700 capitalize">
+              <h2 className="text-3xl font-bold text-green-700 capitalize">
                 {openAIDef.word}
               </h2>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleSpeak(openAIDef.word)}
-                  className="p-2 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors cursor-pointer"
+                  className="p-2 bg-green-100 hover:bg-green-200 rounded-full transition-colors cursor-pointer"
                   title={`Play pronunciation`}
                 >
-                  <Volume2 className="h-5 w-5 text-blue-600" />
+                  <Volume2 className="h-5 w-5 text-green-600" />
                 </button>
                 <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
                   {speedLevels.find((s) => s.value === playbackSpeed)?.label}
@@ -204,8 +204,8 @@ const DictionaryTab = () => {
           </div>
           {/* Definition */}
           <div className="space-y-2">
-            <div className="border-l-4 border-l-blue-500 pl-4">
-              <h3 className="text-xl font-semibold text-blue-600 mb-3 flex items-center gap-2">
+            <div className="border-l-4 border-l-green-500 pl-4">
+              <h3 className="text-xl font-semibold text-green-600 mb-3 flex items-center gap-2">
                 <BookOpen className="h-5 w-5" />
                 Definition
               </h3>
@@ -234,12 +234,12 @@ const DictionaryTab = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleSpeak(searchTerm)}
-                  className="p-2 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors cursor-pointer"
+                  className="p-2 bg-green-100 hover:bg-green-200 rounded-full transition-colors cursor-pointer"
                   title={`Play pronunciation at ${
                     speedLevels.find((s) => s.value === playbackSpeed)?.label
                   } speed`}
                 >
-                  <Volume2 className="h-5 w-5 text-blue-600" />
+                  <Volume2 className="h-5 w-5 text-green-600" />
                 </button>
                 <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
                   {speedLevels.find((s) => s.value === playbackSpeed)?.label}
@@ -251,8 +251,8 @@ const DictionaryTab = () => {
           {/* Meanings */}
           <div className="space-y-2">
             {wordData.meanings?.map((meaning, index) => (
-              <div key={index} className="border-l-4 border-l-blue-500 pl-4">
-                <h3 className="text-xl font-semibold text-blue-600 mb-3 flex items-center gap-2">
+              <div key={index} className="border-l-4 border-l-green-500 pl-4">
+                <h3 className="text-xl font-semibold text-green-600 mb-3 flex items-center gap-2">
                   <BookOpen className="h-5 w-5" />
                   {meaning.partOfSpeech}
                 </h3>
@@ -319,7 +319,7 @@ const DictionaryTab = () => {
                   href={wordData.sourceUrls[0]} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  className="text-green-600 hover:underline"
                 >
                   {wordData.sourceUrls[0]}
                 </a>

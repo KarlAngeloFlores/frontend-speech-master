@@ -14,14 +14,14 @@ const TraineeDictionaryPage = () => {
         <header className="sm:px-8 sm:py-6 px-4 py-3 bg-white shadow flex items-center justify-between gap-4">
           <div className="flex gap-2">
           <button
-            className="md:hidden bg-white text-blue-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
+            className="md:hidden bg-white text-green-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
             onClick={() => setMobileOpen(true)}
             aria-label="Open sidebar"
           >
             <Menu className="w-7 h-7" />
           </button>
           <section>
-            <h1 className="text-2xl font-bold text-blue-700">Dictionary</h1>
+            <h1 className="text-2xl font-bold text-green-700">Dictionary</h1>
             <p>Search for word definitions and listen to its pronunciation in different speed</p>
           </section>
           </div>

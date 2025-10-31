@@ -17,13 +17,13 @@ const ModuleCard = ({ module, handleOpenModule }) => {
     <div
   key={module.id}
   onClick={() => handleOpenModule(module)}
-  className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg hover:border-blue-300 transition cursor-pointer group"
+  className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg hover:border-green-300 transition cursor-pointer group"
 >
   <div className="flex items-start justify-between">
     <div className="flex-1 min-w-0">
       <div className="flex items-center gap-3 mb-2">
-        <BookOpen className="w-5 h-5 text-blue-600 flex-shrink-0" />
-        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition break-words">
+        <BookOpen className="w-5 h-5 text-green-600 flex-shrink-0" />
+        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-green-600 transition break-words">
           {module.title}
         </h3>
       </div>
@@ -37,7 +37,7 @@ const ModuleCard = ({ module, handleOpenModule }) => {
         <span className="truncate">Posted on {formatDate(module.created_at)}</span>
       </div>
     </div>
-    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition flex-shrink-0" />
+    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-green-600 transition flex-shrink-0" />
   </div>
 </div>
   )

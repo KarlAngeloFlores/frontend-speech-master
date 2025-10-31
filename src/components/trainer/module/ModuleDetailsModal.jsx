@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { XCircle, Upload, Loader2, FileText } from "lucide-react";
 import moduleService from "../../../services/module.service";
+import FileViewerModal from "../../FileViewerModal";
 import "../../../styles/animations.css";
 
 const ModuleDetailsModal = ({ data, isOpen, onClose }) => {
@@ -8,6 +9,13 @@ const ModuleDetailsModal = ({ data, isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState(null);
+  const [viewerModal, setViewerModal] = useState({
+    isOpen: false,
+    fileUrl: null,
+    fileName: null,
+    fileType: null,
+    blobUrl: null,
+  });
 
   useEffect(() => {
     if (isOpen && data) {
@@ -62,25 +70,20 @@ const ModuleDetailsModal = ({ data, isOpen, onClose }) => {
   /**
    * @FOR_FILES
    */
-const handleOpen = async (id, fileType) => {
+const handleOpen = async (id, fileType, fileName) => {
   try {
     const blob = await moduleService.getFileBlob(id);
     const url = URL.createObjectURL(blob);
-    
-    // Check if it's an image
-    if (fileType.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-      // For images, you could either:
-      // Option A: Open in new tab (like current behavior)
-      window.open(url, "_blank");
-      
-      // Option B: Show in a lightbox/modal within the app
-      // (would require additional state and UI)
-    } else {
-      // For PDFs/docs, open in new tab
-      window.open(url, "_blank");
-    }
+    setViewerModal({
+      isOpen: true,
+      fileUrl: url,
+      fileName: fileName,
+      fileType: fileType,
+      blobUrl: url,
+    });
   } catch (err) {
     console.error("Failed to open file", err);
+    alert("Failed to open file. Please try again.");
   }
 };
 
@@ -99,14 +102,14 @@ const handleOpen = async (id, fileType) => {
         {/* Header */}
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-blue-700 mb-2">{module.title}</h2>
+            <h2 className="text-2xl font-bold text-green-700 mb-2">{module.title}</h2>
             <p className="text-sm text-gray-500">
               Created: {new Date(module.created_at).toLocaleString()}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-blue-600 transition cursor-pointer"
+            className="text-gray-400 hover:text-green-600 transition cursor-pointer"
             aria-label="Close modal"
           >
             <XCircle size={28} />
@@ -114,19 +117,19 @@ const handleOpen = async (id, fileType) => {
         </div>
 
         {/* Upload Section */}
-        <div className="border-2 border-gray-200 rounded-lg p-6 bg-blue-50 mb-6">
+        <div className="border-2 border-gray-200 rounded-lg p-6 bg-green-50 mb-6">
           <h3 className="font-semibold text-gray-700 mb-4">Upload File</h3>
           <div className="flex flex-col md:flex-row items-center gap-3">
             <input
               type="file"
               accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.webp,.bmp,.svg,.tiff,.ico"
               onChange={handleFileChange}
-              className="border-2 border-gray-500 p-2 rounded-lg w-full md:flex-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              className="border-2 border-gray-500 p-2 rounded-lg w-full md:flex-1 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
             />
             <button
               onClick={handleUpload}
               disabled={!file || uploading}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed w-full md:w-auto"
+              className="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed w-full md:w-auto"
             >
               {uploading ? (
                 <>
@@ -163,10 +166,10 @@ const handleOpen = async (id, fileType) => {
               {module.ModuleContents.map((content) => (
                 <div
                   key={content.id}
-                  className="flex items-center justify-between p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-blue-300 transition-all"
+                  className="flex items-center justify-between p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-green-300 transition-all"
                 >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <FileText className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <FileText className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <div className="min-w-0 flex-1">
                       <p className="font-medium text-gray-800 truncate">{content.name}</p>
                       <p className="text-xs text-gray-500 mt-1">
@@ -176,8 +179,8 @@ const handleOpen = async (id, fileType) => {
                   </div>
                   <div className="flex gap-2 flex-shrink-0 ml-3">
                     <button
-                      onClick={() => handleOpen(content.id, content.file_type)}
-                      className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:from-blue-700 hover:to-indigo-700 transition"
+                      onClick={() => handleOpen(content.id, content.file_type, content.name)}
+                      className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:from-green-700 hover:to-emerald-700 transition"
                     >
                       Open
                     </button>
@@ -193,6 +196,13 @@ const handleOpen = async (id, fileType) => {
             </div>
           )}
         </div>
+
+        {/* File Viewer Modal */}
+        <FileViewerModal 
+          isOpen={viewerModal.isOpen} 
+          viewerData={viewerModal.isOpen ? viewerModal : null}
+          onClose={() => setViewerModal({ isOpen: false, fileUrl: null, fileName: null, fileType: null, blobUrl: null })}
+        />
       </div>
     </div>
   );

@@ -53,14 +53,14 @@ const TraineeScoresPage = () => {
         <header className="sm:px-8 sm:py-6 px-4 py-3 bg-white shadow flex items-center justify-between gap-4">
           <div className="flex gap-2">
           <button
-            className="md:hidden bg-white text-blue-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
+            className="md:hidden bg-white text-green-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
             onClick={() => setMobileOpen(true)}
             aria-label="Open sidebar"
           >
             <Menu className="w-7 h-7" />
           </button>
           <section>
-            <h1 className="text-2xl font-bold text-blue-700">Scores</h1>
+            <h1 className="text-2xl font-bold text-green-700">Scores</h1>
             {/* <p>See quizzes results and scores</p> */}
           </section>
           </div>
@@ -69,12 +69,12 @@ const TraineeScoresPage = () => {
 
         {/**content */}
         <div className="sm:p-8 p-4 flex-1 w-full">
-          <h2 className="text-xl font-bold text-blue-700 mb-4">Quiz Results</h2>
+          <h2 className="text-xl font-bold text-green-700 mb-4">Quiz Results</h2>
           {filteredQuizzes.length === 0 ? (
             <>
               <div className=" flex items-center justify-center flex-col gap-2 bg-white py-12 rounded-lg shadow">
-                <NotebookPen className="w-12 h-12 inline-block mr-2 text-blue-800" />
-                <h2 className="text-xl text-blue-600">No Quizzes found.</h2>
+                <NotebookPen className="w-12 h-12 inline-block mr-2 text-green-800" />
+                <h2 className="text-xl text-green-600">No Quizzes found.</h2>
               </div>
             </>
           ) : (

@@ -39,7 +39,8 @@ const DeleteModuleModal = ({ isOpen, onClose, onDelete, module }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 modal-animation">
+            <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+        {/* <p className="font-semibold text-center text-green-600 mb-4"> */}
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-red-600">Delete Module</h2>
@@ -57,7 +58,7 @@ const DeleteModuleModal = ({ isOpen, onClose, onDelete, module }) => {
           Are you sure you want to delete this module? This action cannot be
           undone. To confirm, please type the module's title below:
         </p>
-        <p className="font-semibold text-center text-blue-600 mb-4">
+        <p className="font-semibold text-center text-green-600 mb-4">
           {module.title}
         </p>
 

@@ -32,7 +32,7 @@ const ViewPerformanceModal = ({ isOpen, onClose, trainee }) => {
   const getGradeColor = (percentage) => {
     const numPercent = parseFloat(percentage);
     if (numPercent >= 80) return "text-green-600";
-    if (numPercent >= 60) return "text-blue-600";
+    if (numPercent >= 60) return "text-green-600";
     if (numPercent >= 40) return "text-yellow-600";
     return "text-red-600";
   };
@@ -40,7 +40,7 @@ const ViewPerformanceModal = ({ isOpen, onClose, trainee }) => {
   const getGradeBg = (percentage) => {
     const numPercent = parseFloat(percentage);
     if (numPercent >= 80) return "bg-green-50 border-green-200";
-    if (numPercent >= 60) return "bg-blue-50 border-blue-200";
+    if (numPercent >= 60) return "bg-green-50 border-green-200";
     if (numPercent >= 40) return "bg-yellow-50 border-yellow-200";
     return "bg-red-50 border-red-200";
   };
@@ -51,12 +51,12 @@ const ViewPerformanceModal = ({ isOpen, onClose, trainee }) => {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-blue-700">Performance Overview</h2>
+            <h2 className="text-2xl font-bold text-green-700">Performance Overview</h2>
             <p className="text-gray-600 text-sm mt-1">{trainee?.first_name + " " + trainee?.last_name || "Trainee"}</p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-blue-600 transition cursor-pointer"
+            className="text-gray-400 hover:text-green-600 transition cursor-pointer"
             aria-label="Close modal"
           >
             <XCircle size={28} />
@@ -66,7 +66,7 @@ const ViewPerformanceModal = ({ isOpen, onClose, trainee }) => {
         {/* Loading State */}
         {loading && (
           <div className="flex flex-col items-center justify-center py-12">
-            <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
+            <Loader2 className="w-12 h-12 animate-spin text-green-600" />
             <p className="text-gray-600 mt-4">Loading performance data...</p>
           </div>
         )}
@@ -87,9 +87,9 @@ const ViewPerformanceModal = ({ isOpen, onClose, trainee }) => {
           <div className="space-y-6">
             {/* Summary Stats */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                 <p className="text-sm text-gray-600 mb-1">Quizzes Taken</p>
-                <p className="text-2xl font-bold text-blue-700">
+                <p className="text-2xl font-bold text-green-700">
                   {performanceData.quizzes_taken}/{performanceData.quizzes_total}
                 </p>
               </div>
@@ -173,7 +173,7 @@ const ViewPerformanceModal = ({ isOpen, onClose, trainee }) => {
         <div className="flex justify-end pt-6 border-t border-gray-200">
           <button
             onClick={onClose}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer"
+            className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition cursor-pointer"
           >
             Close
           </button>

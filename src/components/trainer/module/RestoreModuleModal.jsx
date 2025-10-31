@@ -57,7 +57,7 @@ const RestoreModuleModal = ({ isOpen, onClose, onRestore, module }) => {
           Are you sure you want to restore this module? This will make it active
           again. To confirm, please type the module's title below:
         </p>
-        <p className="font-semibold text-center text-blue-600 mb-4">
+        <p className="font-semibold text-center text-green-600 mb-4">
           {module.title}
         </p>
 
