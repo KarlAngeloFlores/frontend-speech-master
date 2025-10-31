@@ -49,9 +49,9 @@ const TrainerList = ({ trainers, loading, selectedTrainer, onSelectTrainer, mobi
                                         : 'hover:bg-gray-50'
                                 }`}
                             >
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-3 overflow-hidden">
                                     {/* Avatar */}
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-semibold">
+                                    <div className="min-w-10 min-h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-semibold">
                                         {(trainer.first_name || trainer.email).charAt(0).toUpperCase()}
                                     </div>
                                     <div className="flex-1">
