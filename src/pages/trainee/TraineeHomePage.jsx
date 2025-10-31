@@ -19,9 +19,6 @@ const TraineeHomePage = () => {
     availableQuizzes: 0,
     completedQuizzes: 0,
   });
-
-  
-
   //implement logic if data available
   const filteredQuizzes = quizzes;
 

@@ -1,15 +1,17 @@
 import React from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowLeft } from 'lucide-react';
 import LoadingScreen from '../../../components/LoadingScreen';
 
-const TraineeList = ({ trainees, loading, selectedTrainee, onSelectTrainee, mobileOpen, setMobileOpen }) => {
+const TraineeList = ({ trainees, loading, selectedTrainee, onSelectTrainee, mobileOpen, setMobileOpen, onBackClick }) => {
   return (
     <div className={`w-80 bg-white border-r border-gray-200 flex flex-col overflow-hidden ${
         mobileOpen ? 'absolute left-0 top-0 h-full z-50' : 'hidden sm:flex'
     }`}>
-      {/* Header with Menu Button */}
+      {/* Header with Back Button */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-800">Your Trainees</h2>
+        <div className="flex items-center gap-2">
+                  <h2 className="text-lg font-semibold text-gray-800">Your Trainees</h2>
+        </div>
         <button
             onClick={() => setMobileOpen(false)}
             className="sm:hidden p-2 hover:bg-gray-100 rounded-lg"

@@ -13,6 +13,7 @@ import { Menu } from 'lucide-react';
 
 const TrainerMessagePage = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [listOpen, setListOpen] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [loadingConvo, setLoadingConvo] = useState(false);
@@ -40,6 +41,17 @@ const TrainerMessagePage = () => {
     useEffect(() => {
         fetchCurrentUser();
     }, []);
+
+    const handleOpenSidebars = () => {
+        setMobileOpen(true);
+        setListOpen(true);
+    }
+
+    const handleBackClick = () => {
+        setSelectedTrainee(null);
+        setSelectedTraineeData(null);
+        setMessages([]);
+    }
 
     //working
     const fetchTrainees = async () => {
@@ -148,7 +160,7 @@ const TrainerMessagePage = () => {
           <div className='flex items-center gap-2'>
                         <button
               className="md:hidden bg-white text-green-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
-              onClick={() => setMobileOpen(true)}
+              onClick={handleOpenSidebars}
               aria-label="Open sidebar"
             >
               <Menu className="w-7 h-7" />
@@ -170,8 +182,9 @@ const TrainerMessagePage = () => {
                 loading={loading} 
                 selectedTrainee={selectedTrainee}
                 onSelectTrainee={handleSelectTrainee}
-                mobileOpen={mobileOpen}
-                setMobileOpen={setMobileOpen}
+                mobileOpen={listOpen}
+                setMobileOpen={setListOpen}
+                onBackClick={handleBackClick}
             />
             
             {selectedTrainee ? (
@@ -180,6 +193,7 @@ const TrainerMessagePage = () => {
                     loadingConvo={loadingConvo}
                     messages={messages}
                     onSendMessage={handleSendMessage}
+                    onBackClick={handleBackClick}
                 />
             ) : (
                 <EmptyState />

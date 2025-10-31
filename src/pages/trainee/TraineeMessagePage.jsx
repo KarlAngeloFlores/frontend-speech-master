@@ -8,9 +8,11 @@ import TrainerList from './chat/TrainerList';
 import ChatArea from './chat/ChatArea';
 import authService from '../../services/auth.service';
 import EmptyState from './chat/EmptyState';
+import { Menu } from 'lucide-react';
 
 const TraineeMessagePage = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [listOpen, setListOpen] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [loadingConvo, setLoadingConvo] = useState(false);
@@ -37,6 +39,17 @@ const TraineeMessagePage = () => {
     useEffect(() => {
         fetchCurrentUser();
     }, []);
+
+    const handleOpenSidebars = () => {
+        setMobileOpen(true);
+        setListOpen(true);
+    }
+
+    const handleBackClick = () => {
+        setSelectedTrainer(null);
+        setSelectedTrainerData(null);
+        setMessages([]);
+    }
 
     // Fetch trainers
     const fetchTrainers = async () => {
@@ -111,6 +124,7 @@ const TraineeMessagePage = () => {
         }
     };
 
+
     // Handle sending message
     const handleSendMessage = async (messageText) => {
         if (!currentRoomId || !currentUserId || !messageText.trim()) return;
@@ -144,10 +158,19 @@ const TraineeMessagePage = () => {
                 
                 {/**Header*/}
                 <header className="sm:px-8 sm:py-4 px-4 py-3 bg-white shadow flex items-center justify-between gap-4">
-                    <section>
-                        <h1 className="text-2xl font-bold text-green-700">Messages</h1>
-                        <p>Message your trainers</p>
-                    </section>
+                    <div className='flex items-center gap-2'>
+                        <button
+                            className="md:hidden bg-white text-green-700 rounded-lg p-2 cursor-pointer hover:bg-gray-200 transition"
+                            onClick={() => handleOpenSidebars()}
+                            aria-label="Open sidebar"
+                        >
+                            <Menu className="w-7 h-7" />
+                        </button>
+                        <section>
+                            <h1 className="text-2xl font-bold text-green-700">Messages</h1>
+                            <p>Message your trainers</p>
+                        </section>
+                    </div>
                     <Logout />
                 </header>
 
@@ -159,8 +182,9 @@ const TraineeMessagePage = () => {
                         loading={loading} 
                         selectedTrainer={selectedTrainer}
                         onSelectTrainer={handleSelectTrainer}
-                        mobileOpen={mobileOpen}
-                        setMobileOpen={setMobileOpen}
+                        mobileOpen={listOpen}
+                        setMobileOpen={setListOpen}
+                        onBackClick={handleBackClick}
                     />
                     
                     {selectedTrainer ? (
@@ -169,6 +193,7 @@ const TraineeMessagePage = () => {
                             loadingConvo={loadingConvo}
                             messages={messages}
                             onSendMessage={handleSendMessage}
+                            onBackClick={handleBackClick}
                         />
                     ) : (
                         <EmptyState />

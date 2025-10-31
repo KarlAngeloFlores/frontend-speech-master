@@ -1,15 +1,27 @@
 import React from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowLeft } from 'lucide-react';
 import LoadingScreen from '../../../components/LoadingScreen';
 
-const TrainerList = ({ trainers, loading, selectedTrainer, onSelectTrainer, mobileOpen, setMobileOpen }) => {
+const TrainerList = ({ trainers, loading, selectedTrainer, onSelectTrainer, mobileOpen, setMobileOpen, onBackClick }) => {
     return (
         <div className={`w-80 bg-white border-r border-gray-200 flex flex-col overflow-hidden ${
             mobileOpen ? 'absolute left-0 top-0 h-full z-50' : 'hidden sm:flex'
         }`}>
-            {/* Header with Menu Button */}
+            {/* Header with Back Button */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-800">Your Trainers</h2>
+                <div className="flex items-center gap-2">
+                    {/* <button
+                        onClick={() => {
+                            setMobileOpen(false);
+                            onBackClick?.();
+                        }}
+                        className="sm:hidden p-2 hover:bg-gray-100 rounded-lg"
+                        aria-label="Back"
+                    >
+                        <ArrowLeft size={20} />
+                    </button> */}
+                    <h2 className="text-lg font-semibold text-gray-800">Your Trainers</h2>
+                </div>
                 <button
                     onClick={() => setMobileOpen(false)}
                     className="sm:hidden p-2 hover:bg-gray-100 rounded-lg"
@@ -28,11 +40,11 @@ const TrainerList = ({ trainers, loading, selectedTrainer, onSelectTrainer, mobi
                             <div
                                 key={trainer.id}
                                 onClick={() => {
-                                    onSelectTrainer(trainer.first_name || trainer.email, trainer);
+                                    onSelectTrainer(`${trainer.first_name} ${trainer.last_name}` || trainer.email, trainer);
                                     setMobileOpen(false);
                                 }}
                                 className={`p-3 cursor-pointer rounded-lg transition ${
-                                    selectedTrainer === `${trainer.first_name} ${trainer.last_name}`
+                                    selectedTrainer === (`${trainer.first_name} ${trainer.last_name}` || trainer.email)
                                         ? 'bg-green-100 border-l-4 border-green-700'
                                         : 'hover:bg-gray-50'
                                 }`}
