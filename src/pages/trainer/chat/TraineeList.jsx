@@ -34,7 +34,7 @@ const TraineeList = ({ trainees, loading, selectedTrainee, onSelectTrainee, mobi
                           setMobileOpen(false);
                       }}
                       className={`p-3 cursor-pointer rounded-lg transition ${
-                          selectedTrainee === `${trainee.first_name} ${trainee.last_name}`
+                          selectedTrainee === trainee.email
                               ? 'bg-green-100 border-l-4 border-green-700'
                               : 'hover:bg-gray-50'
                       }`}

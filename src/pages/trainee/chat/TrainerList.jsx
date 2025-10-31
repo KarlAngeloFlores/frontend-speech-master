@@ -44,7 +44,7 @@ const TrainerList = ({ trainers, loading, selectedTrainer, onSelectTrainer, mobi
                                     setMobileOpen(false);
                                 }}
                                 className={`p-3 cursor-pointer rounded-lg transition ${
-                                    selectedTrainer === (`${trainer.first_name} ${trainer.last_name}` || trainer.email)
+                                    selectedTrainer === (trainer.email)
                                         ? 'bg-green-100 border-l-4 border-green-700'
                                         : 'hover:bg-gray-50'
                                 }`}

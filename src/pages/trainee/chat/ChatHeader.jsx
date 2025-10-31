@@ -1,7 +1,7 @@
 import React from 'react';
 import { Phone, Video, Info, ArrowLeft } from 'lucide-react';
 
-const ChatHeader = ({ selectedTrainer, onBackClick }) => {
+const ChatHeader = ({ selectedTrainer, selectedTrainerData, onBackClick }) => {
     return (
         <div className="border-b border-gray-200 p-4 bg-white">
             <div className="flex items-center justify-between">
@@ -16,10 +16,10 @@ const ChatHeader = ({ selectedTrainer, onBackClick }) => {
                     </button> */}
                     {/* Trainer Avatar */}
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-semibold text-lg">
-                        {selectedTrainer?.charAt(0).toUpperCase()}
+                        {(selectedTrainerData?.first_name || selectedTrainer)?.charAt(0).toUpperCase()}
                     </div>
                     <div>
-                        <h3 className="font-semibold text-gray-800">{selectedTrainer}</h3>
+                        <h3 className="font-semibold text-gray-800">{selectedTrainerData ? `${selectedTrainerData.first_name} ${selectedTrainerData.last_name}` : selectedTrainer}</h3>
                     </div>
                 </div>
 

@@ -87,7 +87,7 @@ const TrainerMessagePage = () => {
     };
 
     const handleSelectTrainee = async (traineeName, traineeData) => {
-        setSelectedTrainee(traineeName);
+        setSelectedTrainee(traineeData.email);
         setSelectedTraineeData(traineeData);
         setLoadingConvo(true);
 
@@ -190,6 +190,7 @@ const TrainerMessagePage = () => {
             {selectedTrainee ? (
                 <ChatArea 
                     selectedTrainee={selectedTrainee}
+                    selectedTraineeData={selectedTraineeData}
                     loadingConvo={loadingConvo}
                     messages={messages}
                     onSendMessage={handleSendMessage}
