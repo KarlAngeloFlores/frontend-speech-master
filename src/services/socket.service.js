@@ -7,7 +7,7 @@ const socketService = {
     // Initialize socket connection
     connect: () => {
         if (!socket) {
-            const socketUrl = 'https://your-render-backend-url.onrender.com' || 'http://localhost:5000';
+            const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
             socket = io(socketUrl, {
                 transports: ['websocket', 'polling'],
                 reconnection: true,
