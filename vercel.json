@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/frontend-speech-master/index.html"
+      "destination": "/"
     }
   ],
   "env": {
