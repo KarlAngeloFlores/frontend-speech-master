@@ -1,4 +1,3 @@
-import { get } from "../../../backend/routes/module.routes";
 import api from "./api.service";
 
 const moduleService = {
@@ -10,6 +9,16 @@ const moduleService = {
   getModules: async () => {
     try {
       const { data } = await api.get("/module");
+      return data;
+    } catch (error) {
+      const msg = error.response?.data?.message || error.message;
+      throw new Error(msg);
+    }
+  },
+
+  getAvailableModules: async () => {
+    try {
+      const { data } = await api.get("/module/available/modules");
       return data;
     } catch (error) {
       const msg = error.response?.data?.message || error.message;
@@ -29,7 +38,7 @@ const moduleService = {
 
   getModuleHistory: async (id) => {
     try {
-      const { data } = await api.get(`/module/history/${id}`);
+      const { data } = await api.get(`/module/${id}/history`);
       return data;
     } catch (error) {
       const msg = error.response?.data?.message || error.message;

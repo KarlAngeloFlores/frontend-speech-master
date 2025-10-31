@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, Plus, ChevronRight } from "lucide-react";
+import { Menu, Plus, ChevronRight, Search, X } from "lucide-react";
 import SidebarTrainer from "../../components/SidebarTrainer";
 import { Logout } from "../../components/auth/Logout";
 import CreateModuleModal from "../../components/trainer/module/CreateModuleModal";
@@ -11,12 +11,18 @@ import LoadingScreen from "../../components/LoadingScreen";
 import ErrorPage from "../ErrorPage";
 import "../../styles/animations.css"
 import DeleteModuleModal from "../../components/trainer/module/DeleteModuleModal";
+import { useNavigate } from "react-router-dom";
+import ArchiveModuleModal from "../../components/trainer/module/ArchiveModuleModal";
+import ViewModuleHistoryModal from "../../components/trainer/module/ViewModuleHistoryModal";
+import RestoreModuleModal from "../../components/trainer/module/RestoreModuleModal";
 
 const TrainerModulePage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [modules, setModules] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   /**
    * @MODULE_NAVIGATION_STATE
@@ -30,6 +36,9 @@ const TrainerModulePage = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showArchiveModal, setShowArchiveModal] = useState(false);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [showRestoreModal, setShowRestoreModal] = useState(false);
 
   /**
    * @FETCH_MAIN_DATA_FROM_BACKEND_API
@@ -38,8 +47,6 @@ const TrainerModulePage = () => {
     setLoading(true);
     try {
       const response = await moduleService.getModules();
-      const moduleHistory = await moduleService.getModuleHistory(5);
-      console.log(moduleHistory);
       console.log(response);
       setModules(response.data);
     } catch (error) {
@@ -133,6 +140,50 @@ const TrainerModulePage = () => {
   };
 
   /**
+   * @VIEW_MODULE_HISTORY
+   */
+  const handleViewHistoryModule = (module) => {
+    setSelectedModule(module);
+    setShowHistoryModal(true);
+  };
+
+  /**
+   * @ARCHIVE_MODULE
+   */
+  const handleArchiveModule = async (id) => {
+    try {
+      await moduleService.archiveModule(id);
+      await fetchData();
+    } catch (error) {
+      console.error("Error archiving module:", error);
+      throw error;
+    }
+  };
+
+  const handleOpenArchiveModule = async (module) => {
+    setSelectedModule(module);
+    setShowArchiveModal(true);
+  };
+
+  /**
+   * @RESTORE_MODULE
+   */
+  const handleOpenRestoreModule = async (module) => {
+    setSelectedModule(module);
+    setShowRestoreModal(true);
+  };
+
+  const handleRestoreModule = async (id) => {
+    try {
+      await moduleService.restoreModule(id);
+      await fetchData();
+    } catch (error) {
+      console.error("Error restoring module:", error);
+      throw error;
+    }
+  };
+
+  /**
    * @OPEN_MODULE_DETAILS
    */
   const handleOpenModule = (module) => {
@@ -159,6 +210,14 @@ const TrainerModulePage = () => {
       day: "numeric",
     });
   };
+
+  /**
+   * @FILTER_MODULES_BY_SEARCH
+   */
+  const filteredModules = modules.filter((module) =>
+    module.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (module.category && module.category.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   if (loading) return <LoadingScreen message="Loading modules..." />;
   if (error) return <ErrorPage />;
@@ -226,6 +285,30 @@ const TrainerModulePage = () => {
               )}
             </div>
 
+            {/* Search Bar - Show only when not viewing module details */}
+            {!openShowModule && (
+              <div className="px-8 py-4 bg-white border-b border-gray-200">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search modules by title or category..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm("")}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Body */}
             <div className="flex-1 overflow-y-auto p-8">
               {openShowModule && selectedModule ? (
@@ -236,32 +319,39 @@ const TrainerModulePage = () => {
                 />
               ) : (
                 <div className="space-y-4">
-                  {modules.length === 0 ? (
+                  {filteredModules.length === 0 ? (
                     <div className="text-center py-16">
                       <div className="mb-4">
                         <Plus className="w-16 h-16 text-gray-300 mx-auto" />
                       </div>
                       <h3 className="text-lg font-medium text-gray-900 mb-2">
-                        No modules yet
+                        {searchTerm ? "No modules found" : "No modules yet"}
                       </h3>
                       <p className="text-gray-500 mb-6">
-                        Create your first training module to get started
+                        {searchTerm
+                          ? "Try adjusting your search terms"
+                          : "Create your first training module to get started"}
                       </p>
-                      <button
-                        onClick={() => setShowCreateModal(true)}
-                        className="bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition shadow mx-auto"
-                      >
-                        <Plus className="w-5 h-5" />
-                        Create Your First Module
-                      </button>
+                      {!searchTerm && (
+                        <button
+                          onClick={() => setShowCreateModal(true)}
+                          className="bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition shadow mx-auto"
+                        >
+                          <Plus className="w-5 h-5" />
+                          Create Your First Module
+                        </button>
+                      )}
                     </div>
                   ) : (
                     <TrainerModuleList
-                      modules={modules}
+                      modules={filteredModules}
                       onOpenModule={handleOpenModule}
                       onOpenUpdateModule={handleOpenUpdateModule}
                       onDeleteModule={handleOpenDeleteModule}
                       formatDate={formatDate}
+                      onViewHistoryModule={handleViewHistoryModule}
+                      onArchiveModule={handleOpenArchiveModule}
+                      onRestoreModule={handleOpenRestoreModule}
                     />
                   )}
                 </div>
@@ -298,8 +388,34 @@ const TrainerModulePage = () => {
         }}
         onDelete={handleDeleteModule}
         module={selectedModule}
-
       />
+
+      {/**Archive Module Modal */}
+      <ArchiveModuleModal 
+        isOpen={showArchiveModal}
+        onClose={() => {
+          setShowArchiveModal(false);
+          setSelectedModule(null);
+        }}
+        onArchive={handleArchiveModule}
+        module={selectedModule}
+      />
+
+      <ViewModuleHistoryModal 
+        isOpen={showHistoryModal}
+        onClose={() => {
+          setShowHistoryModal(false);
+          setSelectedModule(null);
+        }}
+        module={selectedModule}
+      />
+
+      <RestoreModuleModal 
+  isOpen={showRestoreModal}
+  onClose={() => setShowRestoreModal(false)}
+  onRestore={(moduleId) => handleRestoreModule(moduleId)}
+  module={selectedModule}
+/>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, ChevronRight, BookOpen, Calendar } from "lucide-react";
+import { Menu, ChevronRight, BookOpen, Calendar, Search, X } from "lucide-react";
 import SidebarTrainee from "../../components/SidebarTrainee";
 import { Logout } from "../../components/auth/Logout";
 import ModuleDetailsTab from "../../components/trainee/module/ModuleDetailsTab";
@@ -15,6 +15,7 @@ const TraineeModulePage = () => {
   const [modules, setModules] = useState([]);
   const [selectedModule, setSelectedModule] = useState(null);
   const [openShowModule, setOpenShowModule] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   /**
    * @FETCH_MAIN_DATA_FROM_BACKEND_API
@@ -22,7 +23,7 @@ const TraineeModulePage = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await moduleService.getModules();
+      const response = await moduleService.getAvailableModules();
       setModules(response.data);
     
     } catch (error) {
@@ -61,6 +62,14 @@ useEffect(() => {
     setSelectedModule(null);
     setOpenShowModule(false);
   };
+
+  /**
+   * @FILTER_MODULES_BY_SEARCH
+   */
+  const filteredModules = modules.filter((module) =>
+    module.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (module.category && module.category.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
 
   if (loading) return <LoadingScreen message="Loading modules..." />;
@@ -116,24 +125,50 @@ useEffect(() => {
               </div>
             </div>
 
+            {/* Search Bar - Show only when not viewing module details */}
+            {!openShowModule && (
+              <div className="px-8 py-4 bg-white border-b border-gray-200">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search modules by title or category..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm("")}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Body */}
             <div className="flex-1 overflow-y-auto sm:p-8 p-4">
               {openShowModule && selectedModule ? (
                 <ModuleDetailsTab module={selectedModule} />
               ) : (
                 <div className="space-y-4 overflow-hidden">
-                  {modules.length === 0 ? (
+                  {filteredModules.length === 0 ? (
                     <div className="text-center py-12 ">
                       <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                       <h3 className="text-lg font-medium text-gray-900 mb-2 ">
-                        No modules available
+                        {searchTerm ? "No modules found" : "No modules available"}
                       </h3>
                       <p className="text-gray-500">
-                        Check back later for new training modules
+                        {searchTerm
+                          ? "Try adjusting your search terms"
+                          : "Check back later for new training modules"}
                       </p>
                     </div>
                   ) : (
-                    modules.map((module) => (
+                    filteredModules.map((module) => (
                       <ModuleCard key={`module-${module.id}`} module={module} handleOpenModule={handleOpenModule}/>
                     ))
                   )}

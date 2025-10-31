@@ -6,6 +6,8 @@ const TrainerModuleList = ({
   onOpenUpdateModule,
   onDeleteModule,
   onArchiveModule,
+  onRestoreModule,
+  onViewHistoryModule,
   formatDate,
 }) => {
   if (modules.length === 0) {
@@ -45,7 +47,12 @@ const TrainerModuleList = ({
             <th className="p-4 text-left font-semibold text-gray-700">
               Category
             </th>
-            <th className="p-4 text-left font-semibold text-gray-700">Created</th>
+            <th className="p-4 text-left font-semibold text-gray-700">
+              Created
+            </th>
+            <th className="p-4 text-left font-semibold text-gray-700">
+              Status
+            </th>
             <th className="p-4 text-right font-semibold text-gray-700">
               Actions
             </th>
@@ -74,33 +81,65 @@ const TrainerModuleList = ({
                 {formatDate(module.created_at)}
               </td>
               <td className="p-4">
-                {module.status !== 'archived' ? (
-                <div className="flex gap-2 justify-end">
-                  
-                  <button
-                    onClick={() => onOpenUpdateModule(module)}
-                    className="px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition text-sm font-medium cursor-pointer"
-                  >
-                    Edit
-                  </button>
-                  {/* <button
+                <div
+                  className={`text-sm font-medium ${
+                    module.status === "archived"
+                      ? "text-gray-500"
+                      : "text-gray-900"
+                  }`}
+                >
+                  {module.status === "archived" ? "Archived" : "Active"}
+                </div>
+              </td>
+              <td className="p-4">
+                {module.status !== "archived" ? (
+                  <div className="flex gap-2 justify-end">
+                    <button
+                      onClick={() => onOpenUpdateModule(module)}
+                      className="px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition text-sm font-medium cursor-pointer"
+                    >
+                      Edit
+                    </button>
+                    {/* <button
                     onClick={() => onDeleteModule(module)}
                     className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition text-sm font-medium cursor-pointer"
                   >
                     Delete
                   </button> */}
 
-                  <button onClick={() => onArchiveModule(module)} className="px-3 py-2 text-yellow-600 text-sm font-medium cursor-pointer">
-                    Archive
-                  </button>
-                </div>
-              ) : (
-                <div className="flex gap-2 justify-end">
-                  <span className="px-3 py-2 text-gray-500 text-sm font-medium">
-                    Archived
-                  </span>
-                </div>
-              )}
+                    <button
+                      onClick={() => onArchiveModule(module)}
+                      className="px-3 py-2 text-yellow-600 text-sm font-medium cursor-pointer"
+                    >
+                      Archive
+                    </button>
+
+                    <button
+                      onClick={() => onViewHistoryModule(module)}
+                      className="px-3 py-2 text-green-600 text-sm font-medium cursor-pointer"
+                    >
+                      View History
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2 justify-end">
+                    <button
+                      onClick={() => onRestoreModule(module)}
+                      className="px-3 py-2 text-blue-600 text-sm font-medium cursor-pointer"
+                    >
+                      Restore
+                    </button>
+                    <button
+                      onClick={() => onDeleteModule(module)}
+                      className="px-3 py-2 text-red-600 text-sm font-medium cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                    <button onClick={() => onViewHistoryModule(module)} className="px-3 py-2 text-green-600 text-sm font-medium cursor-pointer">
+                      View History
+                    </button>
+                  </div>
+                )}
               </td>
             </tr>
           ))}

@@ -21,7 +21,7 @@ import TrainerHomePage from './pages/trainer/TrainerHomePage'
 import TrainerQuizzesPage from './pages/trainer/TrainerQuizzesPage'
 import TrainerModulePage from './pages/trainer/TrainerModulePage'
 import TrainerTraineesPage from './pages/trainer/TrainerTraineesPage'
-
+import TrainerModuleHistory from './pages/trainer/TrainerModuleHistory'
 
 /**
  * @TRAINEES_PAGES
@@ -34,6 +34,7 @@ import TraineeDictionaryPage from './pages/trainee/TraineeDictionaryPage'
 import ShootTheWordPage from './pages/trainee/ShootTheWordPage'
 import PronounceItFastPage from './pages/trainee/PronounceItFastPage'
 import InteractPage from './pages/trainee/InteractPage'
+
 
 
 function App() {
@@ -69,6 +70,11 @@ function App() {
           <Route path='/trainer/trainees' element={
           <ProtectedRoute allowedRoles={["trainer"]}>
             <TrainerTraineesPage />
+          </ProtectedRoute>} />
+
+          <Route path='/trainer/modules/:module_id/history' element={
+          <ProtectedRoute allowedRoles={["trainer"]}>
+            <TrainerModuleHistory />
           </ProtectedRoute>} />
 
           {/**
