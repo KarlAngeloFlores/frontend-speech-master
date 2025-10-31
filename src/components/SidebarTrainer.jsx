@@ -1,9 +1,16 @@
 import React, { useState } from "react";
-import { Home, FileText, BookOpen, BarChart2, Users, Menu, X,  } from "lucide-react";
+import { Home, FileText, BookOpen, BarChart2, Users, Menu, X, MessageCircle  } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import Logo from "./Logo";
 
-const navItems = [
+
+
+const SidebarTrainer = ({ mobileOpen, setMobileOpen }) => {
+
+  //connected to socket later, or current notifications count
+  const [unreadMessages, setUnreadMessages] = useState(0);
+
+  const navItems = [
   {
     //icon for report
     name: "Progress Reports",
@@ -30,9 +37,14 @@ const navItems = [
     icon: <Users className="w-5 h-5 mr-3" />,
     path: "/trainer/trainees",
   },
+  {
+    name: "Messages",
+    icon: <MessageCircle className="w-5 h-5 mr-3" />,
+    path: "/trainer/messages",
+    unread_message: unreadMessages
+  }
 ];
 
-const SidebarTrainer = ({ mobileOpen, setMobileOpen }) => {
   return (
     <>
       {/* Mobile overlay & backdrop */}
@@ -91,6 +103,11 @@ const SidebarTrainer = ({ mobileOpen, setMobileOpen }) => {
                 >
                   {item.icon}
                   {item.name}
+                  {item.unread_message > 0 && (
+                    <span className="ml-auto bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                      {item.unread_message}
+                    </span>
+                  )}
                 </NavLink>
               </li>
             ))}

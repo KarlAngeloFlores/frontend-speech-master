@@ -7,10 +7,18 @@ import {
   BookMarked, 
   Menu, 
   X, 
-  Mic
+  Mic,
+  MessageCircle
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import Logo from "./Logo";
+import { useState } from "react";
+
+const SidebarTrainee = ({ mobileOpen, setMobileOpen }) => {
+
+  // use unread_message to show number of unread messages, connected to socket later, or current notifications count
+
+  const [unreadMessages, setUnreadMessages] = useState(0);
 
 const navItems = [
   {
@@ -43,9 +51,16 @@ const navItems = [
     icon: <FileText className="w-5 h-5 mr-3" />,
     path: "/trainee/modules",
   },
+
+  {
+    name: "Messages",
+    icon: <MessageCircle className="w-5 h-5 mr-3" />,
+    path: "/trainee/messages",
+    unread_message: unreadMessages
+  }
 ];
 
-const SidebarTrainee = ({ mobileOpen, setMobileOpen }) => {
+
   return (
     <>
       {/* Mobile overlay & backdrop */}
@@ -101,6 +116,11 @@ const SidebarTrainee = ({ mobileOpen, setMobileOpen }) => {
                 >
                   {item.icon}
                   {item.name}
+                  {item.unread_message > 0 && (
+                    <span className="ml-auto bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                      {item.unread_message}
+                    </span>
+                  )}
                 </NavLink>
               </li>
             ))}

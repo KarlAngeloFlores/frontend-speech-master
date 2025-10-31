@@ -99,6 +99,15 @@ const traineeService = {
             throw new Error(msg);
         }
     },
+    getTrainers: async () => {
+      try {
+        const { data } = await api.get('/trainee/trainers');
+        return data;
+      } catch (error) {
+        const msg = error.response?.data?.message || error.message;
+        throw new Error(msg);
+      }
+    },
     
 }
 
