@@ -66,6 +66,7 @@ npm install
 ```bash
 # Backend API URL
 VITE_API_URL=your_backend_api_url
+VITE_SOCKET_URL=your_socket_url
 ```
 
 ### 4️⃣ Run Development Server
